@@ -37,7 +37,6 @@ public class ConsultasBasicas {
 		}
 
 	}
-
 	public static void update(String SQL) {
 
 		Connection miConexion = ConectionDB.getConection();
@@ -75,5 +74,26 @@ public class ConsultasBasicas {
 		}
 
 	}
+	public static ResultSet consultarDatos(String cSQL) 
+	{
+		try
+		{  
+			ResultSet datos;
+			Connection miConexion= ConectionDB.getConection();
+			
+			pstmt= miConexion.prepareStatement(cSQL);
+			datos = pstmt.executeQuery();// Realiza la consulta y guarda los datos en "datos"
+
+			return datos; // retornadatos;
+
+		} 
+		catch (SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta!");
+			return null;
+		} 
+
+	}
+	
 
 }

@@ -20,7 +20,8 @@ public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private VentanaPrincipal miVentanaPrincipal;
-	
+	private JButton btnProductos;
+	private JButton btnReportes;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,27 +53,36 @@ public class VentanaPrincipal extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 		
-		JButton btnProductos = new JButton("PRODUCTOS");
+		btnProductos = new JButton("PRODUCTOS");
 		btnProductos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evento) {
-
-				if (evento.getSource() == btnProductos) {
-					
-					// Enviamos la instancia de la ventana principal para que esta sea Padre de la ventana de dialogo
-					 
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()== btnProductos){
 					VentanaProductos miVentanaProductos = new VentanaProductos(miVentanaPrincipal, true);					
-					miVentanaProductos.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					miVentanaProductos.setVentanaPrincipal(miVentanaProductos);
-					miVentanaProductos.setVisible(true);
+							miVentanaProductos.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+							miVentanaProductos.setVentanaPrincipal(miVentanaProductos);
+							miVentanaProductos.setVisible(true);
 				}
 			}
 		});
-		btnProductos.setBounds(317, 424, 161, 78);
+        btnProductos.setBounds(317, 424, 161, 78);
 		contentPane.add(btnProductos);
+		btnReportes = new JButton ("REPORTES");
+		btnReportes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					 VentanaReportes miVentanaReportes =new VentanaReportes(miVentanaPrincipal,true);
+					 miVentanaReportes.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					 //miVentanaReportes.setVentanaPrincipal(miVentanaReportes);
+					 miVentanaReportes.setVisible(true);
+			
+			}
+		});
+        btnReportes.setBounds(536,424,161, 78);
+		contentPane.add(btnReportes);
 	}
 	
 	public void setVentanaPrincipal(VentanaPrincipal miVentana) {
 		   miVentanaPrincipal = miVentana;
 	}
+
 	
 }
