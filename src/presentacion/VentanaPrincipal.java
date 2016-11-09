@@ -45,7 +45,7 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal() {
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/resources/icon-app.png")));
-		setTitle("RantiyPC - Tu asistente de técnico");
+		setTitle("RantiyPC - Tu asistente de tcnico");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 905, 692);
 		contentPane = new JPanel();
@@ -87,10 +87,11 @@ public class VentanaPrincipal extends JFrame {
 		btnReportes.setContentAreaFilled(false);
 		btnReportes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					 VentanaReportes miVentanaReportes =new VentanaReportes(miVentanaPrincipal,true);
+					 
+					 /*VentanaReportes miVentanaReportes =new VentanaReportes(miVentanaPrincipal,true);
 					 miVentanaReportes.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					 miVentanaReportes.setVentanaPrincipal(miVentanaReportes);
-					 miVentanaReportes.setVisible(true);
+					 miVentanaReportes.setVisible(true);*/
 			
 			}
 		});
