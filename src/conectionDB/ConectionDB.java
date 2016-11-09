@@ -9,11 +9,11 @@ public class ConectionDB {
 
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost/rantiyPC";
+	static final String DB_URL = "jdbc:mysql://localhost/rantiypc";
 
 	// Credenciales para acceder a la base de datos
 	static final String USER = "root";
-	static final String PASS = "";
+	static final String PASS = "root";
 	
 	static Connection miConexion = null;
 
@@ -42,7 +42,7 @@ public class ConectionDB {
 
 		} catch (SQLException e) {
 			
-			JOptionPane.showMessageDialog(null, "Conexión fallida!");
+			JOptionPane.showMessageDialog(null, "ConexiÃ³n fallida!");
 			miConexion = null;
 
 		}
