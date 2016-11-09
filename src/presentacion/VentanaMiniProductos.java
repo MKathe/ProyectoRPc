@@ -51,26 +51,32 @@ public class VentanaMiniProductos extends JDialog {
 				switch(source){
 				case "procesadores":
 					miVentanProductos.getTextFieldProcesador().setText(listaProductos.get(table.getSelectedRow()).getNombre());
-					dispose();
-					break;
-				case "placas-madre":
-					miVentanProductos.getTextFieldPlaca().setText(listaProductos.get(table.getSelectedRow()).getNombre());
+					miVentanProductos.getTextFieldPrecio1().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
 					dispose();
 					break;
 				case "memorias":
 					miVentanProductos.getTextFieldMemoria().setText(listaProductos.get(table.getSelectedRow()).getNombre());
+					miVentanProductos.getTextFieldPrecio2().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					dispose();
+					break;	
+				case "placas-madre":
+					miVentanProductos.getTextFieldPlaca().setText(listaProductos.get(table.getSelectedRow()).getNombre());
+					miVentanProductos.getTextFieldPrecio3().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
 					dispose();
 					break;
 				case "video-cards":
 					miVentanProductos.getTextFieldVideoCard().setText(listaProductos.get(table.getSelectedRow()).getNombre());
+					miVentanProductos.getTextFieldPrecio4().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
 					dispose();
 					break;
 				case "unidades-almacenamiento":
 					miVentanProductos.getTextFieldHDD().setText(listaProductos.get(table.getSelectedRow()).getNombre());
+					miVentanProductos.getTextFieldPrecio5().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
 					dispose();
 					break;
 				case "case-fuentes":
 					miVentanProductos.getTextFieldCaseFuente().setText(listaProductos.get(table.getSelectedRow()).getNombre());
+					miVentanProductos.getTextFieldPrecio6().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
 					dispose();
 					break;
 				default:	

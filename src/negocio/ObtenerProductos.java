@@ -181,18 +181,18 @@ public class ObtenerProductos {
 
 		Document document = Jsoup
 				.connect(
-						"") // FALTA IMPLEMENTAR
+						"http://www.rdperu.com/category/items/247") // FALTA IMPLEMENTAR
 				.get();
 
 		// Busco todas las entradas que estan dentro de:
-		Elements entradas = document.select("div.product_item");
+		Elements entradas = document.select("div.module");
 
 		// Parseo cada una de las entradas
 		for (Element elem : entradas) {
-			String nombreProducto = elem.getElementsByClass("product_title").text();
-			String precio = elem.getElementsByClass("product_price bold").text();
+			String nombreProducto = elem.getElementsByClass("product_name").text();
+			String precio = elem.getElementsByClass("product_price").text();
 
-			Producto nuevo = new Producto(nombreProducto, Double.parseDouble(precio.substring(4)), "Computo Nacional");
+			Producto nuevo = new Producto(nombreProducto, Double.parseDouble(precio.substring(4)), "REDSERCOM S.A.C");
 
 			colaCaseFuente.add(nuevo);
 
