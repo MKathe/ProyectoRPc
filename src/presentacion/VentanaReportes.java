@@ -40,13 +40,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JRadioButton;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 import entidades.Reporte;
 import modeloTablas.ModeloTablaReporte;
 import java.awt.Window.Type;
+import com.alee.laf.WebLookAndFeel;
 public class VentanaReportes extends JDialog {
 
 	private JPanel contentPane;
@@ -58,13 +58,14 @@ public class VentanaReportes extends JDialog {
     private JComboBox comboBox;
     private JComboBox comboBox1 ;
     private ResultSet rss,ResultadodeBusqueda;
-    private List<Reporte>ListaDeReportesB,ListaDeReportesC;
     private JButton btnBuscar;
+    private VentanaReportes miVentanaReportes;
+    private JButton btnMostrarReporte;
 	
 	public VentanaReportes(VentanaPrincipal miVentanaPrincipal, boolean modal) {
 		super(miVentanaPrincipal,modal);
 		setTitle("Ventana Reportes");
-		setBounds(100, 100, 641, 633);
+		setBounds(100, 100, 800, 625);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -73,7 +74,7 @@ public class VentanaReportes extends JDialog {
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 14));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Buscar por", "Nombre", "Tipo", "Fecha", "         semana"}));
-		comboBox.setBounds(129, 110, 108, 23);
+		comboBox.setBounds(182, 110, 108, 23);
 		comboBox.addActionListener(new Manejador());
 		contentPane.add(comboBox);
 		
@@ -81,39 +82,48 @@ public class VentanaReportes extends JDialog {
 		comboBox1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		comboBox1.setBackground(Color.WHITE);
 		comboBox1.setModel(new DefaultComboBoxModel(new String[] {"Ordenar por","Nombre","Tipo","Fecha"}));
-		comboBox1.setBounds(11, 110, 109, 23);
+		comboBox1.setBounds(63, 110, 109, 23);
 		comboBox1.addItemListener(new ManejadorOrdenar());
 		contentPane.add(comboBox1);
 		
 		textBusqueda = new JTextField();
-		textBusqueda.setBounds(247, 110, 229, 22);
+		textBusqueda.setBounds(300, 110, 265, 22);
 		contentPane.add(textBusqueda);
 		textBusqueda.setColumns(10);
 		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/lupa.png")));
 		btnBuscar.setFont(new Font("Papyrus", Font.PLAIN, 14));
-		btnBuscar.setBounds(486, 101, 129, 41);
+		btnBuscar.setBounds(592, 101, 129, 41);
 		btnBuscar.addActionListener(new Manejador());
 		contentPane.add(btnBuscar);
+		setLocationRelativeTo(null);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnGuardar.setBounds(502, 533, 89, 23);
+		btnGuardar.setBounds(553, 535, 168, 35);
 		contentPane.add(btnGuardar);
+		
+		btnMostrarReporte = new JButton("Mostrar Reporte");
+		btnMostrarReporte.setIcon(new ImageIcon(VentanaReportes.class.getResource("/com/alee/extended/filechooser/icons/ok.png")));
+		btnMostrarReporte.addActionListener(new Manejador());
+		
+		btnMostrarReporte.setBounds(63, 535, 168, 35);
+		contentPane.add(btnMostrarReporte);
 		
 		JLabel lblReportes = new JLabel("Reportes");
 		lblReportes.setForeground(SystemColor.activeCaptionText);
 		lblReportes.setFont(new Font("PeacerfulDay", Font.BOLD, 39));
-		lblReportes.setBounds(10, 21, 373, 62);
+		lblReportes.setBounds(21, 24, 373, 62);
 		contentPane.add(lblReportes);
 		
 		JLabel lblListadoDeReportes = new JLabel("Listado de reportes:");
 		lblListadoDeReportes.setFont(new Font("Papyrus", Font.BOLD, 15));
-		lblListadoDeReportes.setBounds(10, 172, 161, 14);
+		lblListadoDeReportes.setBounds(63, 161, 161, 14);
 		contentPane.add(lblListadoDeReportes);
 		
 		
@@ -122,7 +132,7 @@ public class VentanaReportes extends JDialog {
 		TableModel tableModel = new ModeloTablaReporte(listadeReportes);
 		
 		JLabel label = new JLabel("");
-		label.setBounds(0, 0, 625, 595);
+		label.setBounds(0, 0, 784, 595);
 		contentPane.add(label);
 		TablaDeReportes = new JTable(tableModel);
 		TablaDeReportes.setFont(new Font("Papyrus", Font.PLAIN, 11));
@@ -131,8 +141,9 @@ public class VentanaReportes extends JDialog {
 		TablaDeReportes.setCellSelectionEnabled(true);
 		//TablaDeReportes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		spTablaDeReportes = new JScrollPane();
-		spTablaDeReportes.setSize(604, 302);
-		spTablaDeReportes.setLocation(11, 197);
+		spTablaDeReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		spTablaDeReportes.setSize(658, 302);
+		spTablaDeReportes.setLocation(63, 197);
 		
 		spTablaDeReportes.setViewportView(TablaDeReportes);
      
@@ -144,7 +155,15 @@ public class VentanaReportes extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == btnBuscar){
 				 ManejadorBuscarPor();
-			}else{
+			}else{ 
+				if( e.getSource() == btnMostrarReporte){
+				int a = TablaDeReportes.getSelectedRow();
+				Reporte r;
+			    r = listadeReportes.get(a);
+			    VentanaMostrarReporte VentanaMostrar = new VentanaMostrarReporte(miVentanaReportes,true,r);
+			    VentanaMostrar.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			    VentanaMostrar.setVisible(true);
+			}
 				
 				
 			}
@@ -158,7 +177,7 @@ public class VentanaReportes extends JDialog {
 		ConectionDB.getConection();
 	    
 	    Reporte r;
-	    ListaDeReportesB = new ArrayList<Reporte>();
+	    listadeReportes.clear();
 		int opc = comboBox1.getSelectedIndex();
 		
 		switch(opc){
@@ -168,7 +187,8 @@ public class VentanaReportes extends JDialog {
 		        
 				try {
 					while(rss.next()){
-						 r = new Reporte(rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));		                   ListaDeReportesB.add(r);
+						 r = new Reporte(rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));		                  
+						 listadeReportes.add(r);
 		              }
 				} catch (SQLException e1) {
 					
@@ -182,7 +202,7 @@ public class VentanaReportes extends JDialog {
 		    try {
 			while(rss.next()){
             	   r = new Reporte(rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));
-                   ListaDeReportesB.add(r);
+            	   listadeReportes.add(r);
               }
 		    } catch (SQLException e1) {
 			
@@ -196,7 +216,7 @@ public class VentanaReportes extends JDialog {
 		try {
 			while(rss.next()){
 				 r = new Reporte(rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));                   
-				 ListaDeReportesB.add(r);
+				 listadeReportes.add(r);
               }
 		} catch (SQLException e1) {
 			
@@ -210,19 +230,21 @@ public class VentanaReportes extends JDialog {
 		   
 		  }
 		    
-		   TableModel tableModel2 = new ModeloTablaReporte(ListaDeReportesB);
+		   TableModel tableModel2 = new ModeloTablaReporte(listadeReportes);
 		   TablaDeReportes.setModel(tableModel2); 
 	    }
 			
 	
 		}
 	
+	
 	public void ManejadorBuscarPor() {
 
 			Reporte r ;
 			ConectionDB.getConection();
 			int indice= comboBox.getSelectedIndex();
-			ListaDeReportesC = new ArrayList<Reporte>();
+			listadeReportes.clear();
+			
 			switch (indice){
 			case 1:		   		ResultadodeBusqueda = ConsultasBasicas.consultarDatos("SELECT * FROM reportes WHERE Nombre = '"+textBusqueda.getText()+"'");
 		
@@ -230,7 +252,7 @@ public class VentanaReportes extends JDialog {
 			       				while (ResultadodeBusqueda.next()){
 			       					r = new Reporte(ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
 			       					System.out.println(r.getNombre());
-			       					ListaDeReportesC.add(r);
+			       					listadeReportes.add(r);
 			       					} 
 			        	   		}catch (SQLException e) {
 							
@@ -243,7 +265,7 @@ public class VentanaReportes extends JDialog {
 			           			try {
 			           			while (ResultadodeBusqueda.next()){
 			           				r = new Reporte(ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                   
-			           				ListaDeReportesC.add(r);
+			           				listadeReportes.add(r);
 			           			} 
 			      
 			           			}catch (SQLException e1) {
@@ -256,7 +278,7 @@ public class VentanaReportes extends JDialog {
 			   				try {
 			   					while (ResultadodeBusqueda.next()){
 			   						r = new Reporte(ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
-			   						ListaDeReportesC.add(r);
+			   						listadeReportes.add(r);
 			   					} 
 			   					}catch (SQLException e12) {
 				
@@ -264,12 +286,11 @@ public class VentanaReportes extends JDialog {
 			   					}break;
 			default:;
 			}
-			
-			TableModel tableModel3 = new ModeloTablaReporte(ListaDeReportesC);
+			TableModel tableModel3 = new ModeloTablaReporte(listadeReportes);
 			TablaDeReportes.setModel(tableModel3);
 		}
 	
-		
+	
 	public void CargarListaDeReportes(){
 		ResultSet rs;
 		ConectionDB.getConection();
@@ -287,4 +308,8 @@ public class VentanaReportes extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	public void setVentanaPrincipal(VentanaReportes miVentana) {
+		   miVentanaReportes = miVentana;
+	}
+	
 }

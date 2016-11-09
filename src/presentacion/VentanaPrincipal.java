@@ -89,7 +89,7 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 					 VentanaReportes miVentanaReportes =new VentanaReportes(miVentanaPrincipal,true);
 					 miVentanaReportes.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					 //miVentanaReportes.setVentanaPrincipal(miVentanaReportes);
+					 miVentanaReportes.setVentanaPrincipal(miVentanaReportes);
 					 miVentanaReportes.setVisible(true);
 			
 			}
