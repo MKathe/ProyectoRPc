@@ -95,5 +95,27 @@ public class ConsultasBasicas {
 
 	}
 	
+	public static ResultSet consultarUsuario(String cSQL) 
+	{
+		try
+		{  
+			ResultSet datos;
+			Connection miConexion= ConectionDB.getConection();
+			
+			pstmt= miConexion.prepareStatement(cSQL);
+			datos = pstmt.executeQuery();// Realiza la consulta y guarda los datos en "datos"
+
+			return datos; // retorna datos;
+
+		} 
+		catch (SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, "Usuario inexistenete, verifica tu usuario y password!");
+			return null;
+		} 
+
+	}
+	
+
 
 }

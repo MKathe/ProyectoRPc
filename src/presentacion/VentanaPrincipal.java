@@ -23,7 +23,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnAsistente;
 	private JButton btnAyuda;
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			
 			public void run() {
@@ -39,7 +39,7 @@ public class VentanaPrincipal extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 
 	public VentanaPrincipal() {

@@ -37,7 +37,7 @@ public class ConectionDB {
 		// PASO 2: Establece la conexion
 		try {
 
-			JOptionPane.showMessageDialog(null, "Conectando..");
+			//JOptionPane.showMessageDialog(null, "Conectando..");
 			miConexion = DriverManager.getConnection(DB_URL, USER, PASS);
 
 		} catch (SQLException e) {

@@ -11,6 +11,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
 import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.scroll.WebScrollPane;
+import com.alee.laf.table.WebTable;
 
 import entidades.Producto;
 import modeloTablas.ModeloTablaProducto;
@@ -24,7 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
 public class VentanaMiniProductos extends JDialog {
-	private JTable table;
+	private WebTable table;
 
 	public VentanaMiniProductos(VentanaProductos miVentanProductos, boolean modal, List<Producto> listaProductos, String source) {
 		
@@ -37,19 +39,19 @@ public class VentanaMiniProductos extends JDialog {
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
 
-		WebLookAndFeel.setDecorateDialogs(true);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(43, 139, 940, 453);
-		getContentPane().add(scrollPane);
 			
 		TableModel tableModel = new ModeloTablaProducto(listaProductos);	
-		table = new JTable(tableModel);
+		table = new WebTable(tableModel);
+		
 		table.getColumnModel().getColumn(0).setPreferredWidth(490);
 		table.getColumnModel().getColumn(1).setPreferredWidth(75);
 		table.getColumnModel().getColumn(2).setPreferredWidth(134);
 		table.setAutoCreateRowSorter(true);
+		
+		WebScrollPane scrollPane = new WebScrollPane(table);
+		scrollPane.setBounds(43, 139, 940, 453);
 		scrollPane.setViewportView(table);
+		getContentPane().add(scrollPane);	
 		
 		JButton btnSeleccionarProducto = new JButton("");
 		btnSeleccionarProducto.setContentAreaFilled(false);

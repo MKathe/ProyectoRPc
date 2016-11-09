@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.awt.Font;
@@ -26,14 +27,18 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.ComponentOrientation;
 import com.alee.laf.WebLookAndFeel;
+
+import negocio.ValidarUsuario;
+
 import javax.swing.DropMode;
 import javax.swing.border.MatteBorder;
+import java.awt.Window.Type;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JPasswordField textPass;
-	private JTextField textField;
+	private JTextField textUser;
 	/**
 	 * Launch the application.
 	 */
@@ -41,6 +46,10 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
+					WebLookAndFeel.setDecorateFrames(true);
+					WebLookAndFeel.setDecorateDialogs(true);
+					
 					Login frame = new Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -54,11 +63,13 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 459, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 		
 		JLabel lblUsuario = new JLabel("Usuario");
@@ -102,6 +113,31 @@ public class Login extends JFrame {
 		contentPane.add(btnRegistrate);
 		
 		JButton btnIngresar = new JButton("Ingresar");
+		btnIngresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				boolean encontrado = false;
+
+				String user = textUser.getText();
+				String pass = String.valueOf(textPass.getPassword());
+
+				encontrado = ValidarUsuario.verificarUsuario(user, pass);
+
+				if (encontrado == true) {
+
+					JOptionPane.showMessageDialog(null, "Bienvenido!");
+
+					VentanaPrincipal miVentanaPrincipal = new VentanaPrincipal();
+					miVentanaPrincipal.setVentanaPrincipal(miVentanaPrincipal);
+					miVentanaPrincipal.setVisible(true);
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Error!");
+				}
+				
+			}
+		});
+		
 		btnIngresar.setForeground(Color.WHITE);
 		btnIngresar.setFont(new Font("Calibri", Font.BOLD, 14));
 		btnIngresar.setBorder(UIManager.getBorder("RadioButton.border"));
@@ -109,11 +145,11 @@ public class Login extends JFrame {
 		btnIngresar.setBounds(172, 322, 106, 23);
 		contentPane.add(btnIngresar);
 		
-		textField = new JTextField();
-		textField.setBorder(null);
-		textField.setBounds(162, 252, 127, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textUser = new JTextField();
+		textUser.setBorder(null);
+		textUser.setBounds(162, 252, 127, 20);
+		contentPane.add(textUser);
+		textUser.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/resources/vista_login3.jpg")));
