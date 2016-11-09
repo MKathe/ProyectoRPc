@@ -3,7 +3,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import com.alee.laf.WebLookAndFeel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.event.ActionListener;
@@ -28,8 +27,6 @@ public class VentanaPrincipal extends JFrame {
 			
 			public void run() {
 				try {
-					//WebLookAndFeel.install();
-					//WebLookAndFeel.setDecorateAllWindows(true);
 					
 					VentanaPrincipal miVentanaPrincipal = new VentanaPrincipal();
 					miVentanaPrincipal.setVentanaPrincipal(miVentanaPrincipal);
