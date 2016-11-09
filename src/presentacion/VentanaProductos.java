@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.alee.laf.WebLookAndFeel;
+
 import entidades.Producto;
 import negocio.ObtenerProductos;
 
@@ -52,7 +54,6 @@ public class VentanaProductos extends JDialog {
 	  * JFrame Padre y la propiedad booleana que determina
 	  * que es hija*/
 	  super(miVentanaPrincipal, modal);
-	  
 	  setBounds(100, 100, 1038, 790);
 	  contenedor = new JPanel();
 	  contenedor.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -605,7 +606,4 @@ public class VentanaProductos extends JDialog {
 	public void setTextFieldPrecio6(JTextField textFieldPrecio6) {
 		this.textFieldPrecio6 = textFieldPrecio6;
 	}
-	
-	
-	
 }
