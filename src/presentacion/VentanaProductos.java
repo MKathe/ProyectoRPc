@@ -54,7 +54,8 @@ public class VentanaProductos extends JDialog {
 	  * JFrame Padre y la propiedad booleana que determina
 	  * que es hija*/
 	  super(miVentanaPrincipal, modal);
-	  setBounds(100, 100, 1038, 790);
+	  setResizable(false);
+	  setBounds(100, 100, 1032, 790);
 	  contenedor = new JPanel();
 	  contenedor.setBorder(new EmptyBorder(5, 5, 5, 5));
 	  setContentPane(contenedor);
