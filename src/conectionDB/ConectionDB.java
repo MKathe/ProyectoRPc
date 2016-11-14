@@ -13,10 +13,10 @@ public class ConectionDB {
 
 	// Credenciales para acceder a la base de datos
 	static final String USER = "root";
-	static final String PASS = "root";
+	static final String PASS = "";
 	
 	static Connection miConexion = null;
-
+	
 	public ConectionDB() {
 
 	}

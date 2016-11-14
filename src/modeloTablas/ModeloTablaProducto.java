@@ -15,11 +15,17 @@ public class ModeloTablaProducto extends AbstractTableModel {
 
 	private List<Producto> listaProductos;
 
-	public ModeloTablaProducto(List<Producto> listaP) {
-		this.listaProductos = listaP;
+	public ModeloTablaProducto(List<Producto> listaProductos) {
+		this.listaProductos = listaProductos;
 
 	}
 
+	public void addElemento(Producto nuevo) {
+        // Añade el elemento al final de la lista enlazada
+		listaProductos.add(nuevo);
+		fireTableRowsInserted(listaProductos.size()-1, listaProductos.size()-1);
+    }
+	
 	// Definiendo los metodos de la interfaz AbstractTableModel
 
 	@Override
@@ -71,12 +77,6 @@ public class ModeloTablaProducto extends AbstractTableModel {
 		return returnValue;
 	}
 
-	@Override
-	public void setValueAt(Object value, int rowIndex, int columnIndex) {
-		/*Producto producto = listaProductos.get(rowIndex);
-		if (columnIndex == COLUMN_NO) {
-			persona.setId((int) value);
-		}*/
-	}
+
 
 }

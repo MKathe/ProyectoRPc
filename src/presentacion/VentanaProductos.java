@@ -1,27 +1,23 @@
 package presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.alee.laf.WebLookAndFeel;
-
-import entidades.Producto;
-import negocio.ObtenerProductos;
-
+import com.alee.laf.progressbar.WebProgressBar;
+import negocio.LeerCaseFuentes;
+import negocio.LeerMemorias;
+import negocio.LeerPlacasMadre;
+import negocio.LeerProcesadores;
+import negocio.LeerTarjetasVideo;
+import negocio.LeerUnidadesAlmacenamiento;
+import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
@@ -48,7 +44,9 @@ public class VentanaProductos extends JDialog {
 	private JButton btnResetHDD;
 	private JButton btnResetCaseFuente;
 	private JTextField textFieldPrecioTotal;
-	  
+	private WebProgressBar jprogressBar1;
+	private JLabel lblProcesando;
+	
 	public VentanaProductos(VentanaPrincipal miVentanaPrincipal, boolean modal){
 	 /**Al llamar al constructor super(), le enviamos el
 	  * JFrame Padre y la propiedad booleana que determina
@@ -64,34 +62,28 @@ public class VentanaProductos extends JDialog {
 	  setTitle("Componentes - RantiyPC");
 	  
 	  JButton btnSeleccionarProcesador = new JButton("");
+	  btnSeleccionarProcesador.setContentAreaFilled(false);
 	  btnSeleccionarProcesador.setFocusPainted(false);
 	  btnSeleccionarProcesador.setBorderPainted(false);
 	  btnSeleccionarProcesador.setBorder(null);
 	  btnSeleccionarProcesador.setIcon(new ImageIcon(VentanaProductos.class.getResource("/resources/seleccionarItem.png")));
-	  btnSeleccionarProcesador.setContentAreaFilled(false);
 	  btnSeleccionarProcesador.addActionListener(new ActionListener() {
 	  	public void actionPerformed(ActionEvent evento) {
 	  		
 	  		if (evento.getSource() == btnSeleccionarProcesador) {
-				
-				// Enviamos la instancia de la ventana principal para que esta sea Padre de la ventana de dialogo
 	  			
-	  			List<Producto> listaProductos = new ArrayList<Producto>();	
+	  			jprogressBar1.setVisible(true);
+	  			jprogressBar1.setIndeterminate(true);
+	  			lblProcesando.setVisible(true);
+  			
+	  			LeerProcesadores worker = new LeerProcesadores(miVentanaProductos,jprogressBar1,lblProcesando);
+	  			worker.execute();
 	  			
-	  			try {
-	  				listaProductos.addAll(ObtenerProductos.leerProcesadores());
-	  			} catch (IOException e) {
-	  				// TODO Bloque catch generado automáticamente
-	  				e.printStackTrace();
-	  			}
-	
-				VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos, "procesadores");
+				/*VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos, "procesadores");
 				miVentanaMini.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				miVentanaMini.setVisible(true);
+				miVentanaMini.setVisible(true);*/
 			}
-	  		
-	  		
-	  		
+		
 	  		
 	  	}
 	  });
@@ -113,20 +105,20 @@ public class VentanaProductos extends JDialog {
 	  			textFieldPrecioTotal.setText(Double.toString(suma));
 	  			JOptionPane.showMessageDialog(null, "Procesando...");
 	  		}else{
-	  			JOptionPane.showMessageDialog(null, "Faltan seleccionar componetes!");
+	  			JOptionPane.showMessageDialog(null, "Faltan seleccionar componentes!");
 	  		}
 	  		
 	  		
 	  	}
 	  });
-	  button.setIcon(new ImageIcon(VentanaProductos.class.getResource("/resources/send.png")));
+	  button.setIcon(new ImageIcon(VentanaProductos.class.getResource("/resources/btn_enviar_v3.png")));
 	  button.setFocusPainted(false);
 	  button.setContentAreaFilled(false);
 	  button.setBorderPainted(false);
 	  button.setBorder(null);
-	  button.setBounds(828, 672, 184, 62);
+	  button.setBounds(809, 663, 195, 71);
 	  contenedor.add(button);
-	  btnSeleccionarProcesador.setBounds(241, 199, 40, 33);
+	  btnSeleccionarProcesador.setBounds(241, 200, 40, 33);
 	  contenedor.add(btnSeleccionarProcesador);
 	  
 	  textFieldProcesador = new JTextField();
@@ -150,24 +142,17 @@ public class VentanaProductos extends JDialog {
 	  		
 				if (evento.getSource() == btnSeleccionarPlaca) {
 					
-					List<Producto> listaProductos = new ArrayList<Producto>();	
-		  			
-		  			try {
-		  				listaProductos.addAll(ObtenerProductos.leerPlacasMadre());
-		  			} catch (IOException e) {
-		  				// TODO Bloque catch generado automáticamente
-		  				e.printStackTrace();
-		  			}
-					
-
-					VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos, "placas-madre");
-					miVentanaMini.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					miVentanaMini.setVisible(true);
+					jprogressBar1.setVisible(true);
+		  			jprogressBar1.setIndeterminate(true);
+		  			lblProcesando.setVisible(true);
+	  			
+		  			LeerPlacasMadre worker = new LeerPlacasMadre(miVentanaProductos,jprogressBar1,lblProcesando);
+		  			worker.execute();
 				}
 	  		
 	  	}
 	  });
-	  btnSeleccionarPlaca.setBounds(241, 342, 40, 33);
+	  btnSeleccionarPlaca.setBounds(241, 346, 40, 33);
 	  contenedor.add(btnSeleccionarPlaca);
 	  
 	  textFieldPlaca = new JTextField();
@@ -175,7 +160,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPlaca.setBorder(null);
 	  textFieldPlaca.setOpaque(false);
 	  textFieldPlaca.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldPlaca.setBounds(304, 340, 480, 38);
+	  textFieldPlaca.setBounds(304, 343, 480, 38);
 	  contenedor.add(textFieldPlaca);
 	  textFieldPlaca.setColumns(10);
 	  
@@ -190,23 +175,17 @@ public class VentanaProductos extends JDialog {
 	  		
 	  		if (evento.getSource() == btnSeleccionarMemoria) {
 
-					List<Producto> listaProductos = new ArrayList<Producto>();
-
-					try {
-						listaProductos.addAll(ObtenerProductos.leerMemorias());
-					} catch (IOException e) {
-						// TODO Bloque catch generado automáticamente
-						e.printStackTrace();
-					}
-	  			
-				VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos,"memorias");
-				miVentanaMini.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				miVentanaMini.setVisible(true);
+				jprogressBar1.setVisible(true);
+	  			jprogressBar1.setIndeterminate(true);
+	  			lblProcesando.setVisible(true);
+  			
+	  			LeerMemorias worker = new LeerMemorias(miVentanaProductos,jprogressBar1,lblProcesando);
+	  			worker.execute();
 			}
 	  		
 	  	}
 	  });
-	  btnSeleccionarMemoria.setBounds(241, 270, 40, 33);
+	  btnSeleccionarMemoria.setBounds(241, 274, 40, 33);
 	  contenedor.add(btnSeleccionarMemoria);
 	  
 	  textFieldMemoria = new JTextField();
@@ -214,7 +193,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldMemoria.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldMemoria.setBorder(null);
 	  textFieldMemoria.setOpaque(false);
-	  textFieldMemoria.setBounds(304, 270, 480, 35);
+	  textFieldMemoria.setBounds(304, 273, 480, 35);
 	  contenedor.add(textFieldMemoria);
 	  textFieldMemoria.setColumns(10);
 	  
@@ -229,23 +208,17 @@ public class VentanaProductos extends JDialog {
 	  		
 				if (evento.getSource() == btnSeleccionarVideoCard) {
 
-					List<Producto> listaProductos = new ArrayList<Producto>();
-
-					try {
-						listaProductos.addAll(ObtenerProductos.leerTarjetasVideo());
-					} catch (IOException e) {
-						// TODO Bloque catch generado automáticamente
-						e.printStackTrace();
-					}
-
-				VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos,"video-cards");
-				miVentanaMini.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				miVentanaMini.setVisible(true);
+					jprogressBar1.setVisible(true);
+		  			jprogressBar1.setIndeterminate(true);
+		  			lblProcesando.setVisible(true);
+	  			
+		  			LeerTarjetasVideo worker = new LeerTarjetasVideo(miVentanaProductos,jprogressBar1,lblProcesando);
+		  			worker.execute();
 			}
 	  		
 	  	}
 	  });
-	  btnSeleccionarVideoCard.setBounds(241, 412, 40, 33);
+	  btnSeleccionarVideoCard.setBounds(241, 419, 40, 33);
 	  contenedor.add(btnSeleccionarVideoCard);
 	  
 	  textFieldVideoCard = new JTextField();
@@ -253,7 +226,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldVideoCard.setBorder(null);
 	  textFieldVideoCard.setOpaque(false);
 	  textFieldVideoCard.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldVideoCard.setBounds(304, 412, 480, 35);
+	  textFieldVideoCard.setBounds(304, 418, 480, 35);
 	  contenedor.add(textFieldVideoCard);
 	  textFieldVideoCard.setColumns(10);
 	  
@@ -268,23 +241,17 @@ public class VentanaProductos extends JDialog {
 	  		
 	  		if (evento.getSource() == btnSeleccionarHDD) {
 	  			
-					List<Producto> listaProductos = new ArrayList<Producto>();
-
-					try {
-						listaProductos.addAll(ObtenerProductos.leerUnidadesAlmacenamiento());
-					} catch (IOException e) {
-						// TODO Bloque catch generado automáticamente
-						e.printStackTrace();
-					}
-
-				VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos,"unidades-almacenamiento");
-				miVentanaMini.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				miVentanaMini.setVisible(true);
+				jprogressBar1.setVisible(true);
+	  			jprogressBar1.setIndeterminate(true);
+	  			lblProcesando.setVisible(true);
+  			
+	  			LeerUnidadesAlmacenamiento worker = new LeerUnidadesAlmacenamiento(miVentanaProductos,jprogressBar1,lblProcesando);
+	  			worker.execute();
 			}
 	  		
 	  	}
 	  });
-	  btnSeleccionarHDD.setBounds(241, 483, 40, 33);
+	  btnSeleccionarHDD.setBounds(241, 493, 40, 33);
 	  contenedor.add(btnSeleccionarHDD);
 	  
 	  textFieldHDD = new JTextField();
@@ -292,7 +259,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldHDD.setBorder(null);
 	  textFieldHDD.setOpaque(false);
 	  textFieldHDD.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldHDD.setBounds(304, 483, 480, 35);
+	  textFieldHDD.setBounds(304, 492, 480, 35);
 	  contenedor.add(textFieldHDD);
 	  textFieldHDD.setColumns(10);
 	  
@@ -307,23 +274,17 @@ public class VentanaProductos extends JDialog {
 	  		
 	  		if (evento.getSource() == btnSeleccionarCaseFuente) {
 
-					List<Producto> listaProductos = new ArrayList<Producto>();
-
-					try {
-						listaProductos.addAll(ObtenerProductos.leerCaseFuentes());
-					} catch (IOException e) {
-						// TODO Bloque catch generado automáticamente
-						e.printStackTrace();
-					}
-
-				VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos,"case-fuentes");
-				miVentanaMini.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				miVentanaMini.setVisible(true);
+	  			jprogressBar1.setVisible(true);
+	  			jprogressBar1.setIndeterminate(true);
+	  			lblProcesando.setVisible(true);
+  			
+	  			LeerCaseFuentes worker = new LeerCaseFuentes(miVentanaProductos,jprogressBar1,lblProcesando);
+	  			worker.execute();
 			}
 	  		
 	  	}
 	  });
-	  btnSeleccionarCaseFuente.setBounds(241, 554, 40, 33);
+	  btnSeleccionarCaseFuente.setBounds(241, 565, 40, 33);
 	  contenedor.add(btnSeleccionarCaseFuente);
 	  
 	  textFieldCaseFuente = new JTextField();
@@ -331,7 +292,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldCaseFuente.setBorder(null);
 	  textFieldCaseFuente.setOpaque(false);
 	  textFieldCaseFuente.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldCaseFuente.setBounds(304, 554, 480, 35);
+	  textFieldCaseFuente.setBounds(304, 564, 480, 35);
 	  contenedor.add(textFieldCaseFuente);
 	  textFieldCaseFuente.setColumns(10);
 	  
@@ -340,7 +301,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecio1.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPrecio1.setOpaque(false);
 	  textFieldPrecio1.setBorder(null);
-	  textFieldPrecio1.setBounds(820, 199, 120, 35);
+	  textFieldPrecio1.setBounds(822, 199, 120, 35);
 	  contenedor.add(textFieldPrecio1);
 	  textFieldPrecio1.setColumns(10);
 	  
@@ -350,7 +311,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecio2.setOpaque(false);
 	  textFieldPrecio2.setBorder(null);
 	  textFieldPrecio2.setColumns(10);
-	  textFieldPrecio2.setBounds(820, 270, 120, 35);
+	  textFieldPrecio2.setBounds(822, 273, 120, 35);
 	  contenedor.add(textFieldPrecio2);
 	  
 	  textFieldPrecio3 = new JTextField();
@@ -359,7 +320,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecio3.setOpaque(false);
 	  textFieldPrecio3.setBorder(null);
 	  textFieldPrecio3.setColumns(10);
-	  textFieldPrecio3.setBounds(820, 340, 120, 35);
+	  textFieldPrecio3.setBounds(822, 343, 120, 35);
 	  contenedor.add(textFieldPrecio3);
 	  
 	  textFieldPrecio4 = new JTextField();
@@ -368,7 +329,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecio4.setOpaque(false);
 	  textFieldPrecio4.setBorder(null);
 	  textFieldPrecio4.setColumns(10);
-	  textFieldPrecio4.setBounds(820, 412, 120, 35);
+	  textFieldPrecio4.setBounds(822, 418, 120, 35);
 	  contenedor.add(textFieldPrecio4);
 	  
 	  textFieldPrecio5 = new JTextField();
@@ -377,7 +338,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecio5.setOpaque(false);
 	  textFieldPrecio5.setBorder(null);
 	  textFieldPrecio5.setColumns(10);
-	  textFieldPrecio5.setBounds(820, 483, 120, 35);
+	  textFieldPrecio5.setBounds(822, 492, 120, 35);
 	  contenedor.add(textFieldPrecio5);
 	  
 	  textFieldPrecio6 = new JTextField();
@@ -386,7 +347,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecio6.setOpaque(false);
 	  textFieldPrecio6.setBorder(null);
 	  textFieldPrecio6.setColumns(10);
-	  textFieldPrecio6.setBounds(820, 552, 120, 35);
+	  textFieldPrecio6.setBounds(822, 564, 120, 35);
 	  contenedor.add(textFieldPrecio6);
 	  
 	  btnResetProcesador = new JButton("");
@@ -420,7 +381,7 @@ public class VentanaProductos extends JDialog {
 	  btnResetMemoria.setContentAreaFilled(false);
 	  btnResetMemoria.setBorderPainted(false);
 	  btnResetMemoria.setBorder(null);
-	  btnResetMemoria.setBounds(959, 266, 39, 43);
+	  btnResetMemoria.setBounds(959, 269, 39, 43);
 	  contenedor.add(btnResetMemoria);
 	  
 	  btnResetPlaca = new JButton("");
@@ -437,7 +398,7 @@ public class VentanaProductos extends JDialog {
 	  btnResetPlaca.setContentAreaFilled(false);
 	  btnResetPlaca.setBorderPainted(false);
 	  btnResetPlaca.setBorder(null);
-	  btnResetPlaca.setBounds(959, 338, 39, 43);
+	  btnResetPlaca.setBounds(959, 339, 39, 43);
 	  contenedor.add(btnResetPlaca);
 	  
 	  btnResetVideoCard = new JButton("");
@@ -454,7 +415,7 @@ public class VentanaProductos extends JDialog {
 	  btnResetVideoCard.setContentAreaFilled(false);
 	  btnResetVideoCard.setBorderPainted(false);
 	  btnResetVideoCard.setBorder(null);
-	  btnResetVideoCard.setBounds(959, 408, 39, 43);
+	  btnResetVideoCard.setBounds(959, 414, 39, 43);
 	  contenedor.add(btnResetVideoCard);
 	  
 	  btnResetHDD = new JButton("");
@@ -471,7 +432,7 @@ public class VentanaProductos extends JDialog {
 	  btnResetHDD.setContentAreaFilled(false);
 	  btnResetHDD.setBorderPainted(false);
 	  btnResetHDD.setBorder(null);
-	  btnResetHDD.setBounds(959, 479, 39, 43);
+	  btnResetHDD.setBounds(959, 488, 39, 43);
 	  contenedor.add(btnResetHDD);
 	  
 	  btnResetCaseFuente = new JButton("");
@@ -488,7 +449,7 @@ public class VentanaProductos extends JDialog {
 	  btnResetCaseFuente.setContentAreaFilled(false);
 	  btnResetCaseFuente.setBorderPainted(false);
 	  btnResetCaseFuente.setBorder(null);
-	  btnResetCaseFuente.setBounds(959, 550, 39, 43);
+	  btnResetCaseFuente.setBounds(959, 560, 39, 43);
 	  contenedor.add(btnResetCaseFuente);
 	  
 	  textFieldPrecioTotal = new JTextField();
@@ -496,12 +457,25 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecioTotal.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 22));
 	  textFieldPrecioTotal.setOpaque(false);
 	  textFieldPrecioTotal.setBorder(null);
-	  textFieldPrecioTotal.setBounds(550, 686, 194, 35);
+	  textFieldPrecioTotal.setBounds(495, 681, 194, 35);
 	  contenedor.add(textFieldPrecioTotal);
 	  textFieldPrecioTotal.setColumns(10);
 	  
+	  jprogressBar1 = new WebProgressBar();
+	  jprogressBar1.setBounds(26, 701, 225, 17);
+	  jprogressBar1.setVisible(false);
+	  contenedor.add(jprogressBar1);
+	  
+	  lblProcesando = new JLabel("Procesando...");
+	  lblProcesando.setForeground(Color.WHITE);
+	  lblProcesando.setFont(new Font("Roboto Light", Font.BOLD, 14));
+	  lblProcesando.setBounds(26, 681, 97, 17);
+	  lblProcesando.setVisible(false);
+	  contenedor.add(lblProcesando);
+	  
+	  
 	  JLabel label = new JLabel("");
-	  label.setIcon(new ImageIcon(VentanaProductos.class.getResource("/resources/vista-producto-v2.jpg")));
+	  label.setIcon(new ImageIcon(VentanaProductos.class.getResource("/resources/vista-producto-v3.jpg")));
 	  label.setBounds(0, 0, 1024, 760);
 	  contenedor.add(label);
 	  

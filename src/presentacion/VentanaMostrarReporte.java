@@ -1,19 +1,12 @@
 package presentacion;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import entidades.Reporte;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import java.awt.TextArea;
 import java.util.Date;
 import java.awt.Font;
 

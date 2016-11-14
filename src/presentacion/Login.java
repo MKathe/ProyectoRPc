@@ -1,6 +1,5 @@
 package presentacion;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -20,19 +19,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import java.awt.Cursor;
-import java.awt.TextField;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import java.awt.ComponentOrientation;
 import com.alee.laf.WebLookAndFeel;
 
 import negocio.ValidarUsuario;
-
-import javax.swing.DropMode;
-import javax.swing.border.MatteBorder;
-import java.awt.Window.Type;
 
 public class Login extends JFrame {
 
@@ -130,6 +119,7 @@ public class Login extends JFrame {
 					VentanaPrincipal miVentanaPrincipal = new VentanaPrincipal();
 					miVentanaPrincipal.setVentanaPrincipal(miVentanaPrincipal);
 					miVentanaPrincipal.setVisible(true);
+					dispose();
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Error!");

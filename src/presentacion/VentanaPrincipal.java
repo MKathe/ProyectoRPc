@@ -56,6 +56,7 @@ public class VentanaPrincipal extends JFrame {
 		setResizable(false);
 		
 		btnProductos = new JButton("");
+		btnProductos.setFocusPainted(false);
 		btnProductos.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono productos.png")));
 		btnProductos.setContentAreaFilled(false);
 		btnProductos.setBorderPainted(false);
@@ -72,6 +73,7 @@ public class VentanaPrincipal extends JFrame {
 		});
         
         btnAsistente = new JButton("");
+        btnAsistente.setFocusPainted(false);
         btnAsistente.setBorderPainted(false);
         btnAsistente.setContentAreaFilled(false);
         btnAsistente.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono asistente.png")));
@@ -81,6 +83,7 @@ public class VentanaPrincipal extends JFrame {
         btnProductos.setBounds(189, 512, 167, 109);
 		contentPane.add(btnProductos);
 		btnReportes = new JButton ("");
+		btnReportes.setFocusPainted(false);
 		btnReportes.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono reporte.png")));
 		btnReportes.setBorder(null);
 		btnReportes.setBorderPainted(false);
@@ -97,6 +100,7 @@ public class VentanaPrincipal extends JFrame {
 		});
         
         btnTienda = new JButton("");
+        btnTienda.setFocusPainted(false);
         btnTienda.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono tiendas.png")));
         btnTienda.setContentAreaFilled(false);
         btnTienda.setBorderPainted(false);
@@ -107,6 +111,7 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.add(btnReportes);
 		
 		btnAyuda = new JButton("");
+		btnAyuda.setFocusPainted(false);
 		btnAyuda.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono ayuda.png")));
 		btnAyuda.setContentAreaFilled(false);
 		btnAyuda.setBorderPainted(false);

@@ -1,23 +1,11 @@
 package presentacion;
 
-import java.awt.EventQueue;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
-
 import javax.swing.JDialog;
-import javax.swing.JTable;
-import javax.swing.table.TableModel;
-
-import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.table.WebTable;
-
 import entidades.Producto;
 import modeloTablas.ModeloTablaProducto;
-import negocio.ObtenerProductos;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -38,9 +26,8 @@ public class VentanaMiniProductos extends JDialog {
 		setBounds(100, 100, 1031, 790);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
-
-			
-		TableModel tableModel = new ModeloTablaProducto(listaProductos);	
+		
+		ModeloTablaProducto tableModel = new ModeloTablaProducto(listaProductos);	
 		table = new WebTable(tableModel);
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(490);
