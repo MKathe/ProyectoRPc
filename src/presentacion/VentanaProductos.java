@@ -122,6 +122,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(btnSeleccionarProcesador);
 	  
 	  textFieldProcesador = new JTextField();
+	  textFieldProcesador.setEditable(false);
 	  textFieldProcesador.setColumns(10);
 	  textFieldProcesador.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldProcesador.setForeground(Color.WHITE);
@@ -156,6 +157,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(btnSeleccionarPlaca);
 	  
 	  textFieldPlaca = new JTextField();
+	  textFieldPlaca.setEditable(false);
 	  textFieldPlaca.setForeground(Color.WHITE);
 	  textFieldPlaca.setBorder(null);
 	  textFieldPlaca.setOpaque(false);
@@ -189,6 +191,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(btnSeleccionarMemoria);
 	  
 	  textFieldMemoria = new JTextField();
+	  textFieldMemoria.setEditable(false);
 	  textFieldMemoria.setForeground(Color.WHITE);
 	  textFieldMemoria.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldMemoria.setBorder(null);
@@ -222,6 +225,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(btnSeleccionarVideoCard);
 	  
 	  textFieldVideoCard = new JTextField();
+	  textFieldVideoCard.setEditable(false);
 	  textFieldVideoCard.setForeground(Color.WHITE);
 	  textFieldVideoCard.setBorder(null);
 	  textFieldVideoCard.setOpaque(false);
@@ -255,6 +259,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(btnSeleccionarHDD);
 	  
 	  textFieldHDD = new JTextField();
+	  textFieldHDD.setEditable(false);
 	  textFieldHDD.setForeground(Color.WHITE);
 	  textFieldHDD.setBorder(null);
 	  textFieldHDD.setOpaque(false);
@@ -288,6 +293,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(btnSeleccionarCaseFuente);
 	  
 	  textFieldCaseFuente = new JTextField();
+	  textFieldCaseFuente.setEditable(false);
 	  textFieldCaseFuente.setForeground(Color.WHITE);
 	  textFieldCaseFuente.setBorder(null);
 	  textFieldCaseFuente.setOpaque(false);
@@ -297,6 +303,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldCaseFuente.setColumns(10);
 	  
 	  textFieldPrecio1 = new JTextField();
+	  textFieldPrecio1.setEditable(false);
 	  textFieldPrecio1.setForeground(Color.WHITE);
 	  textFieldPrecio1.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPrecio1.setOpaque(false);
@@ -306,6 +313,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPrecio1.setColumns(10);
 	  
 	  textFieldPrecio2 = new JTextField();
+	  textFieldPrecio2.setEditable(false);
 	  textFieldPrecio2.setForeground(Color.WHITE);
 	  textFieldPrecio2.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPrecio2.setOpaque(false);
@@ -315,15 +323,17 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(textFieldPrecio2);
 	  
 	  textFieldPrecio3 = new JTextField();
+	  textFieldPrecio3.setEditable(false);
 	  textFieldPrecio3.setForeground(Color.WHITE);
 	  textFieldPrecio3.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPrecio3.setOpaque(false);
 	  textFieldPrecio3.setBorder(null);
 	  textFieldPrecio3.setColumns(10);
-	  textFieldPrecio3.setBounds(822, 343, 120, 35);
+	  textFieldPrecio3.setBounds(822, 346, 120, 35);
 	  contenedor.add(textFieldPrecio3);
 	  
 	  textFieldPrecio4 = new JTextField();
+	  textFieldPrecio4.setEditable(false);
 	  textFieldPrecio4.setForeground(Color.WHITE);
 	  textFieldPrecio4.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPrecio4.setOpaque(false);
@@ -333,6 +343,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(textFieldPrecio4);
 	  
 	  textFieldPrecio5 = new JTextField();
+	  textFieldPrecio5.setEditable(false);
 	  textFieldPrecio5.setForeground(Color.WHITE);
 	  textFieldPrecio5.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPrecio5.setOpaque(false);
@@ -342,6 +353,7 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(textFieldPrecio5);
 	  
 	  textFieldPrecio6 = new JTextField();
+	  textFieldPrecio6.setEditable(false);
 	  textFieldPrecio6.setForeground(Color.WHITE);
 	  textFieldPrecio6.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPrecio6.setOpaque(false);
