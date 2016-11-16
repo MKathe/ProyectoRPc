@@ -60,17 +60,20 @@ public class VentanaPrincipal extends JFrame {
 		btnProductos.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono productos.png")));
 		btnProductos.setContentAreaFilled(false);
 		btnProductos.setBorderPainted(false);
+		btnProductos.setBounds(189, 512, 167, 109);
 		btnProductos.setBorder(null);
+		contentPane.add(btnProductos);
 		btnProductos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()== btnProductos){
-					VentanaProductos miVentanaProductos = new VentanaProductos(miVentanaPrincipal, true);					
+							VentanaProductos miVentanaProductos = new VentanaProductos(miVentanaPrincipal, true);					
 							miVentanaProductos.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 							miVentanaProductos.setVentanaPrincipal(miVentanaProductos);
 							miVentanaProductos.setVisible(true);
 				}
 			}
 		});
+		
         
         btnAsistente = new JButton("");
         btnAsistente.setFocusPainted(false);
@@ -80,14 +83,17 @@ public class VentanaPrincipal extends JFrame {
         btnAsistente.setBorder(null);
         btnAsistente.setBounds(35, 512, 113, 97);
         contentPane.add(btnAsistente);
-        btnProductos.setBounds(189, 512, 167, 109);
-		contentPane.add(btnProductos);
+        
+        
+		
 		btnReportes = new JButton ("");
 		btnReportes.setFocusPainted(false);
 		btnReportes.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono reporte.png")));
 		btnReportes.setBorder(null);
 		btnReportes.setBorderPainted(false);
 		btnReportes.setContentAreaFilled(false);
+		btnReportes.setBounds(578,512,94, 109);
+		contentPane.add(btnReportes);
 		btnReportes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					 
@@ -106,9 +112,16 @@ public class VentanaPrincipal extends JFrame {
         btnTienda.setBorderPainted(false);
         btnTienda.setBorder(null);
         btnTienda.setBounds(399, 512, 109, 109);
+		btnTienda.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		VentanaTiendas miVentanaTiendas = new VentanaTiendas(miVentanaPrincipal, true);
+				miVentanaTiendas.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				miVentanaTiendas.setVentanaPrincipal(miVentanaTiendas);
+				miVentanaTiendas.setVisible(true);
+        	}
+        });
         contentPane.add(btnTienda);
-        btnReportes.setBounds(578,512,94, 109);
-		contentPane.add(btnReportes);
+       
 		
 		btnAyuda = new JButton("");
 		btnAyuda.setFocusPainted(false);

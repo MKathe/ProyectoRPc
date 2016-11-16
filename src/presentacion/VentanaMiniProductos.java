@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 
 public class VentanaMiniProductos extends JDialog {
@@ -79,6 +80,9 @@ public class VentanaMiniProductos extends JDialog {
 					miVentanProductos.getTextFieldCaseFuente().setText(listaProductos.get(table.getSelectedRow()).getNombre());
 					miVentanProductos.getTextFieldPrecio6().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
 					dispose();
+					break;
+				case "computadoras":
+					JOptionPane.showMessageDialog(null, "hola mundo");
 					break;
 				default:	
 				

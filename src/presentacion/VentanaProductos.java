@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.alee.laf.progressbar.WebProgressBar;
 import negocio.LeerCaseFuentes;
+import negocio.LeerComputadoras;
 import negocio.LeerMemorias;
 import negocio.LeerPlacasMadre;
 import negocio.LeerProcesadores;
@@ -484,6 +485,25 @@ public class VentanaProductos extends JDialog {
 	  lblProcesando.setBounds(26, 681, 97, 17);
 	  lblProcesando.setVisible(false);
 	  contenedor.add(lblProcesando);
+	  
+	  JButton btnNewButton = new JButton("New button");
+	  btnNewButton.addActionListener(new ActionListener() {
+	  	public void actionPerformed(ActionEvent evento) {
+	  		
+	  		if (evento.getSource() == btnNewButton) {
+	  			
+	  			jprogressBar1.setVisible(true);
+	  			jprogressBar1.setIndeterminate(true);
+	  			lblProcesando.setVisible(true);
+  			
+	  			LeerComputadoras worker = new LeerComputadoras(miVentanaProductos,jprogressBar1,lblProcesando);
+	  			worker.execute();
+			}
+	  		
+	  	}
+	  });
+	  btnNewButton.setBounds(217, 129, 89, 23);
+	  contenedor.add(btnNewButton);
 	  
 	  
 	  JLabel label = new JLabel("");
