@@ -23,7 +23,7 @@ public class ConectionDB {
 
 	public static Connection getConection() {
 		
-		// PASO 1: Carga el driver dinamicamente
+		// PASO 1: Carga el driver dinamicamente 2016
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
