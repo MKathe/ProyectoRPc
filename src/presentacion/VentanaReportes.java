@@ -164,14 +164,14 @@ public class VentanaReportes extends JDialog {
      
 		contentPane.add(spTablaDeReportes);
 	
-		dateDel = new JDateChooser("dd/MM/yyyy", "##/##/####", '_');
+		dateDel = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
 		dateDel.setEnabled(false);
 		dateDel.setBounds(113, 141, 87, 20);
 		contentPane.add(dateDel);
 		dateDel.setMaxSelectableDate(new Date());
 		
 	  
-        dateAl = new JDateChooser("dd/MM/yyyy", "##/##/####", '_');
+        dateAl = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
         dateAl.setEnabled(false);
         dateAl.setBounds(256, 141, 87, 20);
         contentPane.add(dateAl);
@@ -324,9 +324,12 @@ public class ManejadorDeBotones implements ActionListener{
 				                
 				                Date del = dateDel.getDate();
 				                Date al = dateAl.getDate();
+				                java.sql.Date DEL = new java.sql.Date(del.getTime());
+				                java.sql.Date AL = new java.sql.Date(al.getTime());
 				                boolean sw = ValidarRangoFecha.validar(del,al);
 				                if(sw){
-				                	ResultadodeBusqueda = ConsultasBasicas.consultarDatos("SELECT * FROM reportes  WHERE Fecha BETWEEN el AND al ");
+				                	
+				                	ResultadodeBusqueda = ConsultasBasicas.consultarDatos("SELECT * FROM reportes WHERE Fecha>= '"+DEL+"' and Fecha <= '"+AL+"' ");
 		  
 			   				try {
 			   					while (ResultadodeBusqueda.next()){
