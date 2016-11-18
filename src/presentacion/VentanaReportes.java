@@ -1,29 +1,29 @@
 package presentacion;
-import java.awt.BorderLayout;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
+import com.alee.laf.WebLookAndFeel;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,21 +33,31 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
+
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
-
+import conectionDB.ConectionDB;
 import datos.ConsultasBasicas;
-import java.awt.Component;
 import entidades.Reporte;
 import modeloTablas.ModeloTablaReporte;
 import negocio.ValidarRangoFecha;
 
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
 
 public class VentanaReportes extends JDialog {
-	
+
 	private VentanaReportes miVentanaReportes;
 	private JPanel contentPane;
-	private JTextField textBusqueda;
 	private JTable table;
 	private List<Reporte> listadeReportes;
 	private JTable TablaDeReportes;
@@ -61,84 +71,123 @@ public class VentanaReportes extends JDialog {
     private JCalendar Calendario;
     private JDateChooser dateAl;
     private JDateChooser dateDel;
-    
+    private JasperPrint jasperPrint;
+    private JasperViewer jasperViewer;
+    private JFileChooser fileChooser;
+    private JTextField textBusqueda;
 
 	/**
 	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
+	 
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaR frame = new VentanaR();
+					VentanaReportes frame = new VentanaReportes();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}/*
+	}*/
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaReportes(VentanaPrincipal miVentanaPrincipal, boolean modal) {
 		super(miVentanaPrincipal, modal);
-		
+		Connection db= ConectionDB.getConection();
+		try {
+			jasperPrint = JasperFillManager.fillReport(new File(".").getAbsolutePath()+"/src/reportes/reporteR.jasper", null, db);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fileChooser = new JFileChooser();
 		setTitle("Ventana Reportes");
-		setBounds(100, 100, 905, 692);
+		setBounds(100, 100, 910, 672);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		comboBox = new JComboBox();
+		comboBox.setForeground(new Color(0, 0, 0));
+		comboBox.setBounds(198, 73, 131, 23);
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 14));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Buscar por", "Nombre", "Tipo", "Fecha", "         semana"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Buscar por", "Nombre", "Tipo", "Fecha"}));
 		comboBox.addItemListener(new ManejadorFecha());
-		comboBox.setBounds(196, 101, 108, 23);
+		
+		textBusqueda = new JTextField();
+		textBusqueda.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textBusqueda.setForeground(new Color(255, 255, 255));
+		textBusqueda.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+		textBusqueda.setBackground(UIManager.getColor("ToolBar.highlight"));
+		textBusqueda.setBounds(399, 70, 393, 25);
+		contentPane.add(textBusqueda);
+		textBusqueda.setColumns(10);
+		textBusqueda.setBorder(null);
+		textBusqueda.setOpaque(false);
 		contentPane.add(comboBox);
 		
+		
+		
+		
+		
 		comboBox1 = new JComboBox();
+		comboBox1.setFont(new Font("Calibri", Font.PLAIN, 14));
+		comboBox1.setForeground(SystemColor.desktop);
 		comboBox1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		comboBox1.setBackground(Color.WHITE);
 		comboBox1.setModel(new DefaultComboBoxModel(new String[] {"Ordenar por","Nombre","Tipo","Fecha"}));
-		comboBox1.setBounds(61, 101, 109, 23);
+		comboBox1.setBounds(30, 73, 145, 23);
 		comboBox1.addItemListener(new ManejadorOrdenar());
 		contentPane.add(comboBox1);
 		
-		textBusqueda = new JTextField();
-		textBusqueda.setBounds(328, 101, 323, 22);
-		contentPane.add(textBusqueda);
-		textBusqueda.setColumns(10);
-		
-		btnBuscar = new JButton("Buscar");
+		btnBuscar = new JButton("");
+		btnBuscar.setBorderPainted(false);
+		btnBuscar.setPressedIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/lupa2.png")));
+		btnBuscar.setContentAreaFilled(false);
+		btnBuscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnBuscar.setBorder(UIManager.getBorder("CheckBox.border"));
+		btnBuscar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/lupa3.png")));
 		btnBuscar.setFont(new Font("Papyrus", Font.PLAIN, 14));
-		btnBuscar.setBounds(673, 92, 152, 41);
+		btnBuscar.setBounds(808, 53, 53, 56);
 		btnBuscar.addActionListener(new ManejadorDeBotones());
 		contentPane.add(btnBuscar);
 		setLocationRelativeTo(null);
 		
-		btnGuardar = new JButton("Guardar");
+		btnGuardar = new JButton("");
+		btnGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnGuardar.setBorderPainted(false);
+		btnGuardar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/boton-guardar-reporte.png")));
+		btnGuardar.setContentAreaFilled(false);
 		btnGuardar.addActionListener(new ManejadorDeBotones());
-		btnGuardar.setBounds(519, 572, 168, 35);
+		btnGuardar.setBounds(527, 555, 218, 68);
 		contentPane.add(btnGuardar);
 		
-		btnMostrarReporte = new JButton("Mostrar Reporte");
+		btnMostrarReporte = new JButton("");
+		btnMostrarReporte.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnMostrarReporte.setBorderPainted(false);
+		btnMostrarReporte.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/btn_mostrar6.png")));
+		btnMostrarReporte.setContentAreaFilled(false);
 		btnMostrarReporte.addActionListener(new ManejadorDeBotones());
 		
-		btnMostrarReporte.setBounds(197, 572, 168, 35);
+		btnMostrarReporte.setBounds(113, 555, 246, 68);
 		contentPane.add(btnMostrarReporte);
 		
 		JLabel lblReportes = new JLabel("Reportes");
-		lblReportes.setForeground(SystemColor.activeCaptionText);
+		lblReportes.setBackground(Color.WHITE);
+		lblReportes.setForeground(Color.WHITE);
 		lblReportes.setFont(new Font("PeacerfulDay", Font.BOLD, 39));
-		lblReportes.setBounds(36, 22, 373, 62);
+		lblReportes.setBounds(30, 0, 373, 62);
 		contentPane.add(lblReportes);
 		
 		JLabel lblListadoDeReportes = new JLabel("Listado de reportes:");
-		lblListadoDeReportes.setFont(new Font("Papyrus", Font.BOLD, 15));
-		lblListadoDeReportes.setBounds(61, 187, 161, 14);
+		lblListadoDeReportes.setForeground(Color.WHITE);
+		lblListadoDeReportes.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblListadoDeReportes.setBounds(30, 153, 177, 14);
 		contentPane.add(lblListadoDeReportes);
 		
 		
@@ -147,8 +196,16 @@ public class VentanaReportes extends JDialog {
 		TableModel tableModel = new ModeloTablaReporte(listadeReportes);
 		
 		JLabel lblDel = new JLabel("Del:");
-		lblDel.setBounds(61, 147, 46, 14);
+		lblDel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblDel.setForeground(Color.WHITE);
+		lblDel.setBounds(30, 124, 46, 14);
 		contentPane.add(lblDel);
+		
+		JLabel lblAl = new JLabel("Al:");
+		lblAl.setForeground(Color.WHITE);
+		lblAl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblAl.setBounds(210, 119, 32, 25);
+		contentPane.add(lblAl);
 		TablaDeReportes = new JTable(tableModel);
 		TablaDeReportes.setFont(new Font("Papyrus", Font.PLAIN, 11));
 		TablaDeReportes.setFillsViewportHeight(true);
@@ -157,8 +214,8 @@ public class VentanaReportes extends JDialog {
 		//TablaDeReportes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		spTablaDeReportes = new JScrollPane();
 		spTablaDeReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		spTablaDeReportes.setSize(762, 335);
-		spTablaDeReportes.setLocation(63, 212);
+		spTablaDeReportes.setSize(790, 315);
+		spTablaDeReportes.setLocation(49, 198);
 		
 		spTablaDeReportes.setViewportView(TablaDeReportes);
      
@@ -166,21 +223,22 @@ public class VentanaReportes extends JDialog {
 	
 		dateDel = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
 		dateDel.setEnabled(false);
-		dateDel.setBounds(113, 141, 87, 20);
+		dateDel.setBounds(71, 119, 115, 23);
 		contentPane.add(dateDel);
 		dateDel.setMaxSelectableDate(new Date());
 		
 	  
         dateAl = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
         dateAl.setEnabled(false);
-        dateAl.setBounds(256, 141, 87, 20);
+        dateAl.setBounds(244, 121, 115, 23);
         contentPane.add(dateAl);
       
         dateAl.setMaxSelectableDate(new Date());
         
-        JLabel lblAl = new JLabel("Al:");
-        lblAl.setBounds(221, 147, 46, 14);
-        contentPane.add(lblAl);
+        JLabel label = new JLabel("");
+        label.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/vista_reporte.png")));
+        label.setBounds(0, 0, 894, 634);
+        contentPane.add(label);
 	}
 public class ManejadorDeBotones implements ActionListener{
 
@@ -191,10 +249,11 @@ public class ManejadorDeBotones implements ActionListener{
 				ManejadorBuscarPor();
 			}else{ 
 				if( e.getSource() == btnMostrarReporte){
-				  	    
+					
+				  MostrarReporte();
 			}else{
 				if(e.getSource()== btnGuardar){
-					
+					GuardarReporte();
 				}
 			}
 				
@@ -204,7 +263,37 @@ public class ManejadorDeBotones implements ActionListener{
 		}
 	
 	}
-    
+    public void MostrarReporte(){
+			jasperViewer = new JasperViewer(jasperPrint);
+			jasperViewer.setVisible(true);
+			jasperViewer.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+    }
+    public void GuardarReporte(){
+        int seleccion = fileChooser.showSaveDialog(null);
+		contentPane.add(fileChooser);
+		comboBox.setBounds(196, 101, 108, 23);
+		String ruta =null;
+		File guardar1;
+		if (seleccion == JFileChooser.APPROVE_OPTION)
+		{   
+			guardar1 = fileChooser.getSelectedFile();
+			if(guardar1!= null){
+				ruta= guardar1.getAbsolutePath();
+	        try {
+			JasperExportManager.exportReportToPdfFile(jasperPrint,ruta+".pdf");
+	        } catch (JRException e) {
+			
+						e.printStackTrace();
+	        }
+			}else{
+			    JOptionPane.showMessageDialog(null,"Destino a guardar no seleccionado","",JOptionPane.ERROR_MESSAGE);
+			}
+	        
+		}
+		
+		
+    }
 	public class  ManejadorOrdenar implements ItemListener{
 	
 		public void itemStateChanged(ItemEvent e) {
