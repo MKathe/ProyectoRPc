@@ -95,6 +95,7 @@ public class VentanaReportes extends JDialog {
 	/**
 	 * Create the frame.
 	 */
+    
 	public VentanaReportes(VentanaPrincipal miVentanaPrincipal, boolean modal) {
 		super(miVentanaPrincipal, modal);
 		Connection db= ConectionDB.getConection();
@@ -130,10 +131,6 @@ public class VentanaReportes extends JDialog {
 		textBusqueda.setBorder(null);
 		textBusqueda.setOpaque(false);
 		contentPane.add(comboBox);
-		
-		
-		
-		
 		
 		comboBox1 = new JComboBox();
 		comboBox1.setFont(new Font("Calibri", Font.PLAIN, 14));
