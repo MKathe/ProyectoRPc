@@ -1,6 +1,7 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.lang.*;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
@@ -17,7 +18,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import negocio.JasperReportt;
+
 import com.alee.laf.WebLookAndFeel;
 
 import javax.swing.DefaultComboBoxModel;
@@ -34,6 +39,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
 
+import org.omg.CORBA.Object;
+
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import conectionDB.ConectionDB;
@@ -44,10 +51,12 @@ import negocio.ValidarRangoFecha;
 
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import conectionDB.ConectionDB;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
@@ -58,7 +67,7 @@ public class VentanaReportes extends JDialog {
 
 	private VentanaReportes miVentanaReportes;
 	private JPanel contentPane;
-	private JTable table;
+
 	private List<Reporte> listadeReportes;
 	private JTable TablaDeReportes;
 	private JScrollPane spTablaDeReportes;
@@ -71,14 +80,15 @@ public class VentanaReportes extends JDialog {
     private JCalendar Calendario;
     private JDateChooser dateAl;
     private JDateChooser dateDel;
-    private JasperPrint jasperPrint;
-    private JasperViewer jasperViewer;
+   
     private JFileChooser fileChooser;
     private JTextField textBusqueda;
+    private Connection  db;
+    private JasperReportt jr ;
 
 	/**
 	 * Launch the application.
-	 
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -90,21 +100,17 @@ public class VentanaReportes extends JDialog {
 				}
 			}
 		});
-	}*/
+	}
 
-	/**
+	/*
 	 * Create the frame.
 	 */
-	public VentanaReportes(VentanaPrincipal miVentanaPrincipal, boolean modal) {
-		super(miVentanaPrincipal, modal);
-		Connection db= ConectionDB.getConection();
-		try {
-			jasperPrint = JasperFillManager.fillReport(new File(".").getAbsolutePath()+"/src/reportes/reporteR.jasper", null, db);
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fileChooser = new JFileChooser();
+	
+	public VentanaReportes(/*VentanaPrincipal miVentanaPrincipal, boolean modal*/) {
+		
+		/*super(miVentanaPrincipal, modal);*/
+		
+	
 		setTitle("Ventana Reportes");
 		setBounds(100, 100, 910, 672);
 		contentPane = new JPanel();
@@ -154,17 +160,20 @@ public class VentanaReportes extends JDialog {
 		btnBuscar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/lupa3.png")));
 		btnBuscar.setFont(new Font("Papyrus", Font.PLAIN, 14));
 		btnBuscar.setBounds(808, 53, 53, 56);
-		btnBuscar.addActionListener(new ManejadorDeBotones());
+		btnBuscar.addActionListener(new ManejadorBuscarPor());
+		
 		contentPane.add(btnBuscar);
 		setLocationRelativeTo(null);
 		
 		btnGuardar = new JButton("");
+		btnGuardar.setEnabled(false);
 		btnGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGuardar.setBorderPainted(false);
 		btnGuardar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/boton-guardar-reporte.png")));
 		btnGuardar.setContentAreaFilled(false);
-		btnGuardar.addActionListener(new ManejadorDeBotones());
+	
 		btnGuardar.setBounds(527, 555, 218, 68);
+		btnGuardar.addActionListener(new GuardarReporte());
 		contentPane.add(btnGuardar);
 		
 		btnMostrarReporte = new JButton("");
@@ -172,7 +181,7 @@ public class VentanaReportes extends JDialog {
 		btnMostrarReporte.setBorderPainted(false);
 		btnMostrarReporte.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/btn_mostrar6.png")));
 		btnMostrarReporte.setContentAreaFilled(false);
-		btnMostrarReporte.addActionListener(new ManejadorDeBotones());
+		btnMostrarReporte.addActionListener(new ManejadorDeMostrar());
 		
 		btnMostrarReporte.setBounds(113, 555, 246, 68);
 		contentPane.add(btnMostrarReporte);
@@ -205,12 +214,14 @@ public class VentanaReportes extends JDialog {
 		lblAl.setForeground(Color.WHITE);
 		lblAl.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblAl.setBounds(210, 119, 32, 25);
+		
 		contentPane.add(lblAl);
 		TablaDeReportes = new JTable(tableModel);
 		TablaDeReportes.setFont(new Font("Papyrus", Font.PLAIN, 11));
 		TablaDeReportes.setFillsViewportHeight(true);
 		TablaDeReportes.setColumnSelectionAllowed(true);
 		TablaDeReportes.setCellSelectionEnabled(true);
+		
 		//TablaDeReportes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		spTablaDeReportes = new JScrollPane();
 		spTablaDeReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -240,37 +251,40 @@ public class VentanaReportes extends JDialog {
         label.setBounds(0, 0, 894, 634);
         contentPane.add(label);
 	}
-public class ManejadorDeBotones implements ActionListener{
 
-		
+
+public class ManejadorDeMostrar implements ActionListener{
+
 		public void actionPerformed(ActionEvent e) {
+			int indice = TablaDeReportes.getSelectedRow();
 			
-			if(e.getSource() == btnBuscar){
-				ManejadorBuscarPor();
-			}else{ 
-				if( e.getSource() == btnMostrarReporte){
-					
-				  MostrarReporte();
+			if(indice>=0){
+			Integer a = listadeReportes.get(indice).getIndice();
+			Map<String,java.lang.Object> parametros = new HashMap<>();
+			parametros.put("Tipo",a);
+			jr = new JasperReportt();
+			jr.CrearReporte(ConectionDB.getConection(),new File(".").getAbsolutePath()+"/src/reportes/reporteR.jasper", parametros);
+			jr.VerReporte();
+			btnGuardar.setEnabled(true);
 			}else{
-				if(e.getSource()== btnGuardar){
-					GuardarReporte();
-				}
-			}
-				
-				
+				JOptionPane.showMessageDialog(null,"No ha seleccionado ningun reporte","",JOptionPane.INFORMATION_MESSAGE);
 			}
 			
-		}
-	
-	}
-    public void MostrarReporte(){
-			jasperViewer = new JasperViewer(jasperPrint);
-			jasperViewer.setVisible(true);
-			jasperViewer.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			
+			
 		
-    }
-    public void GuardarReporte(){
-        int seleccion = fileChooser.showSaveDialog(null);
+		}
+	}
+ public class GuardarReporte implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		
+		GuardarReporte();
+	}
+	 
+ }
+ public void GuardarReporte(){
+    	fileChooser = new JFileChooser();
+        int seleccion = fileChooser.showSaveDialog(this);
 		contentPane.add(fileChooser);
 		comboBox.setBounds(196, 101, 108, 23);
 		String ruta =null;
@@ -280,12 +294,7 @@ public class ManejadorDeBotones implements ActionListener{
 			guardar1 = fileChooser.getSelectedFile();
 			if(guardar1!= null){
 				ruta= guardar1.getAbsolutePath();
-	        try {
-			JasperExportManager.exportReportToPdfFile(jasperPrint,ruta+".pdf");
-	        } catch (JRException e) {
-			
-						e.printStackTrace();
-	        }
+	        jr.GuardarReporte(ruta);
 			}else{
 			    JOptionPane.showMessageDialog(null,"Destino a guardar no seleccionado","",JOptionPane.ERROR_MESSAGE);
 			}
@@ -297,6 +306,7 @@ public class ManejadorDeBotones implements ActionListener{
 	public class  ManejadorOrdenar implements ItemListener{
 	
 		public void itemStateChanged(ItemEvent e) {
+		
 
 	    Reporte r;
 	    listadeReportes.clear();
@@ -309,7 +319,7 @@ public class ManejadorDeBotones implements ActionListener{
 		        
 				try {
 					while(rss.next()){
-						 r = new Reporte(rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));		                  
+						 r = new Reporte(rss.getInt("NRO"),rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));
 						 listadeReportes.add(r);
 		              }
 				} catch (SQLException e1) {
@@ -323,7 +333,7 @@ public class ManejadorDeBotones implements ActionListener{
         
 		    try {
 			while(rss.next()){
-            	   r = new Reporte(rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));
+            	   r = new Reporte(rss.getInt("NRO"),rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));
             	   listadeReportes.add(r);
               }
 		    } catch (SQLException e1) {
@@ -337,7 +347,7 @@ public class ManejadorDeBotones implements ActionListener{
         
 		try {
 			while(rss.next()){
-				 r = new Reporte(rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));                   
+				 r = new Reporte(rss.getInt("NRO"),rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));                   
 				 listadeReportes.add(r);
               }
 		} catch (SQLException e1) {
@@ -358,11 +368,18 @@ public class ManejadorDeBotones implements ActionListener{
 			
 	
 		}
-	
-	public class ManejadorFecha implements ItemListener{
+	public class ManejadorBuscarPor implements ActionListener{
 
 		
-		public void itemStateChanged(ItemEvent e) {
+		public void actionPerformed(ActionEvent e) {
+			ManejadorBuscarPor();
+			
+		}
+		
+	}
+
+	public class ManejadorFecha implements ItemListener{
+			public void itemStateChanged(ItemEvent e) {
 			if(comboBox.getSelectedIndex()==3){
 				
 				dateDel.setEnabled(true);
@@ -385,7 +402,7 @@ public class ManejadorDeBotones implements ActionListener{
 			
 			       				try {
 			       				while (ResultadodeBusqueda.next()){
-			       					r = new Reporte(ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
+			       					r = new Reporte(ResultadodeBusqueda.getInt("NRO"),ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
 			       					System.out.println(r.getNombre());
 			       					listadeReportes.add(r);
 			       					} 
@@ -399,7 +416,7 @@ public class ManejadorDeBotones implements ActionListener{
 		    
 			           			try {
 			           			while (ResultadodeBusqueda.next()){
-			           				r = new Reporte(ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                   
+			           				r =new Reporte(ResultadodeBusqueda.getInt("NRO"),ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                   
 			           				listadeReportes.add(r);
 			           			} 
 			      
@@ -422,7 +439,7 @@ public class ManejadorDeBotones implements ActionListener{
 		  
 			   				try {
 			   					while (ResultadodeBusqueda.next()){
-			   						r = new Reporte(ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
+			   						r = new Reporte(ResultadodeBusqueda.getInt("NRO"),ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
 			   						listadeReportes.add(r);
 			   					} 
 			   					}catch (SQLException e12) {
@@ -452,7 +469,7 @@ public class ManejadorDeBotones implements ActionListener{
 	    try {
 			while (rs.next()){
 				Reporte r;
-				r = new Reporte(rs.getString("Nombre"),rs.getString("Tipo"),rs.getDate("Fecha"));
+				r = new Reporte(rs.getInt("NRO"),rs.getString("Nombre"),rs.getString("Tipo"),rs.getDate("Fecha"));
 				listadeReportes.add(r);
 			}
 		} catch (SQLException e) {

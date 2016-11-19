@@ -3,13 +3,14 @@ package entidades;
 import java.util.Date;
 
 public class Reporte {
-	int indice;
 	
-	String nombre;
+	int indice;
+    String nombre;
 	String tipo;
 	Date fecha;
 
-	public Reporte(String nombre, String tipo, Date fecha) {
+	public Reporte(int indice,String nombre, String tipo,Date fecha) {
+		this.indice=indice;
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.fecha = fecha;

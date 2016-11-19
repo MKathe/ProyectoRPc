@@ -6,26 +6,23 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class ModeloTablaReporte extends AbstractTableModel {
-	private static final int COLUMN_NO = 0;
-	private static final int COLUMN_NOMBRE = 1;
-	private static final int COLUMN_TIPO=2;
-	private static final int COLUMN_FECHA=3;
 	
-	private String [] columnas = {"NO","NOMBRE","TIPO","FECHA"};
+	
+	private static final int COLUMN_NOMBRE = 0;
+	private static final int COLUMN_TIPO=1;
+	private static final int COLUMN_FECHA=2;
+	
+	private String [] columnas = {"NOMBRE","TIPO","FECHA"};
 	
 	private List<Reporte> listadeReportes;
 	
 	public ModeloTablaReporte(List<Reporte> listadeReportes){
 		this.listadeReportes = listadeReportes;
-		int indice = 1;
-		for (Reporte e: listadeReportes) {
-			e.setIndice(indice++);
-		}
+		
 	}
 
 	public int getColumnCount() {
-		return columnas.length;
-		
+		return columnas.length;	
 	}
 
 	public int getRowCount() {
@@ -50,9 +47,7 @@ public class ModeloTablaReporte extends AbstractTableModel {
 		Object returnValue = null;
 
 		switch (columnIndex) {
-		case COLUMN_NO:
-			returnValue = nuevoreporte.getIndice();
-			break;
+	
 		case COLUMN_NOMBRE:
 			returnValue = nuevoreporte.getNombre();
 			break;
@@ -70,10 +65,10 @@ public class ModeloTablaReporte extends AbstractTableModel {
 		return returnValue;
 	}
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
-		Reporte empresa = listadeReportes.get(rowIndex);
-		if (columnIndex == COLUMN_NO) {
+		/*Reporte empresa = listadeReportes.get(rowIndex);
+		if (columnIndex == COLUMN_NRO) {
 			empresa.setIndice((int) value);
-		}
+		}*/
 	}
 
 }
