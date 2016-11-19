@@ -1,13 +1,15 @@
 package entidades;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Reporte {
 	
-	int indice;
-    String nombre;
-	String tipo;
-	Date fecha;
+	private int indice;
+	private String nombre;
+	private String tipo;
+	private Date fecha;
+	private Producto[] listaComponentes;
 
 	public Reporte(int indice,String nombre, String tipo,Date fecha) {
 		this.indice=indice;
@@ -15,9 +17,19 @@ public class Reporte {
 		this.tipo = tipo;
 		this.fecha = fecha;
 	}
+	
 	public Reporte() {
 	
 	}
+	
+	public Reporte(String nombre, String tipo, Date fecha, Producto[] lista) {
+		listaComponentes = new Producto[6];
+		this.nombre = nombre;
+		this.tipo = tipo;
+		this.fecha = fecha;
+		this.listaComponentes = lista;
+	}
+	
 	public int getIndice() {
 		return indice;
 	}
@@ -43,4 +55,13 @@ public class Reporte {
 		this.fecha = fecha;
 	}
 
+	public Producto[] getListaComponentes() {
+		return listaComponentes;
+	}
+
+	public void setListaComponentes(Producto[] listaComponentes) {
+		this.listaComponentes = listaComponentes;
+	}
+
+	
 }

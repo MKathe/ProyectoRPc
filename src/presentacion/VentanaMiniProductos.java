@@ -84,32 +84,38 @@ public class VentanaMiniProductos extends JDialog {
 				switch(source){
 				case "procesadores":
 					miVentanProductos.getTextFieldProcesador().setText(listaProductos.get(table.getSelectedRow()).getNombre());
-					miVentanProductos.getTextFieldPrecio1().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.getTextFieldPrecioProcesador().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.setTiendas(listaProductos.get(table.getSelectedRow()).getTienda(), 0);
 					dispose();
 					break;
 				case "memorias":
 					miVentanProductos.getTextFieldMemoria().setText(listaProductos.get(table.getSelectedRow()).getNombre());
-					miVentanProductos.getTextFieldPrecio2().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.getTextFieldPrecioMemoria().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.setTiendas(listaProductos.get(table.getSelectedRow()).getTienda(), 1);
 					dispose();
 					break;	
 				case "placas-madre":
 					miVentanProductos.getTextFieldPlaca().setText(listaProductos.get(table.getSelectedRow()).getNombre());
-					miVentanProductos.getTextFieldPrecio3().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.getTextFieldPrecioPlaca().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.setTiendas(listaProductos.get(table.getSelectedRow()).getTienda(), 2);
 					dispose();
 					break;
 				case "video-cards":
 					miVentanProductos.getTextFieldVideoCard().setText(listaProductos.get(table.getSelectedRow()).getNombre());
-					miVentanProductos.getTextFieldPrecio4().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.getTextFieldPrecioVideoCard().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.setTiendas(listaProductos.get(table.getSelectedRow()).getTienda(), 3);
 					dispose();
 					break;
 				case "unidades-almacenamiento":
 					miVentanProductos.getTextFieldHDD().setText(listaProductos.get(table.getSelectedRow()).getNombre());
-					miVentanProductos.getTextFieldPrecio5().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.getTextFieldPrecioHDD().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.setTiendas(listaProductos.get(table.getSelectedRow()).getTienda(), 4);
 					dispose();
 					break;
 				case "case-fuentes":
 					miVentanProductos.getTextFieldCaseFuente().setText(listaProductos.get(table.getSelectedRow()).getNombre());
-					miVentanProductos.getTextFieldPrecio6().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.getTextFieldPrecioCaseFuente().setText(Double.toString(listaProductos.get(table.getSelectedRow()).getPrecio()));
+					miVentanProductos.setTiendas(listaProductos.get(table.getSelectedRow()).getTienda(), 5);
 					dispose();
 					break;
 				case "computadoras":

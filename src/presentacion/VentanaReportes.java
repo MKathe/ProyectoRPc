@@ -38,7 +38,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
-
 import org.omg.CORBA.Object;
 
 import com.toedter.calendar.JCalendar;
@@ -71,24 +70,25 @@ public class VentanaReportes extends JDialog {
 	private List<Reporte> listadeReportes;
 	private JTable TablaDeReportes;
 	private JScrollPane spTablaDeReportes;
-    private JComboBox comboBox;
-    private JComboBox comboBox1 ;
-    private ResultSet rss,ResultadodeBusqueda;
-    private JButton btnBuscar;
-    private JButton btnMostrarReporte;
-    private JButton btnGuardar;
-    private JCalendar Calendario;
-    private JDateChooser dateAl;
-    private JDateChooser dateDel;
-   
-    private JFileChooser fileChooser;
-    private JTextField textBusqueda;
-    private Connection  db;
-    private JasperReportt jr ;
+	private JComboBox comboBox;
+	private JComboBox comboBox1;
+	private ResultSet rss, ResultadodeBusqueda;
+	private JButton btnBuscar;
+	private JButton btnMostrarReporte;
+	private JButton btnGuardar;
+	private JCalendar Calendario;
+	private JDateChooser dateAl;
+	private JDateChooser dateDel;
+
+	private JFileChooser fileChooser;
+	private JTextField textBusqueda;
+	private Connection db;
+	private JasperReportt jr;
 
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -102,29 +102,32 @@ public class VentanaReportes extends JDialog {
 		});
 	}
 
+	
 	/*
 	 * Create the frame.
 	 */
+
 	
-	public VentanaReportes(/*VentanaPrincipal miVentanaPrincipal, boolean modal*/) {
-		
-		/*super(miVentanaPrincipal, modal);*/
-		
-	
+	public VentanaReportes(/*
+							 * VentanaPrincipal miVentanaPrincipal, boolean modal
+							 */) {
+
+		/* super(miVentanaPrincipal, modal); */
+
 		setTitle("Ventana Reportes");
 		setBounds(100, 100, 910, 672);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		comboBox = new JComboBox();
 		comboBox.setForeground(new Color(0, 0, 0));
 		comboBox.setBounds(198, 73, 131, 23);
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 14));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Buscar por", "Nombre", "Tipo", "Fecha"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Buscar por", "Nombre", "Tipo", "Fecha" }));
 		comboBox.addItemListener(new ManejadorFecha());
-		
+
 		textBusqueda = new JTextField();
 		textBusqueda.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textBusqueda.setForeground(new Color(255, 255, 255));
@@ -136,21 +139,17 @@ public class VentanaReportes extends JDialog {
 		textBusqueda.setBorder(null);
 		textBusqueda.setOpaque(false);
 		contentPane.add(comboBox);
-		
-		
-		
-		
-		
+
 		comboBox1 = new JComboBox();
 		comboBox1.setFont(new Font("Calibri", Font.PLAIN, 14));
 		comboBox1.setForeground(SystemColor.desktop);
 		comboBox1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		comboBox1.setBackground(Color.WHITE);
-		comboBox1.setModel(new DefaultComboBoxModel(new String[] {"Ordenar por","Nombre","Tipo","Fecha"}));
+		comboBox1.setModel(new DefaultComboBoxModel(new String[] { "Ordenar por", "Nombre", "Tipo", "Fecha" }));
 		comboBox1.setBounds(30, 73, 145, 23);
 		comboBox1.addItemListener(new ManejadorOrdenar());
 		contentPane.add(comboBox1);
-		
+
 		btnBuscar = new JButton("");
 		btnBuscar.setBorderPainted(false);
 		btnBuscar.setPressedIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/lupa2.png")));
@@ -161,324 +160,327 @@ public class VentanaReportes extends JDialog {
 		btnBuscar.setFont(new Font("Papyrus", Font.PLAIN, 14));
 		btnBuscar.setBounds(808, 53, 53, 56);
 		btnBuscar.addActionListener(new ManejadorBuscarPor());
-		
+
 		contentPane.add(btnBuscar);
 		setLocationRelativeTo(null);
-		
+
 		btnGuardar = new JButton("");
 		btnGuardar.setEnabled(false);
 		btnGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGuardar.setBorderPainted(false);
 		btnGuardar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/boton-guardar-reporte.png")));
 		btnGuardar.setContentAreaFilled(false);
-	
+
 		btnGuardar.setBounds(527, 555, 218, 68);
 		btnGuardar.addActionListener(new GuardarReporte());
 		contentPane.add(btnGuardar);
-		
+
 		btnMostrarReporte = new JButton("");
 		btnMostrarReporte.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnMostrarReporte.setBorderPainted(false);
 		btnMostrarReporte.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/btn_mostrar6.png")));
 		btnMostrarReporte.setContentAreaFilled(false);
 		btnMostrarReporte.addActionListener(new ManejadorDeMostrar());
-		
+
 		btnMostrarReporte.setBounds(113, 555, 246, 68);
 		contentPane.add(btnMostrarReporte);
-		
+
 		JLabel lblReportes = new JLabel("Reportes");
 		lblReportes.setBackground(Color.WHITE);
 		lblReportes.setForeground(Color.WHITE);
 		lblReportes.setFont(new Font("PeacerfulDay", Font.BOLD, 39));
 		lblReportes.setBounds(30, 0, 373, 62);
 		contentPane.add(lblReportes);
-		
+
 		JLabel lblListadoDeReportes = new JLabel("Listado de reportes:");
 		lblListadoDeReportes.setForeground(Color.WHITE);
 		lblListadoDeReportes.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblListadoDeReportes.setBounds(30, 153, 177, 14);
 		contentPane.add(lblListadoDeReportes);
-		
-		
+
 		listadeReportes = new ArrayList<Reporte>();
 		CargarListaDeReportes();
 		TableModel tableModel = new ModeloTablaReporte(listadeReportes);
-		
+
 		JLabel lblDel = new JLabel("Del:");
 		lblDel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblDel.setForeground(Color.WHITE);
 		lblDel.setBounds(30, 124, 46, 14);
 		contentPane.add(lblDel);
-		
+
 		JLabel lblAl = new JLabel("Al:");
 		lblAl.setForeground(Color.WHITE);
 		lblAl.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblAl.setBounds(210, 119, 32, 25);
-		
+
 		contentPane.add(lblAl);
 		TablaDeReportes = new JTable(tableModel);
 		TablaDeReportes.setFont(new Font("Papyrus", Font.PLAIN, 11));
 		TablaDeReportes.setFillsViewportHeight(true);
 		TablaDeReportes.setColumnSelectionAllowed(true);
 		TablaDeReportes.setCellSelectionEnabled(true);
-		
-		//TablaDeReportes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		// TablaDeReportes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		spTablaDeReportes = new JScrollPane();
 		spTablaDeReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		spTablaDeReportes.setSize(790, 315);
 		spTablaDeReportes.setLocation(49, 198);
-		
+
 		spTablaDeReportes.setViewportView(TablaDeReportes);
-     
+
 		contentPane.add(spTablaDeReportes);
-	
+
 		dateDel = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
 		dateDel.setEnabled(false);
 		dateDel.setBounds(71, 119, 115, 23);
 		contentPane.add(dateDel);
 		dateDel.setMaxSelectableDate(new Date());
-		
-	  
-        dateAl = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
-        dateAl.setEnabled(false);
-        dateAl.setBounds(244, 121, 115, 23);
-        contentPane.add(dateAl);
-      
-        dateAl.setMaxSelectableDate(new Date());
-        
-        JLabel label = new JLabel("");
-        label.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/vista_reporte.png")));
-        label.setBounds(0, 0, 894, 634);
-        contentPane.add(label);
+
+		dateAl = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
+		dateAl.setEnabled(false);
+		dateAl.setBounds(244, 121, 115, 23);
+		contentPane.add(dateAl);
+
+		dateAl.setMaxSelectableDate(new Date());
+
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/vista_reporte.png")));
+		label.setBounds(0, 0, 894, 634);
+		contentPane.add(label);
 	}
 
-
-public class ManejadorDeMostrar implements ActionListener{
+	public class ManejadorDeMostrar implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			int indice = TablaDeReportes.getSelectedRow();
-			
-			if(indice>=0){
-			Integer a = listadeReportes.get(indice).getIndice();
-			Map<String,java.lang.Object> parametros = new HashMap<>();
-			parametros.put("Tipo",a);
-			jr = new JasperReportt();
-			jr.CrearReporte(ConectionDB.getConection(),new File(".").getAbsolutePath()+"/src/reportes/reporteR.jasper", parametros);
-			jr.VerReporte();
-			btnGuardar.setEnabled(true);
-			}else{
-				JOptionPane.showMessageDialog(null,"No ha seleccionado ningun reporte","",JOptionPane.INFORMATION_MESSAGE);
+
+			if (indice >= 0) {
+				Integer a = listadeReportes.get(indice).getIndice();
+				Map<String, java.lang.Object> parametros = new HashMap<>();
+				parametros.put("Tipo", a);
+				jr = new JasperReportt();
+				jr.CrearReporte(ConectionDB.getConection(),
+						new File(".").getAbsolutePath() + "/src/reportes/reporteR.jasper", parametros);
+				jr.VerReporte();
+				btnGuardar.setEnabled(true);
+			} else {
+				JOptionPane.showMessageDialog(null, "No ha seleccionado ningun reporte", "",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
-			
-			
-			
-		
+
 		}
 	}
- public class GuardarReporte implements ActionListener{
-	public void actionPerformed(ActionEvent e) {
-		
-		GuardarReporte();
+
+	public class GuardarReporte implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+
+			GuardarReporte();
+		}
+
 	}
-	 
- }
- public void GuardarReporte(){
-    	fileChooser = new JFileChooser();
-        int seleccion = fileChooser.showSaveDialog(this);
+
+	public void GuardarReporte() {
+		fileChooser = new JFileChooser();
+		int seleccion = fileChooser.showSaveDialog(this);
 		contentPane.add(fileChooser);
 		comboBox.setBounds(196, 101, 108, 23);
-		String ruta =null;
+		String ruta = null;
 		File guardar1;
-		if (seleccion == JFileChooser.APPROVE_OPTION)
-		{   
+		if (seleccion == JFileChooser.APPROVE_OPTION) {
 			guardar1 = fileChooser.getSelectedFile();
-			if(guardar1!= null){
-				ruta= guardar1.getAbsolutePath();
-	        jr.GuardarReporte(ruta);
-			}else{
-			    JOptionPane.showMessageDialog(null,"Destino a guardar no seleccionado","",JOptionPane.ERROR_MESSAGE);
+			if (guardar1 != null) {
+				ruta = guardar1.getAbsolutePath();
+				jr.GuardarReporte(ruta);
+			} else {
+				JOptionPane.showMessageDialog(null, "Destino a guardar no seleccionado", "", JOptionPane.ERROR_MESSAGE);
 			}
-	        
-		}
-		
-		
-    }
-	public class  ManejadorOrdenar implements ItemListener{
-	
-		public void itemStateChanged(ItemEvent e) {
-		
 
-	    Reporte r;
-	    listadeReportes.clear();
-		int opc = comboBox1.getSelectedIndex();
-		
-		switch(opc){
-		case 1 :  
-		    	       
-		         rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Nombre");
-		        
+		}
+
+	}
+
+	public class ManejadorOrdenar implements ItemListener {
+
+		public void itemStateChanged(ItemEvent e) {
+
+			Reporte r;
+			listadeReportes.clear();
+			int opc = comboBox1.getSelectedIndex();
+
+			switch (opc) {
+			case 1:
+
+				rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Nombre");
+
 				try {
-					while(rss.next()){
-						 r = new Reporte(rss.getInt("NRO"),rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));
-						 listadeReportes.add(r);
-		              }
+					while (rss.next()) {
+						r = new Reporte(rss.getInt("NRO"), rss.getString("Nombre"), rss.getString("Tipo"),
+								rss.getDate("Fecha"));
+						listadeReportes.add(r);
+					}
 				} catch (SQLException e1) {
-					
+
 					e1.printStackTrace();
 				}
-		             
-		          break;
-		case 2: 
-			rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Tipo");
-        
-		    try {
-			while(rss.next()){
-            	   r = new Reporte(rss.getInt("NRO"),rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));
-            	   listadeReportes.add(r);
-              }
-		    } catch (SQLException e1) {
-			
-			e1.printStackTrace();
-		    }
-             
-          break;
-		case 3: 
-			rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Fecha");
-        
-		try {
-			while(rss.next()){
-				 r = new Reporte(rss.getInt("NRO"),rss.getString("Nombre"),rss.getString("Tipo"),rss.getDate("Fecha"));                   
-				 listadeReportes.add(r);
-              }
-		} catch (SQLException e1) {
-			
-			e1.printStackTrace();
-		}
-             
-          break;
-		
-		  default:;
-		       
-		   
-		  }
-		    
-		   TableModel tableModel2 = new ModeloTablaReporte(listadeReportes);
-		   TablaDeReportes.setModel(tableModel2); 
-	    }
-			
-	
-		}
-	public class ManejadorBuscarPor implements ActionListener{
 
-		
+				break;
+			case 2:
+				rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Tipo");
+
+				try {
+					while (rss.next()) {
+						r = new Reporte(rss.getInt("NRO"), rss.getString("Nombre"), rss.getString("Tipo"),
+								rss.getDate("Fecha"));
+						listadeReportes.add(r);
+					}
+				} catch (SQLException e1) {
+
+					e1.printStackTrace();
+				}
+
+				break;
+			case 3:
+				rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Fecha");
+
+				try {
+					while (rss.next()) {
+						r = new Reporte(rss.getInt("NRO"), rss.getString("Nombre"), rss.getString("Tipo"),
+								rss.getDate("Fecha"));
+						listadeReportes.add(r);
+					}
+				} catch (SQLException e1) {
+
+					e1.printStackTrace();
+				}
+
+				break;
+
+			default:
+				;
+
+			}
+
+			TableModel tableModel2 = new ModeloTablaReporte(listadeReportes);
+			TablaDeReportes.setModel(tableModel2);
+		}
+
+	}
+
+	public class ManejadorBuscarPor implements ActionListener {
+
 		public void actionPerformed(ActionEvent e) {
 			ManejadorBuscarPor();
-			
+
 		}
-		
+
 	}
 
-	public class ManejadorFecha implements ItemListener{
-			public void itemStateChanged(ItemEvent e) {
-			if(comboBox.getSelectedIndex()==3){
-				
+	public class ManejadorFecha implements ItemListener {
+		public void itemStateChanged(ItemEvent e) {
+			if (comboBox.getSelectedIndex() == 3) {
+
 				dateDel.setEnabled(true);
-                dateAl.setEnabled(true);
+				dateAl.setEnabled(true);
 			}
-			
+
 		}
-		
+
 	}
+
 	public void ManejadorBuscarPor() {
 
-			
-			
-			Reporte r ;
-			int indice= comboBox.getSelectedIndex();
-			listadeReportes.clear();
-			
-			switch (indice){
-			case 1:		   		ResultadodeBusqueda = ConsultasBasicas.consultarDatos("SELECT * FROM reportes WHERE Nombre ='"+textBusqueda.getText()+"'");
-			
-			       				try {
-			       				while (ResultadodeBusqueda.next()){
-			       					r = new Reporte(ResultadodeBusqueda.getInt("NRO"),ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
-			       					System.out.println(r.getNombre());
-			       					listadeReportes.add(r);
-			       					} 
-			        	   		}catch (SQLException e) {
-							
-			        	   			e.printStackTrace();
-			        	   		}
-			       				break;
-			       				
-			case 2:     		ResultadodeBusqueda = ConsultasBasicas.consultarDatos("SELECT * FROM reportes WHERE Tipo = '"+textBusqueda.getText()+"'");
-		    
-			           			try {
-			           			while (ResultadodeBusqueda.next()){
-			           				r =new Reporte(ResultadodeBusqueda.getInt("NRO"),ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                   
-			           				listadeReportes.add(r);
-			           			} 
-			      
-			           			}catch (SQLException e1) {
-				
-			           				e1.printStackTrace();
-			           			}
-			           		   break;
-			           		   
-			case 3: 	       
-				                
-				                Date del = dateDel.getDate();
-				                Date al = dateAl.getDate();
-				                java.sql.Date DEL = new java.sql.Date(del.getTime());
-				                java.sql.Date AL = new java.sql.Date(al.getTime());
-				                boolean sw = ValidarRangoFecha.validar(del,al);
-				                if(sw){
-				                	
-				                	ResultadodeBusqueda = ConsultasBasicas.consultarDatos("SELECT * FROM reportes WHERE Fecha>= '"+DEL+"' and Fecha <= '"+AL+"' ");
-		  
-			   				try {
-			   					while (ResultadodeBusqueda.next()){
-			   						r = new Reporte(ResultadodeBusqueda.getInt("NRO"),ResultadodeBusqueda.getString("Nombre"),ResultadodeBusqueda.getString("Tipo"),ResultadodeBusqueda.getDate("Fecha"));                  
-			   						listadeReportes.add(r);
-			   					} 
-			   					}catch (SQLException e12) {
-				
-			   						e12.printStackTrace();
-			   					}
-				                }else{
-				                	JOptionPane.showMessageDialog(null,"Rango de Fechas no valido","",JOptionPane.ERROR_MESSAGE);
-				                }
-				                
-				                
-			   				break;
-			default:;
+		Reporte r;
+		int indice = comboBox.getSelectedIndex();
+		listadeReportes.clear();
+
+		switch (indice) {
+		case 1:
+			ResultadodeBusqueda = ConsultasBasicas
+					.consultarDatos("SELECT * FROM reportes WHERE Nombre ='" + textBusqueda.getText() + "'");
+
+			try {
+				while (ResultadodeBusqueda.next()) {
+					r = new Reporte(ResultadodeBusqueda.getInt("NRO"), ResultadodeBusqueda.getString("Nombre"),
+							ResultadodeBusqueda.getString("Tipo"), ResultadodeBusqueda.getDate("Fecha"));
+					System.out.println(r.getNombre());
+					listadeReportes.add(r);
+				}
+			} catch (SQLException e) {
+
+				e.printStackTrace();
 			}
-			TableModel tableModel3 = new ModeloTablaReporte(listadeReportes);
-				
-			TablaDeReportes.setModel(tableModel3);
-			
-			
+			break;
+
+		case 2:
+			ResultadodeBusqueda = ConsultasBasicas
+					.consultarDatos("SELECT * FROM reportes WHERE Tipo = '" + textBusqueda.getText() + "'");
+
+			try {
+				while (ResultadodeBusqueda.next()) {
+					r = new Reporte(ResultadodeBusqueda.getInt("NRO"), ResultadodeBusqueda.getString("Nombre"),
+							ResultadodeBusqueda.getString("Tipo"), ResultadodeBusqueda.getDate("Fecha"));
+					listadeReportes.add(r);
+				}
+
+			} catch (SQLException e1) {
+
+				e1.printStackTrace();
+			}
+			break;
+
+		case 3:
+
+			Date del = dateDel.getDate();
+			Date al = dateAl.getDate();
+			java.sql.Date DEL = new java.sql.Date(del.getTime());
+			java.sql.Date AL = new java.sql.Date(al.getTime());
+			boolean sw = ValidarRangoFecha.validar(del, al);
+			if (sw) {
+
+				ResultadodeBusqueda = ConsultasBasicas.consultarDatos(
+						"SELECT * FROM reportes WHERE Fecha>= '" + DEL + "' and Fecha <= '" + AL + "' ");
+
+				try {
+					while (ResultadodeBusqueda.next()) {
+						r = new Reporte(ResultadodeBusqueda.getInt("NRO"), ResultadodeBusqueda.getString("Nombre"),
+								ResultadodeBusqueda.getString("Tipo"), ResultadodeBusqueda.getDate("Fecha"));
+						listadeReportes.add(r);
+					}
+				} catch (SQLException e12) {
+
+					e12.printStackTrace();
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Rango de Fechas no valido", "", JOptionPane.ERROR_MESSAGE);
+			}
+
+			break;
+		default:
+			;
 		}
-	
-	
-	public void CargarListaDeReportes(){
+		TableModel tableModel3 = new ModeloTablaReporte(listadeReportes);
+
+		TablaDeReportes.setModel(tableModel3);
+
+	}
+
+	public void CargarListaDeReportes() {
 		ResultSet rs;
 		rs = ConsultasBasicas.consultarDatos("SELECT* FROM reportes");
-		
-	    try {
-			while (rs.next()){
+
+		try {
+			while (rs.next()) {
 				Reporte r;
-				r = new Reporte(rs.getInt("NRO"),rs.getString("Nombre"),rs.getString("Tipo"),rs.getDate("Fecha"));
+				r = new Reporte(rs.getInt("NRO"), rs.getString("Nombre"), rs.getString("Tipo"), rs.getDate("Fecha"));
 				listadeReportes.add(r);
 			}
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setVentanaPrincipal(VentanaReportes miVentana) {
-		   miVentanaReportes = miVentana;
+		miVentanaReportes = miVentana;
 	}
 }

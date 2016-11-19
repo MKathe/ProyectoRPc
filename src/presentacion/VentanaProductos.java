@@ -6,6 +6,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.alee.laf.progressbar.WebProgressBar;
+
+import entidades.Producto;
+import entidades.Reporte;
 import negocio.LeerCaseFuentes;
 import negocio.LeerComputadoras;
 import negocio.LeerMemorias;
@@ -18,7 +21,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
@@ -32,12 +35,13 @@ public class VentanaProductos extends JDialog {
 	private JTextField textFieldCaseFuente;
 	
 	private VentanaProductos miVentanaProductos;
-	private JTextField textFieldPrecio1;
-	private JTextField textFieldPrecio2;
-	private JTextField textFieldPrecio3;
-	private JTextField textFieldPrecio4;
-	private JTextField textFieldPrecio5;
-	private JTextField textFieldPrecio6;
+	private String[] tiendas;
+	private JTextField textFieldPrecioProcesador;
+	private JTextField textFieldPrecioMemoria;
+	private JTextField textFieldPrecioPlaca;
+	private JTextField textFieldPrecioVideoCard;
+	private JTextField textFieldPrecioHDD;
+	private JTextField textFieldPrecioCaseFuente;
 	private JButton btnResetProcesador;
 	private JButton btnResetMemoria;
 	private JButton btnResetPlaca;
@@ -61,6 +65,8 @@ public class VentanaProductos extends JDialog {
 	  contenedor.setLayout(null);
 	  setLocationRelativeTo(null);
 	  setTitle("Componentes - RantiyPC");
+	  
+	  tiendas = new String[6];
 	  
 	  JButton btnSeleccionarProcesador = new JButton("");
 	  btnSeleccionarProcesador.setContentAreaFilled(false);
@@ -89,27 +95,74 @@ public class VentanaProductos extends JDialog {
 	  	}
 	  });
 	  
+	  
 	  JButton button = new JButton("");
 	  button.addActionListener(new ActionListener() {
 	  	public void actionPerformed(ActionEvent e) {
+	  		
+				if (textFieldProcesador.getText().length() != 0 && textFieldMemoria.getText().length() != 0
+						&& textFieldPlaca.getText().length() != 0 && textFieldVideoCard.getText().length() != 0
+						&& textFieldHDD.getText().length() != 0 && textFieldCaseFuente.getText().length() != 0) {
+					
+					String nombreReporte = JOptionPane.showInputDialog("Ingresa un nombre para este reporte");
 
-	  		if(textFieldProcesador.getText().length() != 0 && textFieldMemoria.getText().length() != 0 && textFieldPlaca.getText().length() != 0 &&  textFieldVideoCard.getText().length() != 0 && textFieldHDD.getText().length() != 0 && textFieldCaseFuente.getText().length() != 0 ){
-	  			
-	  			Double suma;  			
-	  			suma = Double.parseDouble(textFieldPrecio1.getText()) + 
-	  					Double.parseDouble(textFieldPrecio2.getText()) + 
-	  					Double.parseDouble(textFieldPrecio3.getText()) + 
-	  					Double.parseDouble(textFieldPrecio4.getText()) + 
-	  					Double.parseDouble(textFieldPrecio5.getText()) + 
-	  					Double.parseDouble(textFieldPrecio6.getText());
-	  			
-	  			textFieldPrecioTotal.setText(Double.toString(suma));
-	  			JOptionPane.showMessageDialog(null, "Procesando...");
-	  		}else{
-	  			JOptionPane.showMessageDialog(null, "Faltan seleccionar componentes!");
-	  		}
-	  		
-	  		
+					Producto[] listaComponentes = new Producto[6];
+					Producto nuevo;
+
+					String procesador, placa, memoria, videoCard, hdd, caseFuente;
+					Double precioProcesador, precioPlaca, precioMemoria, precioVideoCard, precioHDD, precioCaseFuete, suma;
+
+					procesador = textFieldProcesador.getText();
+					placa = textFieldPlaca.getText();
+					memoria = textFieldMemoria.getText();
+					videoCard = textFieldVideoCard.getText();
+					hdd = textFieldHDD.getText();
+					caseFuente = textFieldCaseFuente.getText();
+
+					precioProcesador = Double.parseDouble(textFieldPrecioProcesador.getText());
+					precioPlaca = Double.parseDouble(textFieldPrecioPlaca.getText());
+					precioMemoria = Double.parseDouble(textFieldPrecioMemoria.getText());
+					precioVideoCard = Double.parseDouble(textFieldPrecioVideoCard.getText());
+					precioHDD = Double.parseDouble(textFieldPrecioHDD.getText());
+					precioCaseFuete = Double.parseDouble(textFieldPrecioCaseFuente.getText());
+
+					suma = precioProcesador + precioPlaca + precioMemoria + precioVideoCard + precioHDD
+							+ precioCaseFuete;
+
+					// PROCESADOR
+					nuevo = new Producto(procesador, precioProcesador, tiendas[0]);
+					listaComponentes[0] = nuevo;
+					// MEMORIA
+					nuevo = new Producto(memoria, precioMemoria, tiendas[1]);
+					listaComponentes[1] = nuevo;
+					// PLACA
+					nuevo = new Producto(placa, precioPlaca, tiendas[2]);
+					listaComponentes[2] = nuevo;
+					// VIDEOCARD
+					nuevo = new Producto(videoCard, precioHDD, tiendas[3]);
+					listaComponentes[3] = nuevo;
+					// HDD
+					nuevo = new Producto(hdd, precioHDD, tiendas[4]);
+					listaComponentes[4] = nuevo;
+					// CASE-FUENTE
+					nuevo = new Producto(caseFuente, precioCaseFuete, tiendas[5]);
+					listaComponentes[5] = nuevo;
+
+					textFieldPrecioTotal.setText(Double.toString(suma));
+
+					Date fecha = new Date();
+
+					Reporte nuevoReporte = new Reporte(nombreReporte, "Modulo Productos", fecha, listaComponentes);
+
+					VentanaGenReporte miVentanaGenReporte = new VentanaGenReporte(miVentanaProductos, true, nuevoReporte);
+					miVentanaGenReporte.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					miVentanaGenReporte.setVisible(true);
+					
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Faltan seleccionar componentes!");
+				}
+
 	  	}
 	  });
 	  button.setIcon(new ImageIcon(VentanaProductos.class.getResource("/resources/btn_enviar_v3.png")));
@@ -303,72 +356,72 @@ public class VentanaProductos extends JDialog {
 	  contenedor.add(textFieldCaseFuente);
 	  textFieldCaseFuente.setColumns(10);
 	  
-	  textFieldPrecio1 = new JTextField();
-	  textFieldPrecio1.setEditable(false);
-	  textFieldPrecio1.setForeground(Color.WHITE);
-	  textFieldPrecio1.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldPrecio1.setOpaque(false);
-	  textFieldPrecio1.setBorder(null);
-	  textFieldPrecio1.setBounds(822, 199, 120, 35);
-	  contenedor.add(textFieldPrecio1);
-	  textFieldPrecio1.setColumns(10);
+	  textFieldPrecioProcesador = new JTextField();
+	  textFieldPrecioProcesador.setEditable(false);
+	  textFieldPrecioProcesador.setForeground(Color.WHITE);
+	  textFieldPrecioProcesador.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
+	  textFieldPrecioProcesador.setOpaque(false);
+	  textFieldPrecioProcesador.setBorder(null);
+	  textFieldPrecioProcesador.setBounds(822, 199, 120, 35);
+	  contenedor.add(textFieldPrecioProcesador);
+	  textFieldPrecioProcesador.setColumns(10);
 	  
-	  textFieldPrecio2 = new JTextField();
-	  textFieldPrecio2.setEditable(false);
-	  textFieldPrecio2.setForeground(Color.WHITE);
-	  textFieldPrecio2.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldPrecio2.setOpaque(false);
-	  textFieldPrecio2.setBorder(null);
-	  textFieldPrecio2.setColumns(10);
-	  textFieldPrecio2.setBounds(822, 273, 120, 35);
-	  contenedor.add(textFieldPrecio2);
+	  textFieldPrecioMemoria = new JTextField();
+	  textFieldPrecioMemoria.setEditable(false);
+	  textFieldPrecioMemoria.setForeground(Color.WHITE);
+	  textFieldPrecioMemoria.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
+	  textFieldPrecioMemoria.setOpaque(false);
+	  textFieldPrecioMemoria.setBorder(null);
+	  textFieldPrecioMemoria.setColumns(10);
+	  textFieldPrecioMemoria.setBounds(822, 273, 120, 35);
+	  contenedor.add(textFieldPrecioMemoria);
 	  
-	  textFieldPrecio3 = new JTextField();
-	  textFieldPrecio3.setEditable(false);
-	  textFieldPrecio3.setForeground(Color.WHITE);
-	  textFieldPrecio3.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldPrecio3.setOpaque(false);
-	  textFieldPrecio3.setBorder(null);
-	  textFieldPrecio3.setColumns(10);
-	  textFieldPrecio3.setBounds(822, 346, 120, 35);
-	  contenedor.add(textFieldPrecio3);
+	  textFieldPrecioPlaca = new JTextField();
+	  textFieldPrecioPlaca.setEditable(false);
+	  textFieldPrecioPlaca.setForeground(Color.WHITE);
+	  textFieldPrecioPlaca.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
+	  textFieldPrecioPlaca.setOpaque(false);
+	  textFieldPrecioPlaca.setBorder(null);
+	  textFieldPrecioPlaca.setColumns(10);
+	  textFieldPrecioPlaca.setBounds(822, 346, 120, 35);
+	  contenedor.add(textFieldPrecioPlaca);
 	  
-	  textFieldPrecio4 = new JTextField();
-	  textFieldPrecio4.setEditable(false);
-	  textFieldPrecio4.setForeground(Color.WHITE);
-	  textFieldPrecio4.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldPrecio4.setOpaque(false);
-	  textFieldPrecio4.setBorder(null);
-	  textFieldPrecio4.setColumns(10);
-	  textFieldPrecio4.setBounds(822, 418, 120, 35);
-	  contenedor.add(textFieldPrecio4);
+	  textFieldPrecioVideoCard = new JTextField();
+	  textFieldPrecioVideoCard.setEditable(false);
+	  textFieldPrecioVideoCard.setForeground(Color.WHITE);
+	  textFieldPrecioVideoCard.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
+	  textFieldPrecioVideoCard.setOpaque(false);
+	  textFieldPrecioVideoCard.setBorder(null);
+	  textFieldPrecioVideoCard.setColumns(10);
+	  textFieldPrecioVideoCard.setBounds(822, 418, 120, 35);
+	  contenedor.add(textFieldPrecioVideoCard);
 	  
-	  textFieldPrecio5 = new JTextField();
-	  textFieldPrecio5.setEditable(false);
-	  textFieldPrecio5.setForeground(Color.WHITE);
-	  textFieldPrecio5.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldPrecio5.setOpaque(false);
-	  textFieldPrecio5.setBorder(null);
-	  textFieldPrecio5.setColumns(10);
-	  textFieldPrecio5.setBounds(822, 492, 120, 35);
-	  contenedor.add(textFieldPrecio5);
+	  textFieldPrecioHDD = new JTextField();
+	  textFieldPrecioHDD.setEditable(false);
+	  textFieldPrecioHDD.setForeground(Color.WHITE);
+	  textFieldPrecioHDD.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
+	  textFieldPrecioHDD.setOpaque(false);
+	  textFieldPrecioHDD.setBorder(null);
+	  textFieldPrecioHDD.setColumns(10);
+	  textFieldPrecioHDD.setBounds(822, 492, 120, 35);
+	  contenedor.add(textFieldPrecioHDD);
 	  
-	  textFieldPrecio6 = new JTextField();
-	  textFieldPrecio6.setEditable(false);
-	  textFieldPrecio6.setForeground(Color.WHITE);
-	  textFieldPrecio6.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
-	  textFieldPrecio6.setOpaque(false);
-	  textFieldPrecio6.setBorder(null);
-	  textFieldPrecio6.setColumns(10);
-	  textFieldPrecio6.setBounds(822, 564, 120, 35);
-	  contenedor.add(textFieldPrecio6);
+	  textFieldPrecioCaseFuente = new JTextField();
+	  textFieldPrecioCaseFuente.setEditable(false);
+	  textFieldPrecioCaseFuente.setForeground(Color.WHITE);
+	  textFieldPrecioCaseFuente.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
+	  textFieldPrecioCaseFuente.setOpaque(false);
+	  textFieldPrecioCaseFuente.setBorder(null);
+	  textFieldPrecioCaseFuente.setColumns(10);
+	  textFieldPrecioCaseFuente.setBounds(822, 564, 120, 35);
+	  contenedor.add(textFieldPrecioCaseFuente);
 	  
 	  btnResetProcesador = new JButton("");
 	  btnResetProcesador.addActionListener(new ActionListener() {
 	  	public void actionPerformed(ActionEvent arg0) {
 	  		
 	  		textFieldProcesador.setText("");
-	  		textFieldPrecio1.setText("");
+	  		textFieldPrecioProcesador.setText("");
 	  		
 	  	}
 	  });
@@ -385,7 +438,7 @@ public class VentanaProductos extends JDialog {
 	  	public void actionPerformed(ActionEvent e) {
 	  		
 	  		textFieldMemoria.setText("");
-	  		textFieldPrecio2.setText("");
+	  		textFieldPrecioMemoria.setText("");
 	  		
 	  	}
 	  });
@@ -402,7 +455,7 @@ public class VentanaProductos extends JDialog {
 	  	public void actionPerformed(ActionEvent e) {
 	  		
 	  		textFieldPlaca.setText("");
-	  		textFieldPrecio3.setText("");
+	  		textFieldPrecioPlaca.setText("");
 	  		
 	  	}
 	  });
@@ -419,7 +472,7 @@ public class VentanaProductos extends JDialog {
 	  	public void actionPerformed(ActionEvent e) {
 	  		
 	  		textFieldVideoCard.setText("");
-	  		textFieldPrecio4.setText("");
+	  		textFieldPrecioVideoCard.setText("");
 	  		
 	  	}
 	  });
@@ -436,7 +489,7 @@ public class VentanaProductos extends JDialog {
 	  	public void actionPerformed(ActionEvent e) {
 	  		
 	  		textFieldHDD.setText("");
-	  		textFieldPrecio5.setText("");
+	  		textFieldPrecioHDD.setText("");
 	  		
 	  	}
 	  });
@@ -453,7 +506,7 @@ public class VentanaProductos extends JDialog {
 	  	public void actionPerformed(ActionEvent e) {
 	  		
 	  		textFieldCaseFuente.setText("");
-	  		textFieldPrecio6.setText("");
+	  		textFieldPrecioCaseFuente.setText("");
 	  		
 	  	}
 	  });
@@ -514,6 +567,11 @@ public class VentanaProductos extends JDialog {
 	  
 	 }
 	
+
+	public void setTiendas(String tienda, int indice) {
+		this.tiendas[indice] = tienda;
+	}
+
 	public void setVentanaPrincipal(VentanaProductos miVentana) {
 		   miVentanaProductos = miVentana;
 	}
@@ -566,51 +624,65 @@ public class VentanaProductos extends JDialog {
 		this.textFieldCaseFuente = textFieldCaseFuente;
 	}
 
-	public JTextField getTextFieldPrecio1() {
-		return textFieldPrecio1;
+
+	public JTextField getTextFieldPrecioProcesador() {
+		return textFieldPrecioProcesador;
 	}
 
-	public void setTextFieldPrecio1(JTextField textFieldPrecio1) {
-		this.textFieldPrecio1 = textFieldPrecio1;
+
+	public void setTextFieldPrecioProcesador(JTextField textFieldPrecioProcesador) {
+		this.textFieldPrecioProcesador = textFieldPrecioProcesador;
 	}
 
-	public JTextField getTextFieldPrecio2() {
-		return textFieldPrecio2;
+
+	public JTextField getTextFieldPrecioMemoria() {
+		return textFieldPrecioMemoria;
 	}
 
-	public void setTextFieldPrecio2(JTextField textFieldPrecio2) {
-		this.textFieldPrecio2 = textFieldPrecio2;
+
+	public void setTextFieldPrecioMemoria(JTextField textFieldPrecioMemoria) {
+		this.textFieldPrecioMemoria = textFieldPrecioMemoria;
 	}
 
-	public JTextField getTextFieldPrecio3() {
-		return textFieldPrecio3;
+
+	public JTextField getTextFieldPrecioPlaca() {
+		return textFieldPrecioPlaca;
 	}
 
-	public void setTextFieldPrecio3(JTextField textFieldPrecio3) {
-		this.textFieldPrecio3 = textFieldPrecio3;
+
+	public void setTextFieldPrecioPlaca(JTextField textFieldPrecioPlaca) {
+		this.textFieldPrecioPlaca = textFieldPrecioPlaca;
 	}
 
-	public JTextField getTextFieldPrecio4() {
-		return textFieldPrecio4;
+
+	public JTextField getTextFieldPrecioVideoCard() {
+		return textFieldPrecioVideoCard;
 	}
 
-	public void setTextFieldPrecio4(JTextField textFieldPrecio4) {
-		this.textFieldPrecio4 = textFieldPrecio4;
+
+	public void setTextFieldPrecioVideoCard(JTextField textFieldPrecioVideoCard) {
+		this.textFieldPrecioVideoCard = textFieldPrecioVideoCard;
 	}
 
-	public JTextField getTextFieldPrecio5() {
-		return textFieldPrecio5;
+
+	public JTextField getTextFieldPrecioHDD() {
+		return textFieldPrecioHDD;
 	}
 
-	public void setTextFieldPrecio5(JTextField textFieldPrecio5) {
-		this.textFieldPrecio5 = textFieldPrecio5;
+
+	public void setTextFieldPrecioHDD(JTextField textFieldPrecioHDD) {
+		this.textFieldPrecioHDD = textFieldPrecioHDD;
 	}
 
-	public JTextField getTextFieldPrecio6() {
-		return textFieldPrecio6;
+
+	public JTextField getTextFieldPrecioCaseFuente() {
+		return textFieldPrecioCaseFuente;
 	}
 
-	public void setTextFieldPrecio6(JTextField textFieldPrecio6) {
-		this.textFieldPrecio6 = textFieldPrecio6;
+
+	public void setTextFieldPrecioCaseFuente(JTextField textFieldPrecioCaseFuente) {
+		this.textFieldPrecioCaseFuente = textFieldPrecioCaseFuente;
 	}
+
+	
 }
