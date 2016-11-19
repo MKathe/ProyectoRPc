@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-11-18T11:53:32 -->
+<!-- 2016-11-18T23:31:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteR" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eac7f807-b02f-449c-a7c4-d91bf689bd81">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value="cmFudGl5cGMucmVwb3J0ZXMgLDE1LDE1LDBjNzYyMTVkLWEwYTktNDI0MS04ZDI2LTYzNDhmMDRh&#xA;NjJkYjs="/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="rantiypc"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="Tipo" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT *
-FROM rantiypc.reportes]]>
+FROM rantiypc.reportes WHERE rantiypc.reportes.NRO =  $P{Tipo} ]]>
 	</queryString>
 	<field name="NRO" class="java.lang.Integer"/>
 	<field name="Nombre" class="java.lang.String"/>
@@ -23,11 +24,10 @@ FROM rantiypc.reportes]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
-			<image>
-				<reportElement x="-20" y="0" width="595" height="64" uuid="223a90c7-c94a-49b1-aba4-ce6fb4bd7694"/>
-				<imageExpression><![CDATA["src/resources/img.jpg"]]></imageExpression>
-			</image>
+		<band height="71" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="410" height="71" forecolor="#274A73" backcolor="#2F537A" uuid="1859981c-d807-4b1a-848e-cdb9bb65e1bd"/>
+			</rectangle>
 			<staticText>
 				<reportElement style="Title" x="20" y="5" width="263" height="56" forecolor="#FFFFFF" uuid="cf4799a0-8862-492c-9539-904f69e078d2"/>
 				<textElement verticalAlignment="Middle">
@@ -36,7 +36,7 @@ FROM rantiypc.reportes]]>
 				<text><![CDATA[Reportes ]]></text>
 			</staticText>
 			<image>
-				<reportElement x="410" y="4" width="120" height="56" uuid="d0075274-3e24-46aa-9332-9bf4b5ae3422"/>
+				<reportElement x="410" y="0" width="145" height="71" uuid="d0075274-3e24-46aa-9332-9bf4b5ae3422"/>
 				<imageExpression><![CDATA["src/resources/logo_png.png"]]></imageExpression>
 			</image>
 		</band>
@@ -87,12 +87,13 @@ FROM rantiypc.reportes]]>
 				<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="276" y="0" width="138" height="15" uuid="c952588f-3914-4e2c-a8fd-0ff5d68331d0"/>
-				<textFieldExpression><![CDATA[$F{Tipo}]]></textFieldExpression>
+				<reportElement style="Detail" x="414" y="0" width="139" height="15" uuid="a54e5067-878f-429a-973e-762941c213da"/>
+				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="414" y="0" width="138" height="15" uuid="a54e5067-878f-429a-973e-762941c213da"/>
-				<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+				<reportElement style="Detail" x="270" y="0" width="138" height="15" uuid="c952588f-3914-4e2c-a8fd-0ff5d68331d0"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{Tipo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
