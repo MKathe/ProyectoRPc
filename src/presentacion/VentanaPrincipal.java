@@ -96,7 +96,7 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.add(btnReportes);
 		btnReportes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					 
+					
 					 VentanaReportes miVentanaReportes =new VentanaReportes(miVentanaPrincipal,true);
 					 miVentanaReportes.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					 miVentanaReportes.setVentanaPrincipal(miVentanaReportes);
