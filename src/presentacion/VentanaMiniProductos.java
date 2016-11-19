@@ -13,9 +13,19 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
+import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaMiniProductos extends JDialog {
 	private WebTable table;
+	private JTextField txtBuscar;
+	private TableRowSorter<ModeloTablaProducto> trsFiltro;
 
 	public VentanaMiniProductos(VentanaProductos miVentanProductos, boolean modal, List<Producto> listaProductos, String source) {
 		
@@ -34,10 +44,31 @@ public class VentanaMiniProductos extends JDialog {
 		table.getColumnModel().getColumn(0).setPreferredWidth(490);
 		table.getColumnModel().getColumn(1).setPreferredWidth(75);
 		table.getColumnModel().getColumn(2).setPreferredWidth(134);
+		
+		txtBuscar = new JTextField();
+		txtBuscar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				
+				txtFiltroKeyTyped(arg0);
+					
+			}
+		});
+		txtBuscar.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 19));
+		txtBuscar.setBackground(Color.WHITE);
+		txtBuscar.setBounds(353, 134, 380, 30);
+		getContentPane().add(txtBuscar);
+		txtBuscar.setColumns(10);
+		
+		JLabel lblBuscar = new JLabel("Buscar:");
+		lblBuscar.setForeground(Color.WHITE);
+		lblBuscar.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 21));
+		lblBuscar.setBounds(276, 137, 67, 25);
+		getContentPane().add(lblBuscar);
 		table.setAutoCreateRowSorter(true);
 		
 		WebScrollPane scrollPane = new WebScrollPane(table);
-		scrollPane.setBounds(43, 139, 940, 453);
+		scrollPane.setBounds(43, 179, 940, 413);
 		scrollPane.setViewportView(table);
 		getContentPane().add(scrollPane);	
 		
@@ -101,4 +132,26 @@ public class VentanaMiniProductos extends JDialog {
 		
 		
 	}
+	
+	public void filtro() {
+		
+        int columnaABuscar = 0;
+        trsFiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), columnaABuscar));
+	}
+	
+	private void txtFiltroKeyTyped(java.awt.event.KeyEvent evt) {
+        // TODO add your handling code here:
+        txtBuscar.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (txtBuscar.getText());
+                txtBuscar.setText(cadena);
+                repaint();
+                filtro();
+            }
+        });
+        trsFiltro = new TableRowSorter(table.getModel());
+        table.setRowSorter(trsFiltro);
+
+	}
+	
 }

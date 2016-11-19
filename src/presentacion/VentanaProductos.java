@@ -486,7 +486,7 @@ public class VentanaProductos extends JDialog {
 	  lblProcesando.setVisible(false);
 	  contenedor.add(lblProcesando);
 	  
-	  JButton btnNewButton = new JButton("New button");
+	  /*JButton btnNewButton = new JButton("New button");
 	  btnNewButton.addActionListener(new ActionListener() {
 	  	public void actionPerformed(ActionEvent evento) {
 	  		
@@ -503,7 +503,7 @@ public class VentanaProductos extends JDialog {
 	  	}
 	  });
 	  btnNewButton.setBounds(217, 129, 89, 23);
-	  contenedor.add(btnNewButton);
+	  contenedor.add(btnNewButton);*/
 	  
 	  
 	  JLabel label = new JLabel("");
