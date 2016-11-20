@@ -5,14 +5,85 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
+
 import javax.swing.JOptionPane;
 
 import conectionDB.ConectionDB;
+import entidades.Reporte;
 
 public class ConsultasBasicas {
 
 	private static PreparedStatement pstmt = null;
 	private static Statement stmt2 = null;
+	
+	public static void insertarReporte(Reporte nuevoReporte) {
+
+		Connection miConexion = ConectionDB.getConection();
+
+		try {
+			
+			Date Fecha = nuevoReporte.getFecha();
+			java.sql.Date DEL = new java.sql.Date(Fecha.getTime());
+			
+			String SQL ="INSERT INTO reportes (Nombre,Tipo,Fecha,Procesador,PrecioProcesador,TiendaProcesador,Memoria,PrecioMemoria,TiendaMemoria,Placa,PrecioPlaca,TiendaPlaca,VideoCard,PrecioVideoCard,TiendaVideoCard,HDD,PrecioHDD,TiendaHDD,CaseFuente,PrecioCaseFuente,TiendaCaseFuente) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String Procesador=nuevoReporte.getListaComponentes()[0].getNombre();
+			 Double PrecioProcesador=nuevoReporte.getListaComponentes()[0].getPrecio();
+			 String TiendaProcesador = nuevoReporte.getListaComponentes()[0].getTienda();
+			 
+			 String Memoria=nuevoReporte.getListaComponentes()[1].getNombre();
+			 Double PrecioMemoria=nuevoReporte.getListaComponentes()[1].getPrecio();
+			 String TiendaMemoria=nuevoReporte.getListaComponentes()[1].getTienda();
+			 
+			 String Placa=nuevoReporte.getListaComponentes()[2].getNombre();
+			 Double PrecioPlaca=nuevoReporte.getListaComponentes()[2].getPrecio();
+			 String TiendaPlaca=nuevoReporte.getListaComponentes()[2].getTienda();
+			 
+			 String VideoCard=nuevoReporte.getListaComponentes()[3].getNombre();
+			 Double PrecioVideoCard=nuevoReporte.getListaComponentes()[3].getPrecio();
+			 String TiendaVideoCard=nuevoReporte.getListaComponentes()[3].getTienda();
+			 
+			 String HDD=nuevoReporte.getListaComponentes()[4].getNombre();
+			 Double PrecioHDD = nuevoReporte.getListaComponentes()[4].getPrecio();
+			 String TiendaHDD = nuevoReporte.getListaComponentes()[4].getTienda();
+			 
+			 String CaseFuente=nuevoReporte.getListaComponentes()[5].getNombre();
+			 Double PrecioCaseFuente=nuevoReporte.getListaComponentes()[5].getPrecio();
+			 String TiendaCaseFuente=nuevoReporte.getListaComponentes()[5].getTienda();
+			
+			
+			pstmt = miConexion.prepareStatement(SQL);
+			pstmt.setString(1,nuevoReporte.getNombre());
+			pstmt.setString(2,nuevoReporte.getTipo());
+			pstmt.setDate(3,DEL );
+			pstmt.setString(4,Procesador);
+			pstmt.setDouble(5,PrecioProcesador);
+			pstmt.setString(6,TiendaProcesador);
+			pstmt.setString(7,Memoria);
+			pstmt.setDouble(8,PrecioMemoria);
+			pstmt.setString(9,TiendaMemoria);
+			pstmt.setString(10,Placa);
+			pstmt.setDouble(11,PrecioPlaca);
+			pstmt.setString(12,TiendaPlaca);
+			pstmt.setString(13,VideoCard);
+			pstmt.setDouble(14,PrecioVideoCard);
+			pstmt.setString(15,TiendaVideoCard);
+			pstmt.setString(16,HDD);
+			pstmt.setDouble(17,PrecioHDD);
+			pstmt.setString(18,TiendaHDD);
+			pstmt.setString(19,CaseFuente);
+			pstmt.setDouble(20,PrecioCaseFuente);
+			pstmt.setString(21,TiendaCaseFuente);
+			
+			pstmt.executeUpdate();
+			
+			JOptionPane.showMessageDialog(null, "Inserción correcta");
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Ocurrio un error al realizar la operacion");
+		}
+
+	}
 
 	public static void insertarAlumno(String nombre, String apellido, int edad) {
 
@@ -37,6 +108,8 @@ public class ConsultasBasicas {
 		}
 
 	}
+
+
 	public static void update(String SQL) {
 
 		Connection miConexion = ConectionDB.getConection();

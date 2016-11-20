@@ -129,7 +129,7 @@ public class VentanaProductos extends JDialog {
 							+ precioCaseFuete;
 
 					// PROCESADOR
-					nuevo = new Producto(procesador, precioProcesador, tiendas[0]);
+					nuevo = new Producto(procesador,precioProcesador, tiendas[0]);
 					listaComponentes[0] = nuevo;
 					// MEMORIA
 					nuevo = new Producto(memoria, precioMemoria, tiendas[1]);
@@ -153,7 +153,7 @@ public class VentanaProductos extends JDialog {
 
 					Reporte nuevoReporte = new Reporte(nombreReporte, "Modulo Productos", fecha, listaComponentes);
 
-					VentanaGenReporte miVentanaGenReporte = new VentanaGenReporte(miVentanaProductos, true, nuevoReporte);
+					VentanaGenReporte miVentanaGenReporte = new VentanaGenReporte (miVentanaProductos, true, nuevoReporte);
 					miVentanaGenReporte.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					miVentanaGenReporte.setVisible(true);
 					

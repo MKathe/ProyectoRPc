@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-11-18T23:31:18 -->
+<!-- 2016-11-20T02:33:47 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteR" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eac7f807-b02f-449c-a7c4-d91bf689bd81">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="cmFudGl5cGMucmVwb3J0ZXMgLDE1LDE1LDg2OGNlNTQyLTBiZWYtNDgzZS1hMWIyLWVhOGViN2M0&#xA;MWZhYTs="/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="rantiypc"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<parameter name="Tipo" class="java.lang.Integer"/>
+	<parameter name="Indice" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT *
-FROM rantiypc.reportes WHERE rantiypc.reportes.NRO =  $P{Tipo} ]]>
+FROM rantiypc.reportes
+WHERE 
+	 rantiypc.reportes.`NRO` = $P{Indice}]]>
 	</queryString>
 	<field name="NRO" class="java.lang.Integer"/>
 	<field name="Nombre" class="java.lang.String"/>

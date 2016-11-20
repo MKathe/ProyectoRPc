@@ -14,6 +14,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import negocio.JasperReportt;
+import negocio.OrdenarReportes;
+import negocio.BuscarReportes;
 
 import com.alee.laf.WebLookAndFeel;
 
@@ -44,23 +47,22 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import conectionDB.ConectionDB;
 import datos.ConsultasBasicas;
+import entidades.Producto;
 import entidades.Reporte;
 import modeloTablas.ModeloTablaReporte;
-import negocio.ValidarRangoFecha;
 
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
+import negocio.ValidarRangoFecha;
+import negocio.BuscarReportes;
+import negocio.OrdenarReportes;
+import negocio.LeerReportes;
+
 import conectionDB.ConectionDB;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
+
 
 public class VentanaReportes extends JDialog {
 
@@ -108,10 +110,9 @@ public class VentanaReportes extends JDialog {
 	 */
 
 	
-	public VentanaReportes(/*
-							 * VentanaPrincipal miVentanaPrincipal, boolean modal
-							 */) {
-
+	public VentanaReportes(/*VentanaPrincipal miVentanaPrincipal, boolean modal
+							 */) 
+	{
 		/* super(miVentanaPrincipal, modal); */
 
 		setTitle("Ventana Reportes");
@@ -119,6 +120,7 @@ public class VentanaReportes extends JDialog {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 
 		comboBox = new JComboBox();
 		comboBox.setForeground(new Color(0, 0, 0));
@@ -162,7 +164,7 @@ public class VentanaReportes extends JDialog {
 		btnBuscar.addActionListener(new ManejadorBuscarPor());
 
 		contentPane.add(btnBuscar);
-		setLocationRelativeTo(null);
+		
 
 		btnGuardar = new JButton("");
 		btnGuardar.setEnabled(false);
@@ -170,7 +172,6 @@ public class VentanaReportes extends JDialog {
 		btnGuardar.setBorderPainted(false);
 		btnGuardar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/boton-guardar-reporte.png")));
 		btnGuardar.setContentAreaFilled(false);
-
 		btnGuardar.setBounds(527, 555, 218, 68);
 		btnGuardar.addActionListener(new GuardarReporte());
 		contentPane.add(btnGuardar);
@@ -181,7 +182,6 @@ public class VentanaReportes extends JDialog {
 		btnMostrarReporte.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/btn_mostrar6.png")));
 		btnMostrarReporte.setContentAreaFilled(false);
 		btnMostrarReporte.addActionListener(new ManejadorDeMostrar());
-
 		btnMostrarReporte.setBounds(113, 555, 246, 68);
 		contentPane.add(btnMostrarReporte);
 
@@ -199,7 +199,7 @@ public class VentanaReportes extends JDialog {
 		contentPane.add(lblListadoDeReportes);
 
 		listadeReportes = new ArrayList<Reporte>();
-		CargarListaDeReportes();
+		LeerReportes.CargarListaDeReportes(listadeReportes);
 		TableModel tableModel = new ModeloTablaReporte(listadeReportes);
 
 		JLabel lblDel = new JLabel("Del:");
@@ -214,6 +214,7 @@ public class VentanaReportes extends JDialog {
 		lblAl.setBounds(210, 119, 32, 25);
 
 		contentPane.add(lblAl);
+		
 		TablaDeReportes = new JTable(tableModel);
 		TablaDeReportes.setFont(new Font("Papyrus", Font.PLAIN, 11));
 		TablaDeReportes.setFillsViewportHeight(true);
@@ -225,7 +226,6 @@ public class VentanaReportes extends JDialog {
 		spTablaDeReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		spTablaDeReportes.setSize(790, 315);
 		spTablaDeReportes.setLocation(49, 198);
-
 		spTablaDeReportes.setViewportView(TablaDeReportes);
 
 		contentPane.add(spTablaDeReportes);
@@ -240,137 +240,97 @@ public class VentanaReportes extends JDialog {
 		dateAl.setEnabled(false);
 		dateAl.setBounds(244, 121, 115, 23);
 		contentPane.add(dateAl);
-
 		dateAl.setMaxSelectableDate(new Date());
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/vista_reporte.png")));
 		label.setBounds(0, 0, 894, 634);
 		contentPane.add(label);
+		
+		
+		
 	}
 
 	public class ManejadorDeMostrar implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			int indice = TablaDeReportes.getSelectedRow();
-
-			if (indice >= 0) {
-				Integer a = listadeReportes.get(indice).getIndice();
+			int filaSeleccionada = TablaDeReportes.getSelectedRow();
+			
+			if (filaSeleccionada >= 0) {
+				Integer a = listadeReportes.get(filaSeleccionada).getIndice();
 				Map<String, java.lang.Object> parametros = new HashMap<>();
-				parametros.put("Tipo", a);
+				parametros.put("Indice", a);
 				jr = new JasperReportt();
-				jr.CrearReporte(ConectionDB.getConection(),
-						new File(".").getAbsolutePath() + "/src/reportes/reporteR.jasper", parametros);
+				jr.CrearReporte(ConectionDB.getConection(),new File(".").getAbsolutePath() + "/src/reportes/reporteR.jasper", parametros);
 				jr.VerReporte();
 				btnGuardar.setEnabled(true);
 			} else {
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ningun reporte", "",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
-
+            Insertar();
 		}
+		
+		
+	}
+	public  void Insertar() {
+		
 	}
 
 	public class GuardarReporte implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-
-			GuardarReporte();
+               GuardarReporte();
 		}
-
 	}
 
 	public void GuardarReporte() {
 		fileChooser = new JFileChooser();
 		int seleccion = fileChooser.showSaveDialog(this);
-		contentPane.add(fileChooser);
-		comboBox.setBounds(196, 101, 108, 23);
 		String ruta = null;
 		File guardar1;
 		if (seleccion == JFileChooser.APPROVE_OPTION) {
 			guardar1 = fileChooser.getSelectedFile();
-			if (guardar1 != null) {
-				ruta = guardar1.getAbsolutePath();
-				jr.GuardarReporte(ruta);
-			} else {
-				JOptionPane.showMessageDialog(null, "Destino a guardar no seleccionado", "", JOptionPane.ERROR_MESSAGE);
-			}
-
+			ruta = guardar1.getAbsolutePath();
+		    jr.GuardarReporte(ruta);
+		    JOptionPane.showMessageDialog(null,"El archivo se a guardado Exitosamente",
+				             "Información",JOptionPane.INFORMATION_MESSAGE);
+	
+		}else{
+		JOptionPane.showMessageDialog(null, "Operacion de guardar cancelada", "",JOptionPane.INFORMATION_MESSAGE);
 		}
-
 	}
 
 	public class ManejadorOrdenar implements ItemListener {
 
 		public void itemStateChanged(ItemEvent e) {
-
-			Reporte r;
-			listadeReportes.clear();
-			int opc = comboBox1.getSelectedIndex();
-
-			switch (opc) {
-			case 1:
-
-				rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Nombre");
-
-				try {
-					while (rss.next()) {
-						r = new Reporte(rss.getInt("NRO"), rss.getString("Nombre"), rss.getString("Tipo"),
-								rss.getDate("Fecha"));
-						listadeReportes.add(r);
-					}
-				} catch (SQLException e1) {
-
-					e1.printStackTrace();
-				}
-
-				break;
-			case 2:
-				rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Tipo");
-
-				try {
-					while (rss.next()) {
-						r = new Reporte(rss.getInt("NRO"), rss.getString("Nombre"), rss.getString("Tipo"),
-								rss.getDate("Fecha"));
-						listadeReportes.add(r);
-					}
-				} catch (SQLException e1) {
-
-					e1.printStackTrace();
-				}
-
-				break;
-			case 3:
-				rss = ConsultasBasicas.consultarDatos("SELECT* FROM reportes ORDER BY Fecha");
-
-				try {
-					while (rss.next()) {
-						r = new Reporte(rss.getInt("NRO"), rss.getString("Nombre"), rss.getString("Tipo"),
-								rss.getDate("Fecha"));
-						listadeReportes.add(r);
-					}
-				} catch (SQLException e1) {
-
-					e1.printStackTrace();
-				}
-
-				break;
-
-			default:
-				;
-
-			}
-
+			
+			OrdenarReportes.OrdenarPor(listadeReportes,comboBox1.getSelectedIndex());
 			TableModel tableModel2 = new ModeloTablaReporte(listadeReportes);
 			TablaDeReportes.setModel(tableModel2);
+			
 		}
-
+	
 	}
 
 	public class ManejadorBuscarPor implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			ManejadorBuscarPor();
-
+			int indice = comboBox.getSelectedIndex();
+			 
+			boolean encontrado;
+			encontrado=BuscarReportes.BuscarPor(indice,listadeReportes,textBusqueda.getText(),dateDel.getDate(),dateAl.getDate());
+			if(encontrado){
+		         TableModel tableModel3 = new ModeloTablaReporte(listadeReportes);
+		         TablaDeReportes.setModel(tableModel3);
+		    }else{
+		        	 JOptionPane.showMessageDialog(null, "Busqueda no encontrada","BuscarPor", JOptionPane.INFORMATION_MESSAGE);
+		         }
+			
+			
+			
+			
+			
+          
 		}
 
 	}
@@ -382,104 +342,9 @@ public class VentanaReportes extends JDialog {
 				dateDel.setEnabled(true);
 				dateAl.setEnabled(true);
 			}
-
-		}
-
-	}
-
-	public void ManejadorBuscarPor() {
-
-		Reporte r;
-		int indice = comboBox.getSelectedIndex();
-		listadeReportes.clear();
-
-		switch (indice) {
-		case 1:
-			ResultadodeBusqueda = ConsultasBasicas
-					.consultarDatos("SELECT * FROM reportes WHERE Nombre ='" + textBusqueda.getText() + "'");
-
-			try {
-				while (ResultadodeBusqueda.next()) {
-					r = new Reporte(ResultadodeBusqueda.getInt("NRO"), ResultadodeBusqueda.getString("Nombre"),
-							ResultadodeBusqueda.getString("Tipo"), ResultadodeBusqueda.getDate("Fecha"));
-					System.out.println(r.getNombre());
-					listadeReportes.add(r);
-				}
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
-			break;
-
-		case 2:
-			ResultadodeBusqueda = ConsultasBasicas
-					.consultarDatos("SELECT * FROM reportes WHERE Tipo = '" + textBusqueda.getText() + "'");
-
-			try {
-				while (ResultadodeBusqueda.next()) {
-					r = new Reporte(ResultadodeBusqueda.getInt("NRO"), ResultadodeBusqueda.getString("Nombre"),
-							ResultadodeBusqueda.getString("Tipo"), ResultadodeBusqueda.getDate("Fecha"));
-					listadeReportes.add(r);
-				}
-
-			} catch (SQLException e1) {
-
-				e1.printStackTrace();
-			}
-			break;
-
-		case 3:
-
-			Date del = dateDel.getDate();
-			Date al = dateAl.getDate();
-			java.sql.Date DEL = new java.sql.Date(del.getTime());
-			java.sql.Date AL = new java.sql.Date(al.getTime());
-			boolean sw = ValidarRangoFecha.validar(del, al);
-			if (sw) {
-
-				ResultadodeBusqueda = ConsultasBasicas.consultarDatos(
-						"SELECT * FROM reportes WHERE Fecha>= '" + DEL + "' and Fecha <= '" + AL + "' ");
-
-				try {
-					while (ResultadodeBusqueda.next()) {
-						r = new Reporte(ResultadodeBusqueda.getInt("NRO"), ResultadodeBusqueda.getString("Nombre"),
-								ResultadodeBusqueda.getString("Tipo"), ResultadodeBusqueda.getDate("Fecha"));
-						listadeReportes.add(r);
-					}
-				} catch (SQLException e12) {
-
-					e12.printStackTrace();
-				}
-			} else {
-				JOptionPane.showMessageDialog(null, "Rango de Fechas no valido", "", JOptionPane.ERROR_MESSAGE);
-			}
-
-			break;
-		default:
-			;
-		}
-		TableModel tableModel3 = new ModeloTablaReporte(listadeReportes);
-
-		TablaDeReportes.setModel(tableModel3);
-
-	}
-
-	public void CargarListaDeReportes() {
-		ResultSet rs;
-		rs = ConsultasBasicas.consultarDatos("SELECT* FROM reportes");
-
-		try {
-			while (rs.next()) {
-				Reporte r;
-				r = new Reporte(rs.getInt("NRO"), rs.getString("Nombre"), rs.getString("Tipo"), rs.getDate("Fecha"));
-				listadeReportes.add(r);
-			}
-		} catch (SQLException e) {
-
-			e.printStackTrace();
 		}
 	}
-
+	
 	public void setVentanaPrincipal(VentanaReportes miVentana) {
 		miVentanaReportes = miVentana;
 	}
