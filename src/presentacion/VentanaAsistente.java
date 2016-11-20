@@ -1,141 +1,176 @@
 package presentacion;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+import javax.swing.JToggleButton;
+import com.alee.laf.progressbar.WebProgressBar;
+import com.alee.laf.scroll.WebScrollPane;
+import com.alee.laf.table.WebTable;
+import negocio.LeerComputadoras;
+import javax.swing.ButtonGroup;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import java.awt.Color;
 
-public class VentanaAsistente extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+public class VentanaAsistente extends JDialog {
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaAsistente frame = new VentanaAsistente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	private VentanaAsistente miVentanaAsistente;
+	private JTextField textFieldPrecioDe;
+	private JTextField textFieldPrecioA;
+	private JPanel panelVariable;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private WebProgressBar progressBar;
+	private JLabel lblProcesando;
+	private WebScrollPane scrollPane;
+	private WebTable table;
+	
+	public VentanaAsistente(VentanaPrincipal miVentanaPrincipal, boolean modal) {
+		super(miVentanaPrincipal, modal);
+		setTitle("Componentes - RantiyPC");
+		setResizable(false);
+		setBounds(100, 100, 1032, 790);
+		getContentPane().setLayout(null);
+		setLocationRelativeTo(null);
+		
+		JToggleButton tglbtnPrecio = new JToggleButton("");
+		tglbtnPrecio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				((CardLayout)panelVariable.getLayout()).show(panelVariable,"panel-precio");
+				
 			}
 		});
+		buttonGroup.add(tglbtnPrecio);
+		tglbtnPrecio.setSelectedIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/btn_precio_hover.png")));
+		tglbtnPrecio.setContentAreaFilled(false);
+		tglbtnPrecio.setBorder(null);
+		tglbtnPrecio.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/btn_precio.png")));
+		tglbtnPrecio.setBounds(562, 77, 220, 50);
+		getContentPane().add(tglbtnPrecio);	
+		tglbtnPrecio.setSelected(true);
+		
+		JToggleButton tglbtnUtilidad = new JToggleButton("");
+		tglbtnUtilidad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				((CardLayout)panelVariable.getLayout()).show(panelVariable,"panel-utilidad");
+				
+			}
+		});
+		buttonGroup.add(tglbtnUtilidad);
+		tglbtnUtilidad.setSelectedIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/btn_utilidad_hover.png")));
+		tglbtnUtilidad.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/btn_utilidad.png")));
+		tglbtnUtilidad.setFocusPainted(false);
+		tglbtnUtilidad.setContentAreaFilled(false);
+		tglbtnUtilidad.setBorderPainted(false);
+		tglbtnUtilidad.setBorder(null);
+		tglbtnUtilidad.setBounds(780, 77, 220, 50);
+		getContentPane().add(tglbtnUtilidad);
+		
+		panelVariable = new JPanel();
+		panelVariable.setBounds(26, 128, 974, 583);
+		getContentPane().add(panelVariable);
+		panelVariable.setLayout(new CardLayout(0, 0));
+		
+		JPanel panelPrecio = new JPanel();
+		panelVariable.add(panelPrecio, "panel-precio");
+		panelPrecio.setLayout(null);
+		
+		textFieldPrecioDe = new JTextField();
+		textFieldPrecioDe.setBounds(497, 29, 110, 40);
+		panelPrecio.add(textFieldPrecioDe);
+		textFieldPrecioDe.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 20));
+		textFieldPrecioDe.setColumns(10);
+		
+		textFieldPrecioA = new JTextField();
+		textFieldPrecioA.setBounds(705, 29, 110, 40);
+		panelPrecio.add(textFieldPrecioA);
+		textFieldPrecioA.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 20));
+		textFieldPrecioA.setColumns(10);
+		
+		JButton btnVerdetalles = new JButton("");
+		btnVerdetalles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				JOptionPane.showMessageDialog(null, "HOLA MUNDO!");
+				
+			}
+		});
+		btnVerdetalles.setBounds(692, 140, 272, 109);
+		panelPrecio.add(btnVerdetalles);
+		btnVerdetalles.setFocusPainted(false);
+		btnVerdetalles.setContentAreaFilled(false);
+		btnVerdetalles.setBorderPainted(false);
+		btnVerdetalles.setBorder(null);
+		btnVerdetalles.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/ver-detalles.png")));
+		
+		JButton btnGo = new JButton("GO!");
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evento) {
+				
+		  		if (evento.getSource() == btnGo) {
+		  			
+		  			progressBar.setVisible(true);
+		  			progressBar.setIndeterminate(true);
+		  			lblProcesando.setVisible(true);
+	  			
+		  			LeerComputadoras worker = new LeerComputadoras(scrollPane,table,progressBar,lblProcesando);
+		  			worker.execute();
+
+				}
+		
+			}
+		});
+		btnGo.setBounds(847, 29, 66, 40);
+		panelPrecio.add(btnGo);
+		
+		scrollPane = new WebScrollPane(table);
+		scrollPane.setBounds(27, 99, 632, 452);
+		scrollPane.setVisible(false);
+		panelPrecio.add(scrollPane);
+		
+		lblProcesando = new JLabel("Procesando...");
+		lblProcesando.setForeground(Color.WHITE);
+		lblProcesando.setFont(new Font("Roboto Light", Font.BOLD, 14));
+		lblProcesando.setBounds(719, 501, 97, 17);
+		lblProcesando.setVisible(false);
+		panelPrecio.add(lblProcesando);
+		
+		progressBar = new WebProgressBar();
+		progressBar.setBounds(719, 529, 230, 17);
+		progressBar.setVisible(false);
+		panelPrecio.add(progressBar);
+
+		JLabel fondoPanelPrecio = new JLabel("");
+		fondoPanelPrecio.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/vista-asistente-panelPrecio.jpg")));
+		fondoPanelPrecio.setBounds(0, 0, 974, 583);
+		panelPrecio.add(fondoPanelPrecio);
+		
+		JPanel panelUtilidad = new JPanel();
+		panelVariable.add(panelUtilidad, "panel-utilidad");
+		panelUtilidad.setLayout(null);
+		
+		JLabel fondoPrincipal = new JLabel("");
+		fondoPrincipal.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/vista-asistente4.jpg")));
+		fondoPrincipal.setBounds(0, 0, 1026, 762);
+		getContentPane().add(fondoPrincipal);
+
+	}
+	
+	public void setVentanaPrincipal(VentanaAsistente miVentana) {
+		   this.miVentanaAsistente = miVentana;
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public VentanaAsistente() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 803, 657);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(10, 115, 166, 20);
-		contentPane.add(comboBox);
-		
-		JLabel lblPcLowCost = new JLabel("PC ULTRA LOW COST");
-		lblPcLowCost.setBounds(10, 82, 104, 14);
-		contentPane.add(lblPcLowCost);
-		
-		JLabel lblPcGamaUltra = new JLabel("PC GAMA ULTRA BAJA");
-		lblPcGamaUltra.setBounds(10, 174, 108, 14);
-		contentPane.add(lblPcGamaUltra);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(10, 220, 166, 20);
-		contentPane.add(comboBox_1);
-		
-		JLabel lblPcGamaBaja = new JLabel("PC GAMA BAJA");
-		lblPcGamaBaja.setBounds(10, 280, 73, 14);
-		contentPane.add(lblPcGamaBaja);
-		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(10, 319, 166, 20);
-		contentPane.add(comboBox_2);
-		
-		JLabel label = new JLabel("PC ULTRA LOW COST");
-		label.setBounds(10, 376, 104, 14);
-		contentPane.add(label);
-		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(10, 412, 166, 20);
-		contentPane.add(comboBox_3);
-		
-		JLabel lblProcesador = new JLabel("PROCESADOR");
-		lblProcesador.setBounds(261, 82, 69, 14);
-		contentPane.add(lblProcesador);
-		
-		JLabel lblPlacaMadre = new JLabel("PLACA MADRE");
-		lblPlacaMadre.setBounds(261, 158, 70, 14);
-		contentPane.add(lblPlacaMadre);
-		
-		JLabel lblMemoria = new JLabel("MEMORIA");
-		lblMemoria.setBounds(261, 230, 48, 14);
-		contentPane.add(lblMemoria);
-		
-		JLabel lblVideoCard = new JLabel("VIDEO CARD");
-		lblVideoCard.setBounds(261, 295, 62, 14);
-		contentPane.add(lblVideoCard);
-		
-		JLabel lblAlmacenamiento = new JLabel("ALMACENAMIENTO");
-		lblAlmacenamiento.setBounds(261, 381, 93, 14);
-		contentPane.add(lblAlmacenamiento);
-		
-		JLabel lblFuentecase = new JLabel("FUENTE/CASE");
-		lblFuentecase.setBounds(262, 471, 68, 14);
-		contentPane.add(lblFuentecase);
-		
-		textField = new JTextField();
-		textField.setBounds(261, 115, 323, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(261, 193, 323, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(261, 255, 323, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(261, 326, 323, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(261, 418, 323, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
-		
-		textField_5 = new JTextField();
-		textField_5.setBounds(261, 511, 323, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
-		
-		JButton btnGuardar = new JButton("GUARDAR");
-		btnGuardar.setBounds(623, 565, 89, 23);
-		contentPane.add(btnGuardar);
-	}
+	
 }

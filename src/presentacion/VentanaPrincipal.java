@@ -76,6 +76,18 @@ public class VentanaPrincipal extends JFrame {
 		
         
         btnAsistente = new JButton("");
+        btnAsistente.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		if(e.getSource()== btnAsistente){
+        			
+					VentanaAsistente miVentanaAsistente = new VentanaAsistente(miVentanaPrincipal, true);					
+					miVentanaAsistente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					miVentanaAsistente.setVentanaPrincipal(miVentanaAsistente);
+					miVentanaAsistente.setVisible(true);
+        		}
+        	}
+        });
         btnAsistente.setFocusPainted(false);
         btnAsistente.setBorderPainted(false);
         btnAsistente.setContentAreaFilled(false);

@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jsoup.Jsoup;
@@ -15,8 +16,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.alee.laf.progressbar.WebProgressBar;
+import com.alee.laf.scroll.WebScrollPane;
+import com.alee.laf.table.WebTable;
 
 import entidades.Producto;
+import modeloTablas.ModeloTablaProducto;
+import presentacion.VentanaAsistente;
 import presentacion.VentanaMiniProductos;
 import presentacion.VentanaProductos;
 
@@ -25,12 +30,15 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 	public static Queue<Producto> listaComputadoras = new LinkedList<Producto>();
 	public static boolean band = false;
 	private WebProgressBar jProgressBar;
-	private VentanaProductos miVentanaProductos;
+	//private VentanaAsistente miVentanaAsistente;
 	private JLabel lblProcesando;
+	private  WebScrollPane scrollPane;
+	private WebTable table;
 
-	public LeerComputadoras(VentanaProductos miVentanaProductos, WebProgressBar jProgressBar, JLabel lblProcesando) {
+	public LeerComputadoras( WebScrollPane scrollPane, WebTable table, WebProgressBar jProgressBar, JLabel lblProcesando) {
+		this.scrollPane = scrollPane;
+		this.table = table;
 		this.jProgressBar = jProgressBar;
-		this.miVentanaProductos = miVentanaProductos;
 		this.lblProcesando = lblProcesando;
 	}
 
@@ -86,15 +94,21 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 	}
 
 	private void construirVentana() {
+
 		List<Producto> listaProductos = new ArrayList<Producto>();
 
 		listaProductos.addAll(listaComputadoras);
+		
+		ModeloTablaProducto tableModel = new ModeloTablaProducto(listaProductos);		
+		table = new WebTable(tableModel);
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(432);
+		table.getColumnModel().getColumn(1).setPreferredWidth(75);
+		table.getColumnModel().getColumn(2).setPreferredWidth(125);
 
-		VentanaMiniProductos miVentanaMini = new VentanaMiniProductos(miVentanaProductos, true, listaProductos, "computadoras");
-		miVentanaMini.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		miVentanaMini.setVisible(true);
-	}
-
-	
+		scrollPane.setViewportView(table);
+		scrollPane.setVisible(true);	
+		
+	}	
 
 }

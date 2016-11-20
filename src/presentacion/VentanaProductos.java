@@ -10,7 +10,6 @@ import com.alee.laf.progressbar.WebProgressBar;
 import entidades.Producto;
 import entidades.Reporte;
 import negocio.LeerCaseFuentes;
-import negocio.LeerComputadoras;
 import negocio.LeerMemorias;
 import negocio.LeerPlacasMadre;
 import negocio.LeerProcesadores;
