@@ -15,9 +15,15 @@ import javax.swing.JToggleButton;
 import com.alee.laf.progressbar.WebProgressBar;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.table.WebTable;
+
+import entidades.Producto;
+import modeloTablas.ModeloTablaProducto;
 import negocio.LeerComputadoras;
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import java.awt.Color;
@@ -42,7 +48,7 @@ public class VentanaAsistente extends JDialog {
 		setBounds(100, 100, 1032, 790);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
-		
+
 		JToggleButton tglbtnPrecio = new JToggleButton("");
 		tglbtnPrecio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -68,6 +74,7 @@ public class VentanaAsistente extends JDialog {
 				
 			}
 		});
+		
 		buttonGroup.add(tglbtnUtilidad);
 		tglbtnUtilidad.setSelectedIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/btn_utilidad_hover.png")));
 		tglbtnUtilidad.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/btn_utilidad.png")));
@@ -103,7 +110,12 @@ public class VentanaAsistente extends JDialog {
 		btnVerdetalles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				JOptionPane.showMessageDialog(null, "HOLA MUNDO!");
+				List<Producto> listaPCs = new ArrayList<Producto>();
+				listaPCs.addAll(LeerComputadoras.listaComputadoras);
+	
+				String nombre = listaPCs.get(table.getSelectedRow()).getNombre();
+				
+				JOptionPane.showMessageDialog(null, nombre);
 				
 			}
 		});
@@ -120,25 +132,30 @@ public class VentanaAsistente extends JDialog {
 			public void actionPerformed(ActionEvent evento) {
 				
 		  		if (evento.getSource() == btnGo) {
+		  			Double precioDe, precioA;
+		  			
+		  			precioDe = Double.parseDouble(textFieldPrecioDe.getText());
+		  			precioA = Double.parseDouble(textFieldPrecioA.getText());
 		  			
 		  			progressBar.setVisible(true);
 		  			progressBar.setIndeterminate(true);
 		  			lblProcesando.setVisible(true);
 	  			
-		  			LeerComputadoras worker = new LeerComputadoras(scrollPane,table,progressBar,lblProcesando);
+		  			LeerComputadoras worker = new LeerComputadoras(miVentanaAsistente,scrollPane,table,progressBar,lblProcesando,precioDe,precioA);
 		  			worker.execute();
-
+		  		
+		  			
 				}
 		
 			}
 		});
 		btnGo.setBounds(847, 29, 66, 40);
 		panelPrecio.add(btnGo);
-		
+	
 		scrollPane = new WebScrollPane(table);
 		scrollPane.setBounds(27, 99, 632, 452);
 		scrollPane.setVisible(false);
-		panelPrecio.add(scrollPane);
+		panelPrecio.add(scrollPane);	
 		
 		lblProcesando = new JLabel("Procesando...");
 		lblProcesando.setForeground(Color.WHITE);
@@ -172,5 +189,14 @@ public class VentanaAsistente extends JDialog {
 		   this.miVentanaAsistente = miVentana;
 	}
 
+	public WebTable getTable() {
+		return table;
+	}
+
+	public void setTable(WebTable table) {
+		this.table = table;
+	}
+	
+	
 	
 }

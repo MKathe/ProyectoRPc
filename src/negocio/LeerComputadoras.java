@@ -27,60 +27,59 @@ import presentacion.VentanaProductos;
 
 public class LeerComputadoras extends SwingWorker<Integer, Void>{
 		
-	public static Queue<Producto> listaComputadoras = new LinkedList<Producto>();
-	public static boolean band = false;
+	public static Queue<Producto> listaComputadoras;
+	//public static boolean band = false;
 	private WebProgressBar jProgressBar;
-	//private VentanaAsistente miVentanaAsistente;
+	private VentanaAsistente miVentanaAsistente;
 	private JLabel lblProcesando;
 	private  WebScrollPane scrollPane;
 	private WebTable table;
+	private Double precioDe, precioA;
 
-	public LeerComputadoras( WebScrollPane scrollPane, WebTable table, WebProgressBar jProgressBar, JLabel lblProcesando) {
+	public LeerComputadoras( VentanaAsistente miVentanaAsistente,WebScrollPane scrollPane, WebTable table, WebProgressBar jProgressBar, JLabel lblProcesando, Double precioDe, Double precioA) {
+		listaComputadoras = new LinkedList<Producto>();
+		this.miVentanaAsistente = miVentanaAsistente;
 		this.scrollPane = scrollPane;
 		this.table = table;
 		this.jProgressBar = jProgressBar;
 		this.lblProcesando = lblProcesando;
+		this.precioDe = precioDe;
+		this.precioA = precioA;
+		
 	}
 
 	@Override
 	protected Integer doInBackground() throws Exception {
 		
-		if (!band) {			
-			Document document = Jsoup
-					.connect(
-							"http://www.magitech.pe/computadoras/pc-compatibles.html")
-					.get();
+		Document document = Jsoup.connect("http://www.magitech.pe/computadoras/pc-compatibles.html").get();
 
-			// Busco todas las entradas que estan dentro de:
-			Elements entradas = document.select("li.item");
+		// Busco todas las entradas que estan dentro de:
+		Elements entradas = document.select("li.item");
 
-			for (Element elem : entradas) {
-				String nombreProducto = elem.getElementsByClass("product-name").text();
-				String precio = elem.getElementsByClass("special-price").text();
-				Double precio2;
-				
-				try{
-					precio = precio.substring(11);
-					precio = precio.replace(",", "");
-					precio2 = Double.parseDouble(precio);
-				}catch(Exception e){
-					precio = elem.getElementsByClass("regular-price").text();
-					precio = precio.substring(4);
-					precio = precio.replace(",", "");
-					precio2 = Double.parseDouble(precio);
-				}
+		for (Element elem : entradas) {
+			String nombreProducto = elem.getElementsByClass("product-name").text();
+			String precio = elem.getElementsByClass("special-price").text();
+			Double precio2;
 
+			try {
+				precio = precio.substring(11);
+				precio = precio.replace(",", "");
+				precio2 = Double.parseDouble(precio);
+			} catch (Exception e) {
+				precio = elem.getElementsByClass("regular-price").text();
+				precio = precio.substring(4);
+				precio = precio.replace(",", "");
+				precio2 = Double.parseDouble(precio);
+			}
+
+			if (precio2 >= precioDe && precio2 <= precioA) {
 				Producto nuevo = new Producto(nombreProducto, precio2, "MAGITECH S.A.C");
-
 				listaComputadoras.add(nuevo);
 			}
-						
-			band = true;
-			construirVentana();
 
-		} else {
-			construirVentana();
 		}
+
+		construirVentana();
 
 		return 0;
 	}
@@ -90,16 +89,17 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 		lblProcesando.setVisible(false);
 		jProgressBar.setIndeterminate(false);
 		jProgressBar.setVisible(false);
+		miVentanaAsistente.setTable(table);
 
 	}
 
 	private void construirVentana() {
 
-		List<Producto> listaProductos = new ArrayList<Producto>();
-
-		listaProductos.addAll(listaComputadoras);
+		List<Producto> listaPCs = new ArrayList<Producto>();
 		
-		ModeloTablaProducto tableModel = new ModeloTablaProducto(listaProductos);		
+		listaPCs.addAll(listaComputadoras);
+		
+		ModeloTablaProducto tableModel = new ModeloTablaProducto(listaPCs);		
 		table = new WebTable(tableModel);
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(432);
@@ -109,6 +109,6 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 		scrollPane.setViewportView(table);
 		scrollPane.setVisible(true);	
 		
-	}	
+	}
 
 }
