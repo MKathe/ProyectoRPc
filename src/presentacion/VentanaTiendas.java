@@ -19,6 +19,7 @@ import conectionDB.ConectionDB;
 import datos.ConsultasBasicas;
 import entidades.Tienda;
 import modeloTablas.ModeloTablaTienda;
+import negocio.OrdenarTiendas;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -41,9 +42,10 @@ import java.awt.Color;
 
 public class VentanaTiendas extends JDialog {
 	private JTextField textFieldBusqueda;
-	private JTable tableTiendas;
+	private static JTable tableTiendas;
 	private VentanaTiendas miVentanaTiendas;
 	private List<Tienda> listaDeTiendas;
+	private List<Tienda> listaActual;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	
 	public VentanaTiendas(VentanaPrincipal miVentanaPrincipal, boolean modal) {
@@ -60,10 +62,14 @@ public class VentanaTiendas extends JDialog {
 		getContentPane().add(scrollPaneTiendas);
 		
 		listaDeTiendas = new ArrayList<Tienda>();
+		listaActual = new ArrayList<Tienda>();
+		
 		CargarListaDeTiendas(); 
 		TableModel tableModel = new ModeloTablaTienda(listaDeTiendas);
 		
 		tableTiendas = new JTable(tableModel); //asigna el modelo a la tabla
+		
+		listaActual = listaDeTiendas;
 		
 		scrollPaneTiendas.setViewportView(tableTiendas);
 		
@@ -79,6 +85,23 @@ public class VentanaTiendas extends JDialog {
 		buttonGroup.add(rdbtnLugar);
 		rdbtnLugar.setBounds(747, 41, 21, 23);
 		getContentPane().add(rdbtnLugar);
+		
+		JComboBox comboBoxOrden = new JComboBox();
+		comboBoxOrden.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				OrdenarTiendas.ordenar(comboBoxOrden.getSelectedItem(), listaActual);
+			}
+		});
+		comboBoxOrden.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		comboBoxOrden.setModel(new DefaultComboBoxModel(new String[] {"Nombre", "Ubicaci\u00F3n"}));
+		comboBoxOrden.setBounds(256, 115, 135, 33);
+		getContentPane().add(comboBoxOrden);
+		
+		JLabel lblOdenarPor = new JLabel("Odenar por:");
+		lblOdenarPor.setFont(new Font("Berlin Sans FB", Font.PLAIN, 30));
+		lblOdenarPor.setForeground(Color.WHITE);
+		lblOdenarPor.setBounds(70, 114, 216, 35);
+		getContentPane().add(lblOdenarPor);
 		
 		textFieldBusqueda = new JTextField();
 		textFieldBusqueda.setForeground(Color.WHITE);
@@ -196,5 +219,9 @@ public class VentanaTiendas extends JDialog {
 	
 	public void setVentanaPrincipal(VentanaTiendas miVentana) {
 		miVentanaTiendas = miVentana;
+	}
+	
+	public static void setModel(TableModel modelo){
+		tableTiendas.setModel(modelo);
 	}
 }
