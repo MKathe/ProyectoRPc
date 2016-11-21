@@ -66,11 +66,8 @@ public class EnviarEmailConAdjunto {
 		message.setContent(multiParte);
 		
 		Transport t = session.getTransport("smtp");
-		
 		t.connect(user,pass);
-		
 		t.sendMessage(message,message.getAllRecipients());
-		
 		t.close();
 	}
 	

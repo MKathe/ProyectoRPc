@@ -85,6 +85,7 @@ public class VentanaContactoTienda extends JDialog {
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					//llama al método que va enviar el email
 					EnviarEmailConAdjunto.enviarEmail(textFieldUser.getText(), passwordFieldPass.getText(), textFieldDest.getText(), textFieldAsunto.getText(), textPaneMensaje.getText(), rutaReporte, nombreReporte);
 				} catch (MessagingException e) {
 					// TODO Auto-generated catch block
