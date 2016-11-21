@@ -93,7 +93,7 @@ public class VentanaPrincipal extends JFrame {
         btnAsistente.setContentAreaFilled(false);
         btnAsistente.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono asistente.png")));
         btnAsistente.setBorder(null);
-        btnAsistente.setBounds(35, 512, 113, 97);
+        btnAsistente.setBounds(33, 512, 125, 97);
         contentPane.add(btnAsistente);
         
         
