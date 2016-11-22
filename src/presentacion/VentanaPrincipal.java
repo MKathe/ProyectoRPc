@@ -136,6 +136,14 @@ public class VentanaPrincipal extends JFrame {
        
 		
 		btnAyuda = new JButton("");
+		btnAyuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VentanaReproductorVideo miVentanaReproductor = new VentanaReproductorVideo(miVentanaPrincipal, true);
+				miVentanaReproductor.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				miVentanaReproductor.setVentanaPrincipal(miVentanaReproductor);
+				miVentanaReproductor.setVisible(true);
+			}
+		});
 		btnAyuda.setFocusPainted(false);
 		btnAyuda.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/resources/icono ayuda.png")));
 		btnAyuda.setContentAreaFilled(false);
