@@ -22,7 +22,7 @@ public class Reproductor {
     static Component controles;
 	
 	public static void reproducir() {
-         //panel principal
+         //panel principal de video
          JPanel panelVideo = new JPanel();
          panelVideo.setLayout(new BorderLayout());
          

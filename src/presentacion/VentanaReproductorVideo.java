@@ -27,6 +27,7 @@ public class VentanaReproductorVideo extends JFrame {
 		setLocationRelativeTo(null);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
+		//metodo de reproductor
 		Reproductor.reproducir();
 	}
 	
