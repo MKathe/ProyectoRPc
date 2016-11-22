@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import javax.swing.JToggleButton;
+
+import com.alee.laf.button.WebButton;
 import com.alee.laf.progressbar.WebProgressBar;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.table.WebTable;
@@ -141,7 +143,8 @@ public class VentanaAsistente extends JDialog {
 		btnVerdetalles.setBorder(null);
 		btnVerdetalles.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/ver-detalles.png")));
 		
-		JButton btnGo = new JButton(" Filtrar");
+		WebButton btnGo = new WebButton(" Filtrar");
+		btnGo.setFocusPainted(false);
 		btnGo.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 16));
 		btnGo.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/search-icon2.png")));
 		btnGo.addActionListener(new ActionListener() {
@@ -169,7 +172,7 @@ public class VentanaAsistente extends JDialog {
 		
 			}
 		});
-		btnGo.setBounds(847, 29, 117, 41);
+		btnGo.setBounds(847, 28, 117, 41);
 		panelPrecio.add(btnGo);
 	
 		scrollPane = new WebScrollPane(table);

@@ -1,6 +1,8 @@
 package presentacion;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -8,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import entidades.Producto;
+import entidades.Reporte;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,16 +28,23 @@ import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.text.WebTextPane;
 
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaDetallesAsistente extends JDialog {
 	private JTextField textFieldNombreProducto;
 	private JTextField textFieldPrecio;
 	private JTextField textFieldTienda;
 	private WebTextPane textPaneCaracteristicas;
+	private List<String> lineas;
+	private String nomProducto, nomTienda, enlace;
 
 	public VentanaDetallesAsistente(VentanaAsistente miVentanaAsistente, boolean modal, String enlace, String nombreProducto, String precio, String nomTienda) {
 		
 		super(miVentanaAsistente, modal);	
+		this.nomProducto = nombreProducto;
+		this.nomTienda = nomTienda;
+		this.enlace = enlace;
 		setTitle("Detalles Producto Seleccionado");
 		setResizable(false);
 		setBounds(100, 100, 1032, 790);
@@ -62,6 +72,13 @@ public class VentanaDetallesAsistente extends JDialog {
 		getContentPane().add(btnContactoTienda);
 		
 		JButton btnGuardarReporte = new JButton("");
+		btnGuardarReporte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				filtrarCampos();
+				
+			}
+		});
 		btnGuardarReporte.setFocusPainted(false);
 		btnGuardarReporte.setContentAreaFilled(false);
 		btnGuardarReporte.setBorderPainted(false);
@@ -122,11 +139,12 @@ public class VentanaDetallesAsistente extends JDialog {
 		fondoDetallesAsistente.setBounds(0, 0, 1026, 762);
 		getContentPane().add(fondoDetallesAsistente);
 		
-		procesarEnlace(enlace);
+		procesarEnlace();
 
 	}
 
-	private void procesarEnlace(String enlace) {
+	private void procesarEnlace() {
+		lineas = new ArrayList<String>();
 		
 		Document document;
 		String info = "";
@@ -140,17 +158,111 @@ public class VentanaDetallesAsistente extends JDialog {
 		        for (Element fila : tabla.select("tr")) {	        	
 		        	if(i>1){
 		        		info = info + fila.text() + "\n";
+		        		lineas.add(fila.text());
 		        	}
 		        	i++;
 		        }
 			}
 			
 			textPaneCaracteristicas.setText(info);
+			//filtrarCampos(lineas);
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "No se pudieron leer las caracteristicas");
 		}
 		
+		 
+		 
+		 
+		
+	}
+
+	private void filtrarCampos() {
+		
+		Producto[] listaComponentes = new Producto[6];
+		String modelo = "";
+		String procesador = "";
+		String placa = "";
+		String memoria = "";
+		String hdd = "";
+		String video = "";
+		String fuente = "";
+		Producto nuevo;
+		
+		for (String linea : lineas) {
+			if (linea.indexOf("Modelo") != -1) {
+				modelo = linea.substring(7);
+			}
+			if (linea.indexOf("Placa") != -1) {
+				placa = linea.substring(6);
+			}
+			if (linea.indexOf("Procesador") != -1) {
+				procesador = linea.substring(11);
+			}
+
+			if (linea.indexOf("Memoria") != -1) {
+				memoria = linea.substring(12);
+			}
+			if (linea.indexOf("Disco Duro") != -1) {
+				hdd = linea.substring(11);
+			}
+
+			if (linea.indexOf("Tarjeta de video") != -1) {
+
+				if (linea.substring(17).equals("No")) {
+					video = "Integrado";
+				} else {
+					video = linea.substring(17);
+				}
+
+			}
+
+			if (linea.indexOf("Case") != -1) {
+
+				fuente = linea.substring(5);
+			}
+
+			if (linea.indexOf("Fuente") != -1) {
+
+				fuente = fuente + " " + linea.substring(16);
+			}
+
+		}
+		
+		if(placa.equals("")){
+			placa = modelo;
+		}
+		
+		// PROCESADOR
+		nuevo = new Producto(procesador,0, nomTienda);
+		listaComponentes[0] = nuevo;
+		// MEMORIA
+		nuevo = new Producto(memoria, 0, nomTienda);
+		listaComponentes[1] = nuevo;
+		// PLACA
+		nuevo = new Producto(placa, 0, nomTienda);
+		listaComponentes[2] = nuevo;
+		// VIDEOCARD
+		nuevo = new Producto(video, 0, nomTienda);
+		listaComponentes[3] = nuevo;
+		// HDD
+		nuevo = new Producto(hdd, 0, nomTienda);
+		listaComponentes[4] = nuevo;
+		// CASE-FUENTE
+		nuevo = new Producto(fuente, 0, nomTienda);
+		listaComponentes[5] = nuevo;
+		
+		Date fecha = new Date();
+		
+		Reporte nuevoReporte = new Reporte(nomProducto, "Modulo Asistente", fecha, listaComponentes);
+		
+		// A partir de aqui va el codigo de la ventana nueva
+		
+		
+		
+		for(Producto aux: listaComponentes){
+			System.out.println(aux.getNombre() + " " + aux.getPrecio() + " " + aux.getTienda());
+		}
 		
 	}
 }
