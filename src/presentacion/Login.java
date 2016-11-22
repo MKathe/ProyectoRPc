@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 import java.awt.Cursor;
 import com.alee.laf.WebLookAndFeel;
 
+import entidades.Usuario;
 import negocio.ValidarUsuario;
 
 public class Login extends JFrame {
@@ -30,6 +31,8 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JPasswordField textPass;
 	private JTextField textUser;
+	
+	public static Usuario usuarioIngresado;
 	/**
 	 * Launch the application.
 	 */
@@ -128,7 +131,7 @@ public class Login extends JFrame {
 				if (encontrado == true) {
 
 					JOptionPane.showMessageDialog(null, "Bienvenido!");
-
+					
 					VentanaPrincipal miVentanaPrincipal = new VentanaPrincipal();
 					miVentanaPrincipal.setVentanaPrincipal(miVentanaPrincipal);
 					miVentanaPrincipal.setVisible(true);
@@ -168,4 +171,9 @@ public class Login extends JFrame {
 		}
 		
 	}
+	
+	public static void setUsuario(Usuario usuario){
+		usuarioIngresado = usuario;
+	}
+	
 }
