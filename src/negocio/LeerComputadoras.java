@@ -28,6 +28,7 @@ import presentacion.VentanaProductos;
 public class LeerComputadoras extends SwingWorker<Integer, Void>{
 		
 	public static Queue<Producto> listaComputadoras;
+	public static Queue<String> listaEnlaces;
 	//public static boolean band = false;
 	private WebProgressBar jProgressBar;
 	private VentanaAsistente miVentanaAsistente;
@@ -38,6 +39,7 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 
 	public LeerComputadoras( VentanaAsistente miVentanaAsistente,WebScrollPane scrollPane, WebTable table, WebProgressBar jProgressBar, JLabel lblProcesando, Double precioDe, Double precioA) {
 		listaComputadoras = new LinkedList<Producto>();
+		listaEnlaces = new LinkedList<String>();
 		this.miVentanaAsistente = miVentanaAsistente;
 		this.scrollPane = scrollPane;
 		this.table = table;
@@ -51,33 +53,44 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 	@Override
 	protected Integer doInBackground() throws Exception {
 		
+		
 		Document document = Jsoup.connect("http://www.magitech.pe/computadoras/pc-compatibles.html").get();
+		    
+		    Elements entradas = document.select("li.item");	
+		    Elements links = document.select("h2.product-name > a");
+		    Element elem,link;
+		    
 
-		// Busco todas las entradas que estan dentro de:
-		Elements entradas = document.select("li.item");
+		    for (int i=0;i<entradas.size();i++) {
+		    	
+		    	elem = entradas.get(i);
+		    	link = links.get(i);
+		    	
+		    	String enlace = link.absUrl("href");
+		    	
+				String nombreProducto = elem.getElementsByClass("product-name").text();
+				String precio = elem.getElementsByClass("special-price").text();
+				Double precio2;
 
-		for (Element elem : entradas) {
-			String nombreProducto = elem.getElementsByClass("product-name").text();
-			String precio = elem.getElementsByClass("special-price").text();
-			Double precio2;
-
-			try {
-				precio = precio.substring(11);
-				precio = precio.replace(",", "");
-				precio2 = Double.parseDouble(precio);
-			} catch (Exception e) {
-				precio = elem.getElementsByClass("regular-price").text();
-				precio = precio.substring(4);
-				precio = precio.replace(",", "");
-				precio2 = Double.parseDouble(precio);
-			}
-
-			if (precio2 >= precioDe && precio2 <= precioA) {
-				Producto nuevo = new Producto(nombreProducto, precio2, "MAGITECH S.A.C");
-				listaComputadoras.add(nuevo);
-			}
-
-		}
+				try {
+					precio = precio.substring(11);
+					precio = precio.replace(",", "");
+					precio2 = Double.parseDouble(precio);
+				} catch (Exception e) {
+					precio = elem.getElementsByClass("regular-price").text();
+					precio = precio.substring(4);
+					precio = precio.replace(",", "");
+					precio2 = Double.parseDouble(precio);
+				}
+				
+				if (precio2 >= precioDe && precio2 <= precioA) {					
+					Producto nuevo = new Producto(nombreProducto, precio2, "MAGITECH S.A.C");
+					listaComputadoras.add(nuevo);
+					listaEnlaces.add(enlace);
+				}
+		
+		
+		    }
 
 		construirVentana();
 

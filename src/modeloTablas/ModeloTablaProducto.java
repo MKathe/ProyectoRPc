@@ -11,7 +11,7 @@ public class ModeloTablaProducto extends AbstractTableModel {
 	private static final int COLUMN_PRECIO = 1;
 	private static final int COLUMN_TIENDA = 2;
 
-	private String[] columnas = { "PRODUCTO", "PRECIO $", "TIENDA" };
+	private String[] columnas = { "PRODUCTO", "PRECIO", "TIENDA" };
 
 	private List<Producto> listaProductos;
 

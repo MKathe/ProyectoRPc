@@ -110,12 +110,26 @@ public class VentanaAsistente extends JDialog {
 		btnVerdetalles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				List<Producto> listaPCs = new ArrayList<Producto>();
-				listaPCs.addAll(LeerComputadoras.listaComputadoras);
-	
-				String nombre = listaPCs.get(table.getSelectedRow()).getNombre();
+				if(table.getSelectedRow() != -1){
+					List<Producto> listaPCs = new ArrayList<Producto>();
+					List<String> listaEnlaces = new ArrayList<String>();
+					
+					listaPCs.addAll(LeerComputadoras.listaComputadoras);
+					listaEnlaces.addAll(LeerComputadoras.listaEnlaces);
+		
+					String enlace = listaEnlaces.get(table.getSelectedRow());
+					String nombreProducto = listaPCs.get(table.getSelectedRow()).getNombre();
+					String precio = Double.toString(listaPCs.get(table.getSelectedRow()).getPrecio());
+					String nombreTienda = listaPCs.get(table.getSelectedRow()).getTienda();
+					
+					VentanaDetallesAsistente miVentanaDetalles = new VentanaDetallesAsistente(miVentanaAsistente, true, enlace, nombreProducto, precio, nombreTienda);
+					miVentanaDetalles.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					miVentanaDetalles.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "Selecciona un producto!");
+				}
 				
-				JOptionPane.showMessageDialog(null, nombre);
+				
 				
 			}
 		});
@@ -127,29 +141,35 @@ public class VentanaAsistente extends JDialog {
 		btnVerdetalles.setBorder(null);
 		btnVerdetalles.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/ver-detalles.png")));
 		
-		JButton btnGo = new JButton("GO!");
+		JButton btnGo = new JButton(" Filtrar");
+		btnGo.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 16));
+		btnGo.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/search-icon2.png")));
 		btnGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
 				
 		  		if (evento.getSource() == btnGo) {
+		  			
 		  			Double precioDe, precioA;
 		  			
 		  			precioDe = Double.parseDouble(textFieldPrecioDe.getText());
 		  			precioA = Double.parseDouble(textFieldPrecioA.getText());
 		  			
-		  			progressBar.setVisible(true);
-		  			progressBar.setIndeterminate(true);
-		  			lblProcesando.setVisible(true);
-	  			
-		  			LeerComputadoras worker = new LeerComputadoras(miVentanaAsistente,scrollPane,table,progressBar,lblProcesando,precioDe,precioA);
-		  			worker.execute();
-		  		
+		  			if(precioDe < precioA){
+		  				progressBar.setVisible(true);
+			  			progressBar.setIndeterminate(true);
+			  			lblProcesando.setVisible(true);
 		  			
+			  			LeerComputadoras worker = new LeerComputadoras(miVentanaAsistente,scrollPane,table,progressBar,lblProcesando,precioDe,precioA);
+			  			worker.execute();
+		  			}else{
+		  				JOptionPane.showMessageDialog(null, "Rango de precios erróneo!");
+		  			}
+ 			
 				}
 		
 			}
 		});
-		btnGo.setBounds(847, 29, 66, 40);
+		btnGo.setBounds(847, 29, 117, 41);
 		panelPrecio.add(btnGo);
 	
 		scrollPane = new WebScrollPane(table);
