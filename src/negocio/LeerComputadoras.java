@@ -53,8 +53,16 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 	@Override
 	protected Integer doInBackground() throws Exception {
 		
+		String[] enlaces = new String[5];
+		enlaces[0] = "http://www.magitech.pe/computadoras/pc-compatibles.html";
+		enlaces[1] = "http://www.magitech.pe/computadoras/hogar-oficina.html";
+		enlaces[2] = "http://www.magitech.pe/computadoras/pc-de-marca.html";
+		enlaces[3] = "http://www.magitech.pe/computadoras/pc-gamer.html";
+		enlaces[4] = "http://www.magitech.pe/computadoras/workstation.html";
 		
-		Document document = Jsoup.connect("http://www.magitech.pe/computadoras/pc-compatibles.html").get();
+		for(String url: enlaces){
+			
+			Document document = Jsoup.connect(url).get();
 		    
 		    Elements entradas = document.select("li.item");	
 		    Elements links = document.select("h2.product-name > a");
@@ -91,6 +99,8 @@ public class LeerComputadoras extends SwingWorker<Integer, Void>{
 		
 		
 		    }
+		}
+
 
 		construirVentana();
 

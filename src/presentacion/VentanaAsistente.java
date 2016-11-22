@@ -21,6 +21,11 @@ import com.alee.laf.table.WebTable;
 import entidades.Producto;
 import modeloTablas.ModeloTablaProducto;
 import negocio.LeerComputadoras;
+import negocio.LeerPCGamer;
+import negocio.LeerPCHogarOficina;
+import negocio.LeerPCMarca;
+import negocio.LeerPCWorkstation;
+
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,8 +45,12 @@ public class VentanaAsistente extends JDialog {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private WebProgressBar progressBar;
 	private JLabel lblProcesando;
+	private WebProgressBar progressBar2;
+	private JLabel lblProcesando2;
 	private WebScrollPane scrollPane;
+	private WebScrollPane scrollPane2;
 	private WebTable table;
+	private WebTable table2;
 	
 	public VentanaAsistente(VentanaPrincipal miVentanaPrincipal, boolean modal) {
 		super(miVentanaPrincipal, modal);
@@ -192,6 +201,7 @@ public class VentanaAsistente extends JDialog {
 		progressBar.setVisible(false);
 		panelPrecio.add(progressBar);
 
+
 		JLabel fondoPanelPrecio = new JLabel("");
 		fondoPanelPrecio.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/vista-asistente-panelPrecio.jpg")));
 		fondoPanelPrecio.setBounds(0, 0, 974, 583);
@@ -200,6 +210,134 @@ public class VentanaAsistente extends JDialog {
 		JPanel panelUtilidad = new JPanel();
 		panelVariable.add(panelUtilidad, "panel-utilidad");
 		panelUtilidad.setLayout(null);
+		
+		scrollPane2 = new WebScrollPane(table2);
+		scrollPane2.setBounds(27, 99, 632, 452);
+		scrollPane2.setVisible(false);
+		panelUtilidad.add(scrollPane2);
+		
+		JButton btnVerDetalles2 = new JButton("");
+		btnVerDetalles2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				
+			}
+		});
+		btnVerDetalles2.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/ver-detalles.png")));
+		btnVerDetalles2.setFocusPainted(false);
+		btnVerDetalles2.setContentAreaFilled(false);
+		btnVerDetalles2.setBorderPainted(false);
+		btnVerDetalles2.setBorder(null);
+		btnVerDetalles2.setBounds(692, 140, 272, 109);
+		panelUtilidad.add(btnVerDetalles2);
+		
+		lblProcesando2 = new JLabel("Procesando...");
+		lblProcesando2.setForeground(Color.WHITE);
+		lblProcesando2.setFont(new Font("Roboto Light", Font.BOLD, 14));
+		lblProcesando2.setBounds(719, 501, 97, 17);
+		lblProcesando2.setVisible(false);
+		panelUtilidad.add(lblProcesando2);
+		
+		progressBar2 = new WebProgressBar();
+		progressBar2.setBounds(719, 529, 230, 17);
+		progressBar2.setVisible(false);
+		panelUtilidad.add(progressBar2);
+		
+		
+		WebButton btnPCHogarOficina = new WebButton("Hogar y Oficina");
+		btnPCHogarOficina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evento) {
+				
+				if (evento.getSource() == btnPCHogarOficina) {
+		  			
+		  				progressBar2.setVisible(true);
+			  			progressBar2.setIndeterminate(true);
+			  			lblProcesando2.setVisible(true);
+		  			
+			  			LeerPCHogarOficina worker = new LeerPCHogarOficina(miVentanaAsistente,scrollPane2,table2,progressBar2,lblProcesando2);
+			  			worker.execute();
+		  			
+				}
+				
+				
+			}
+		});
+		btnPCHogarOficina.setFont(new Font("Berlin Sans FB", Font.PLAIN, 24));
+		btnPCHogarOficina.setBounds(45, 28, 187, 35);
+		panelUtilidad.add(btnPCHogarOficina);
+		
+		WebButton btnPCGamer = new WebButton("PC Gamer");
+		btnPCGamer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evento) {
+				
+				if (evento.getSource() == btnPCGamer) {
+		  			
+	  				progressBar2.setVisible(true);
+		  			progressBar2.setIndeterminate(true);
+		  			lblProcesando2.setVisible(true);
+	  			
+		  			LeerPCGamer worker = new LeerPCGamer(miVentanaAsistente,scrollPane2,table2,progressBar2,lblProcesando2);
+		  			worker.execute();
+	  			
+			}	
+				
+				
+			}
+		});
+		btnPCGamer.setFont(new Font("Berlin Sans FB", Font.PLAIN, 24));
+		btnPCGamer.setBounds(320, 28, 137, 35);
+		panelUtilidad.add(btnPCGamer);
+		
+		WebButton btnDeMarca = new WebButton("PC de Marca");
+		btnDeMarca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evento) {
+				
+				if (evento.getSource() == btnDeMarca) {
+		  			
+	  				progressBar2.setVisible(true);
+		  			progressBar2.setIndeterminate(true);
+		  			lblProcesando2.setVisible(true);
+	  			
+		  			LeerPCMarca worker = new LeerPCMarca(miVentanaAsistente,scrollPane2,table2,progressBar2,lblProcesando2);
+		  			worker.execute();
+	  			
+			}	
+				
+				
+			}
+		});
+		btnDeMarca.setFont(new Font("Berlin Sans FB", Font.PLAIN, 24));
+		btnDeMarca.setBounds(535, 28, 161, 35);
+		panelUtilidad.add(btnDeMarca);
+		
+		WebButton btnPCWorkstation = new WebButton("Workstation");
+		btnPCWorkstation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evento) {
+				if (evento.getSource() == btnPCWorkstation) {
+
+					progressBar2.setVisible(true);
+					progressBar2.setIndeterminate(true);
+					lblProcesando2.setVisible(true);
+
+					LeerPCWorkstation worker = new LeerPCWorkstation(miVentanaAsistente, scrollPane2, table2, progressBar2,	lblProcesando2);
+					worker.execute();
+
+				}
+				
+				
+				
+			}
+		});
+		btnPCWorkstation.setFont(new Font("Berlin Sans FB", Font.PLAIN, 24));
+		btnPCWorkstation.setBounds(768, 28, 155, 35);
+		panelUtilidad.add(btnPCWorkstation);
+		
+		JLabel fondoUtilidad = new JLabel("");
+		fondoUtilidad.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/vista-asistente-utilidad.jpg")));
+		fondoUtilidad.setBounds(0, 0, 974, 583);
+		panelUtilidad.add(fondoUtilidad);
 		
 		JLabel fondoPrincipal = new JLabel("");
 		fondoPrincipal.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/vista-asistente4.jpg")));
@@ -219,7 +357,13 @@ public class VentanaAsistente extends JDialog {
 	public void setTable(WebTable table) {
 		this.table = table;
 	}
-	
-	
+
+	public WebTable getTable2() {
+		return table2;
+	}
+
+	public void setTable2(WebTable table2) {
+		this.table2 = table2;
+	}
 	
 }
