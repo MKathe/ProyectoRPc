@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
@@ -100,7 +102,17 @@ public class Login extends JFrame {
 		btnRegistrate.setBorder(UIManager.getBorder("RadioButton.border"));
 		btnRegistrate.setBackground(Color.LIGHT_GRAY);
 		btnRegistrate.setBounds(172, 390, 106, 23);
+		
 		contentPane.add(btnRegistrate);
+		btnRegistrate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UsuarioNuevo miVentanaUsuario = new UsuarioNuevo();					
+				miVentanaUsuario.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				miVentanaUsuario.setVisible(true);
+				
+				
+			}
+		});
 		
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
@@ -146,5 +158,14 @@ public class Login extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/resources/vista_login3.jpg")));
 		lblNewLabel.setBounds(0, -13, 443, 597);
 		contentPane.add(lblNewLabel);
+	}
+	public class ManejadorRegistrarse implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }

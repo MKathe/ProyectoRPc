@@ -1,6 +1,7 @@
 package datos;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import conectionDB.ConectionDB;
 import entidades.Reporte;
+import entidades.Usuario;
 
 public class ConsultasBasicas {
 
@@ -107,6 +109,23 @@ public class ConsultasBasicas {
 			JOptionPane.showMessageDialog(null, "Ocurrio un error al realizar la operacion");
 		}
 
+	}
+	public static void insertarUsuario(Usuario usuarionuevo){
+		
+		Connection conexion = ConectionDB.getConection();
+		try {
+			PreparedStatement pps = conexion.prepareStatement("INSERT INTO usuarios(Nombres,Apellidos,Usuario,Contraseña,Correo) VALUES(?,?,?,?,?)");
+			pps.setString(1, usuarionuevo.getNombre());
+			pps.setString(2, usuarionuevo.getApellidos());
+			pps.setString(3, usuarionuevo.getUsuario());
+			pps.setString(4, usuarionuevo.getContraseña());
+			pps.setString(5, usuarionuevo.getCorreo());
+			pps.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Inserción correcta");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

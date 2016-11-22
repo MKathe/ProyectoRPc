@@ -14,7 +14,7 @@ public class ValidarUsuario {
 		ResultSet datos; 
 
 		datos = ConsultasBasicas
-				.consultarDatos("SELECT * FROM usuarios WHERE usuario='" + user + "' AND clave='"+pass+"'"); 
+				.consultarDatos("SELECT * FROM usuarios WHERE Usuario ='" + user + "' AND Contraseña ='"+pass+"'"); 
 
 		try {
 

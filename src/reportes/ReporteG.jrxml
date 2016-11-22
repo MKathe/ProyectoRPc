@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-11-21T21:32:57 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="04ff26be-eba8-47f1-b38b-2eedc7e27e28">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="rantiypc"/>
+	<parameter name="Nombre" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM rantiypc.reportes WHERE rantiypc.reportes.Nombre= $P{Nombre} ]]>
+	</queryString>
+	<field name="NRO" class="java.lang.Integer"/>
+	<field name="Nombre" class="java.lang.String"/>
+	<field name="Tipo" class="java.lang.String"/>
+	<field name="Fecha" class="java.sql.Timestamp"/>
+	<field name="Procesador" class="java.lang.String"/>
+	<field name="PrecioProcesador" class="java.lang.Integer"/>
+	<field name="TiendaProcesador" class="java.lang.String"/>
+	<field name="Memoria" class="java.lang.String"/>
+	<field name="PrecioMemoria" class="java.lang.Integer"/>
+	<field name="TiendaMemoria" class="java.lang.String"/>
+	<field name="Placa" class="java.lang.String"/>
+	<field name="PrecioPlaca" class="java.lang.Integer"/>
+	<field name="TiendaPlaca" class="java.lang.String"/>
+	<field name="VideoCard" class="java.lang.String"/>
+	<field name="PrecioVideoCard" class="java.lang.Integer"/>
+	<field name="TiendaVideoCard" class="java.lang.String"/>
+	<field name="HDD" class="java.lang.String"/>
+	<field name="PrecioHDD" class="java.lang.Integer"/>
+	<field name="TiendaHDD" class="java.lang.String"/>
+	<field name="CaseFuente" class="java.lang.String"/>
+	<field name="PrecioCaseFuente" class="java.lang.Integer"/>
+	<field name="TiendaCaseFuente" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{NRO}]]></groupExpression>
+		<groupHeader>
+			<band height="127">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="110" height="32" forecolor="#000000" backcolor="#BFBFBF" uuid="0d4f9d3d-c332-4aee-a3a8-28c33b499b8c"/>
+					<textElement>
+						<font fontName="Dialog" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NRO]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="110" y="33" width="445" height="29" forecolor="#000000" uuid="cf89bac9-acf3-436a-801b-b0e3092318ba"/>
+					<textElement>
+						<font size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="63" width="445" height="29" forecolor="#000000" uuid="9262c877-444f-4269-8e1e-b1b3ed12527a"/>
+					<textElement>
+						<font size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Tipo}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="124" width="555" height="2" forecolor="#666666" uuid="00121424-60ac-4e66-8994-44e41a46005a"/>
+				</line>
+				<textField>
+					<reportElement mode="Opaque" x="110" y="0" width="445" height="32" forecolor="#000000" backcolor="#BDBDBD" uuid="e35405e1-a755-44f6-95be-adb4269bf9eb"/>
+					<textElement>
+						<font size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NRO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="32" width="110" height="30" forecolor="#000000" backcolor="#8B898C" uuid="52972c30-a8ea-4d48-b343-92742aa43bfc"/>
+					<textElement>
+						<font fontName="SansSerif" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="62" width="110" height="30" forecolor="#000000" uuid="671d197f-4596-44c4-aa65-396d987552f8"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="110" y="92" width="445" height="32" forecolor="#000000" uuid="db67707d-d7c9-4d54-9581-45ff5d0fc1b7"/>
+					<textElement>
+						<font size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="92" width="110" height="32" forecolor="#000000" uuid="a3e0dc96-361e-4c9c-80af-0a6a6bffec96"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="0" width="555" height="1" forecolor="#666666" uuid="84b4c0ec-7290-4b25-8015-144c5f6e0fee"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{Nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="94">
+				<textField>
+					<reportElement x="110" y="0" width="445" height="30" uuid="3a3ef4fa-882f-45c0-8336-a3e74dfb4b32"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Procesador}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="30" width="447" height="31" uuid="889afa73-72d0-463e-8967-5908ec7a0f5a"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PrecioProcesador}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="60" width="445" height="32" uuid="dc47365c-1207-4af7-ab3c-23048c245719"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TiendaProcesador}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="110" height="30" backcolor="#D14B49" uuid="e8cf67b5-d567-4065-81f6-f0c9ce328429"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Procesador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="30" width="110" height="30" uuid="c88d9522-c0e4-4a4b-923d-0e370aea235c"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Precio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="60" width="110" height="32" uuid="e06eb0a5-bb1b-43ce-a328-08e2ca4ae255"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tienda]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group3">
+		<groupExpression><![CDATA[$F{Tipo}]]></groupExpression>
+		<groupHeader>
+			<band height="92">
+				<textField>
+					<reportElement x="110" y="0" width="445" height="30" uuid="344515dd-6bda-4915-a9ae-774975d457f6"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Memoria}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="31" width="445" height="30" uuid="34a4fd3a-d468-49ac-842c-878dd0ac09ad"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PrecioMemoria}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="111" y="61" width="444" height="31" uuid="a2d2cc99-e0b8-4db7-97f3-6ff6b1b940f6"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TiendaMemoria}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="110" height="31" uuid="e2c15a7e-f353-4cfd-adc8-d069ad537c3f"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Memoria]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="30" width="110" height="30" uuid="da0757ba-7e4d-4192-b3ef-8f6eed408d54"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Precio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="60" width="110" height="32" uuid="c59aa319-647b-4ccf-bd3e-2fe780ab5d7a"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tienda]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="527c3602-b241-4327-a08d-50d638c8979e"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group4">
+		<groupExpression><![CDATA[$F{Fecha}]]></groupExpression>
+		<groupHeader>
+			<band height="89">
+				<staticText>
+					<reportElement x="0" y="1" width="110" height="26" uuid="d1c7536b-4100-4f3a-9d13-3c34e1b70bfd"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Placa]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="27" width="110" height="30" uuid="655c0031-2660-4b77-b495-dbb74b2372a9"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Precio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="57" width="110" height="32" uuid="5189a3c0-a887-465c-afb9-72b881d8d5da"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tienda]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="110" y="1" width="445" height="26" uuid="128d32d8-57a6-4d13-b6da-6a0f0bcbcaeb"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Placa}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="27" width="445" height="30" uuid="0ea2a801-7e30-4e01-a61a-7aa81092b58d"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PrecioPlaca}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="58" width="445" height="30" uuid="bd67dd67-2810-497e-8e47-68e886e2fc6a"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TiendaPlaca}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="03835a09-48ce-4dd5-8417-4d8f5c68c3b8"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Procesador">
+		<groupExpression><![CDATA[$F{Procesador}]]></groupExpression>
+		<groupHeader>
+			<band height="89">
+				<staticText>
+					<reportElement x="0" y="1" width="110" height="26" uuid="eb9c66f6-24e3-4f5b-b35b-aaf1150fadde"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VideoCard]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="27" width="110" height="30" uuid="7abf8560-f904-45f1-9c31-b7aa2fcc1875"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Precio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="57" width="110" height="32" uuid="8b96d3c2-03cb-46e4-8e19-2ee07a3e7ea6"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tienda]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="110" y="-1" width="445" height="28" uuid="1104693f-6a05-4cf3-a842-c71bac62d753"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{VideoCard}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="27" width="445" height="30" uuid="0f290620-50b8-47a0-8c21-5a2489b88227"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PrecioVideoCard}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="58" width="445" height="31" uuid="d1f16728-e214-4663-949d-8f8deba5da7c"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TiendaVideoCard}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="12a2242d-ce54-4cb6-84b9-aaac59e0813c"/>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="PrecioProcesador">
+		<groupExpression><![CDATA[$F{PrecioProcesador}]]></groupExpression>
+		<groupHeader>
+			<band height="91">
+				<staticText>
+					<reportElement x="0" y="1" width="110" height="26" uuid="cc351c17-3419-4f4e-877c-0d26ecc67330"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[HDD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="27" width="110" height="30" uuid="ca753744-c1f8-4cc1-a505-fba1b669a929"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Precio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="57" width="110" height="32" uuid="0772637a-cab7-4092-8268-93ccc322f098"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tienda]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="89cb47cf-3fd1-46cb-bd21-b2ea8312c4a1"/>
+				</line>
+				<textField>
+					<reportElement x="110" y="1" width="445" height="26" uuid="15f85630-3b9a-4a98-b6bd-44bc6b26b8ed"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HDD}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="27" width="445" height="30" uuid="f6a8ba56-7568-4d00-a40c-533ed5e26687"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PrecioHDD}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="57" width="445" height="32" uuid="c9557eb7-ccf0-4eb5-8325-3fed29895986"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TiendaHDD}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="TiendaProcesador">
+		<groupExpression><![CDATA[$F{TiendaProcesador}]]></groupExpression>
+		<groupHeader>
+			<band height="91">
+				<staticText>
+					<reportElement x="0" y="1" width="110" height="26" uuid="70a754ac-ca44-468e-bc0c-21d606050842"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Case Fuente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="27" width="110" height="30" uuid="a4d3e69a-2e64-416a-90d1-afb517313a95"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Precio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="57" width="110" height="32" uuid="0f937cec-1c53-436d-8752-049aad6c52ff"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tienda]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="b3aea57b-cc0a-4dc4-9d9c-920a6fc4267b"/>
+				</line>
+				<textField>
+					<reportElement x="110" y="1" width="445" height="26" uuid="f984780e-7b2d-4193-9024-50399c7d83fb"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CaseFuente}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="27" width="445" height="30" uuid="293adbc1-c697-47ee-aa77-823266799e45"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PrecioCaseFuente}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="110" y="58" width="445" height="31" uuid="7c27fc0c-9508-497b-9880-174a123d0303"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TiendaCaseFuente}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Memoria">
+		<groupExpression><![CDATA[$F{Memoria}]]></groupExpression>
+	</group>
+	<group name="PrecioMemoria">
+		<groupExpression><![CDATA[$F{PrecioMemoria}]]></groupExpression>
+	</group>
+	<group name="TiendaMemoria">
+		<groupExpression><![CDATA[$F{TiendaMemoria}]]></groupExpression>
+	</group>
+	<group name="PrecioPlaca">
+		<groupExpression><![CDATA[$F{PrecioPlaca}]]></groupExpression>
+	</group>
+	<group name="VideoCard">
+		<groupExpression><![CDATA[$F{VideoCard}]]></groupExpression>
+	</group>
+	<group name="PrecioVideoCard">
+		<groupExpression><![CDATA[$F{PrecioVideoCard}]]></groupExpression>
+	</group>
+	<group name="TiendaVideoCard">
+		<groupExpression><![CDATA[$F{TiendaVideoCard}]]></groupExpression>
+	</group>
+	<group name="HDD">
+		<groupExpression><![CDATA[$F{HDD}]]></groupExpression>
+	</group>
+	<group name="PrecioHDD">
+		<groupExpression><![CDATA[$F{PrecioHDD}]]></groupExpression>
+	</group>
+	<group name="TiendaHDD">
+		<groupExpression><![CDATA[$F{TiendaHDD}]]></groupExpression>
+	</group>
+	<group name="CaseFuente">
+		<groupExpression><![CDATA[$F{CaseFuente}]]></groupExpression>
+	</group>
+	<group name="PrecioCaseFuente">
+		<groupExpression><![CDATA[$F{PrecioCaseFuente}]]></groupExpression>
+	</group>
+	<group name="TiendaCaseFuente">
+		<groupExpression><![CDATA[$F{TiendaCaseFuente}]]></groupExpression>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="85">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="350" height="100" backcolor="#006699" uuid="694d9bee-fdc2-40a2-aea0-a7ab4ed20377">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<staticText>
+					<reportElement x="20" y="5" width="230" height="85" forecolor="#FFFFFF" uuid="9049dff1-5287-420c-856b-1df636570a9c"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tw Cen MT" size="60" isBold="false" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Reportes ]]></text>
+				</staticText>
+			</frame>
+			<image>
+				<reportElement x="330" y="-20" width="245" height="100" uuid="861d194e-bcaa-4803-826b-e642e11347f6"/>
+				<imageExpression><![CDATA["src/resources/logo_png.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5"/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="5">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="7335180e-4d05-4aee-8d33-c5a6145e1f0b"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="27">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="10" width="515" height="13" backcolor="#E6E6E6" uuid="b4e2f6fc-9aff-4f78-ac21-7b05f15bc6d5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="10" width="40" height="13" backcolor="#E6E6E6" uuid="2195fe0b-e054-415f-a9bc-500c11aa52a5"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="10" width="100" height="13" uuid="56a01351-e01a-4fd6-b5b1-048320dcd8e7"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

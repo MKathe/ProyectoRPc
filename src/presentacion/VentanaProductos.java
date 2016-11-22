@@ -155,7 +155,7 @@ public class VentanaProductos extends JDialog {
 
 					VentanaGenReporte miVentanaGenReporte = new VentanaGenReporte (miVentanaProductos, true, nuevoReporte);
 					miVentanaGenReporte.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					miVentanaGenReporte.setVisible(true);
+                    miVentanaGenReporte.setVisible(true);
 					
 
 				} else {

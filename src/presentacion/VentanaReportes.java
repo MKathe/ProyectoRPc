@@ -116,7 +116,7 @@ public class VentanaReportes extends JDialog {
 		/* super(miVentanaPrincipal, modal); */
 
 		setTitle("Ventana Reportes");
-		setBounds(100, 100, 910, 672);
+		setBounds(100, 100, 915, 765);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -124,7 +124,7 @@ public class VentanaReportes extends JDialog {
 
 		comboBox = new JComboBox();
 		comboBox.setForeground(new Color(0, 0, 0));
-		comboBox.setBounds(198, 73, 131, 23);
+		comboBox.setBounds(204, 84, 131, 23);
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 14));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Buscar por", "Nombre", "Tipo", "Fecha" }));
@@ -135,7 +135,7 @@ public class VentanaReportes extends JDialog {
 		textBusqueda.setForeground(new Color(255, 255, 255));
 		textBusqueda.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		textBusqueda.setBackground(UIManager.getColor("ToolBar.highlight"));
-		textBusqueda.setBounds(399, 70, 393, 25);
+		textBusqueda.setBounds(404, 84, 393, 25);
 		contentPane.add(textBusqueda);
 		textBusqueda.setColumns(10);
 		textBusqueda.setBorder(null);
@@ -148,7 +148,7 @@ public class VentanaReportes extends JDialog {
 		comboBox1.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		comboBox1.setBackground(Color.WHITE);
 		comboBox1.setModel(new DefaultComboBoxModel(new String[] { "Ordenar por", "Nombre", "Tipo", "Fecha" }));
-		comboBox1.setBounds(30, 73, 145, 23);
+		comboBox1.setBounds(28, 84, 145, 23);
 		comboBox1.addItemListener(new ManejadorOrdenar());
 		contentPane.add(comboBox1);
 
@@ -160,7 +160,7 @@ public class VentanaReportes extends JDialog {
 		btnBuscar.setBorder(UIManager.getBorder("CheckBox.border"));
 		btnBuscar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/lupa3.png")));
 		btnBuscar.setFont(new Font("Papyrus", Font.PLAIN, 14));
-		btnBuscar.setBounds(808, 53, 53, 56);
+		btnBuscar.setBounds(810, 74, 53, 56);
 		btnBuscar.addActionListener(new ManejadorBuscarPor());
 
 		contentPane.add(btnBuscar);
@@ -172,7 +172,7 @@ public class VentanaReportes extends JDialog {
 		btnGuardar.setBorderPainted(false);
 		btnGuardar.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/boton-guardar-reporte.png")));
 		btnGuardar.setContentAreaFilled(false);
-		btnGuardar.setBounds(527, 555, 218, 68);
+		btnGuardar.setBounds(537, 620, 218, 68);
 		btnGuardar.addActionListener(new GuardarReporte());
 		contentPane.add(btnGuardar);
 
@@ -182,38 +182,12 @@ public class VentanaReportes extends JDialog {
 		btnMostrarReporte.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/btn_mostrar6.png")));
 		btnMostrarReporte.setContentAreaFilled(false);
 		btnMostrarReporte.addActionListener(new ManejadorDeMostrar());
-		btnMostrarReporte.setBounds(113, 555, 246, 68);
+		btnMostrarReporte.setBounds(101, 620, 246, 68);
 		contentPane.add(btnMostrarReporte);
-
-		JLabel lblReportes = new JLabel("Reportes");
-		lblReportes.setBackground(Color.WHITE);
-		lblReportes.setForeground(Color.WHITE);
-		lblReportes.setFont(new Font("PeacerfulDay", Font.BOLD, 39));
-		lblReportes.setBounds(30, 0, 373, 62);
-		contentPane.add(lblReportes);
-
-		JLabel lblListadoDeReportes = new JLabel("Listado de reportes:");
-		lblListadoDeReportes.setForeground(Color.WHITE);
-		lblListadoDeReportes.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblListadoDeReportes.setBounds(30, 153, 177, 14);
-		contentPane.add(lblListadoDeReportes);
 
 		listadeReportes = new ArrayList<Reporte>();
 		LeerReportes.CargarListaDeReportes(listadeReportes);
 		TableModel tableModel = new ModeloTablaReporte(listadeReportes);
-
-		JLabel lblDel = new JLabel("Del:");
-		lblDel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblDel.setForeground(Color.WHITE);
-		lblDel.setBounds(30, 124, 46, 14);
-		contentPane.add(lblDel);
-
-		JLabel lblAl = new JLabel("Al:");
-		lblAl.setForeground(Color.WHITE);
-		lblAl.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblAl.setBounds(210, 119, 32, 25);
-
-		contentPane.add(lblAl);
 		
 		TablaDeReportes = new JTable(tableModel);
 		TablaDeReportes.setFont(new Font("Papyrus", Font.PLAIN, 11));
@@ -225,26 +199,26 @@ public class VentanaReportes extends JDialog {
 		spTablaDeReportes = new JScrollPane();
 		spTablaDeReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		spTablaDeReportes.setSize(790, 315);
-		spTablaDeReportes.setLocation(49, 198);
+		spTablaDeReportes.setLocation(53, 229);
 		spTablaDeReportes.setViewportView(TablaDeReportes);
 
 		contentPane.add(spTablaDeReportes);
 
 		dateDel = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
 		dateDel.setEnabled(false);
-		dateDel.setBounds(71, 119, 115, 23);
+		dateDel.setBounds(81, 161, 115, 23);
 		contentPane.add(dateDel);
 		dateDel.setMaxSelectableDate(new Date());
 
 		dateAl = new JDateChooser("yyyy/MM/dd", "##/##/####", '_');
 		dateAl.setEnabled(false);
-		dateAl.setBounds(244, 121, 115, 23);
+		dateAl.setBounds(307, 161, 115, 23);
 		contentPane.add(dateAl);
 		dateAl.setMaxSelectableDate(new Date());
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/vista_reporte.png")));
-		label.setBounds(0, 0, 894, 634);
+		label.setIcon(new ImageIcon(VentanaReportes.class.getResource("/resources/vista_reporte0.png")));
+		label.setBounds(0, 0, 905, 727);
 		contentPane.add(label);
 		
 		
@@ -261,19 +235,16 @@ public class VentanaReportes extends JDialog {
 				Map<String, java.lang.Object> parametros = new HashMap<>();
 				parametros.put("Indice", a);
 				jr = new JasperReportt();
-				jr.CrearReporte(ConectionDB.getConection(),new File(".").getAbsolutePath() + "/src/reportes/reporteR.jasper", parametros);
+				jr.CrearReporte(ConectionDB.getConection(),new File(".").getAbsolutePath() + "/src/reportes/Reporte.jasper", parametros);
 				jr.VerReporte();
 				btnGuardar.setEnabled(true);
 			} else {
 				JOptionPane.showMessageDialog(null, "No ha seleccionado ningun reporte", "",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
-            Insertar();
+        
 		}
 		
-		
-	}
-	public  void Insertar() {
 		
 	}
 
