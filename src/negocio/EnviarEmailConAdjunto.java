@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMultipart;
 
 public class EnviarEmailConAdjunto {
 	
-	public static void enviarEmail(String user, String pass, String dest, String asunto, String mensaje, String rutaReporte, String nombreReporte) throws MessagingException{
+	public static void enviarEmail(String dest, String asunto, String mensaje, String rutaReporte) throws MessagingException{
 		Properties props = new Properties();
 
 		// Nombre del host de correo, es smtp.gmail.com
@@ -29,7 +29,7 @@ public class EnviarEmailConAdjunto {
 		props.setProperty("mail.smtp.port","587");
 
 		// Nombre del usuario
-		props.setProperty("mail.smtp.user", user);
+		props.setProperty("mail.smtp.user", "rantiypc@gmail.com");
 
 		// Si requiere o no usuario y password para conectarse.
 		props.setProperty("mail.smtp.auth", "true");
@@ -54,7 +54,7 @@ public class EnviarEmailConAdjunto {
 		MimeMessage message = new MimeMessage(session);
 
 		// Se rellena el From
-		message.setFrom(new InternetAddress(user));
+		message.setFrom(new InternetAddress("rantiypc@gmail.com"));
 
 		// Se rellenan los destinatarios
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(dest));
@@ -66,7 +66,7 @@ public class EnviarEmailConAdjunto {
 		message.setContent(multiParte);
 		
 		Transport t = session.getTransport("smtp");
-		t.connect(user,pass);
+		t.connect("rantiypc@gmail.com","rantiypc123");
 		t.sendMessage(message,message.getAllRecipients());
 		t.close();
 	}
