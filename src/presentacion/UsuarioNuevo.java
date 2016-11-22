@@ -26,6 +26,7 @@ import entidades.Usuario;
 import negocio.ValidarRegistro;
 import java.awt.Color;
 import java.awt.Cursor;
+import javax.swing.JPasswordField;
 
 public class UsuarioNuevo extends JDialog {
 
@@ -33,9 +34,9 @@ public class UsuarioNuevo extends JDialog {
 	private JTextField textFieldNombre;
 	private JTextField textFieldApellidos;
 	private JTextField textFieldUsuario;
-	private JTextField textFieldContraseña;
-	private JTextField textFieldConfirmarContraseña;
 	private JTextField textfieldCorreo;
+	private JPasswordField textFieldContraseña;
+	private JPasswordField textFieldConfirmarContraseña;
 
 	/**
 	 * Launch the application.
@@ -89,13 +90,11 @@ public class UsuarioNuevo extends JDialog {
 		textFieldUsuario.setBounds(200, 306, 190, 20);
 		contentPanel.add(textFieldUsuario);
 		
-		textFieldContraseña = new JTextField();
-		textFieldContraseña.setFont(new Font("Tahoma", Font.BOLD, 11));
+		textFieldContraseña = new JPasswordField();
 		textFieldContraseña.setForeground(Color.WHITE);
-		textFieldContraseña.setBorder(null);
 		textFieldContraseña.setOpaque(false);
-		textFieldContraseña.setColumns(10);
-		textFieldContraseña.setBounds(200, 379, 190, 20);
+		textFieldContraseña.setBorder(null);
+		textFieldContraseña.setBounds(200, 376, 190, 27);
 		contentPanel.add(textFieldContraseña);
 		
 		JButton btnGuardar = new JButton("");
@@ -108,13 +107,11 @@ public class UsuarioNuevo extends JDialog {
 		contentPanel.add(btnGuardar);
 		btnGuardar.addActionListener(new ManejadorRegistrarUsuario());
 		
-		textFieldConfirmarContraseña = new JTextField();
-		textFieldConfirmarContraseña.setFont(new Font("Tahoma", Font.BOLD, 11));
+		textFieldConfirmarContraseña = new JPasswordField();
 		textFieldConfirmarContraseña.setForeground(Color.WHITE);
-		textFieldConfirmarContraseña.setBorder(null);
 		textFieldConfirmarContraseña.setOpaque(false);
-		textFieldConfirmarContraseña.setColumns(10);
-		textFieldConfirmarContraseña.setBounds(200, 446, 190, 20);
+		textFieldConfirmarContraseña.setBorder(null);
+		textFieldConfirmarContraseña.setBounds(200, 443, 190, 27);
 		contentPanel.add(textFieldConfirmarContraseña);
 		
 		textfieldCorreo = new JTextField();
@@ -130,6 +127,10 @@ public class UsuarioNuevo extends JDialog {
 		LabelFondo.setIcon(new ImageIcon(UsuarioNuevo.class.getResource("/resources/vista_registrar4.png")));
 		LabelFondo.setBounds(0, 0, 453, 560);
 		contentPanel.add(LabelFondo);
+		
+		ValidarRegistro.validarSoloLetras(textFieldNombre);
+		ValidarRegistro.validarSoloLetras(textFieldApellidos);
+		
 	}
 	
 	public class ManejadorRegistrarUsuario implements ActionListener{
@@ -167,6 +168,4 @@ public class UsuarioNuevo extends JDialog {
 			}
 			
 		}
-		
-	
 }

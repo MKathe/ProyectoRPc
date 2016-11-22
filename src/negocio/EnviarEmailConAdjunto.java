@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMultipart;
 
 public class EnviarEmailConAdjunto {
 	
-	public static void enviarEmail(String dest, String asunto, String mensaje, String rutaReporte) throws MessagingException{
+	public static void enviarEmail (String dest, String asunto, String mensaje, String rutaReporte) throws MessagingException{
 		Properties props = new Properties();
 
 		// Nombre del host de correo, es smtp.gmail.com

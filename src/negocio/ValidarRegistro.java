@@ -1,6 +1,10 @@
 package negocio;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.JTextField;
 
 import datos.ConsultasBasicas;
 
@@ -28,5 +32,20 @@ public class ValidarRegistro {
 		}
 	   return existe;
     }
+    
+    public static void validarSoloLetras(JTextField campo){
+		campo.addKeyListener(new KeyAdapter(){
+			public void keyTyped(KeyEvent e){
+				char c = e.getKeyChar();
+				int k = (int)e.getKeyChar();
+				System.out.println(k);
+				if(Character.isDigit(c) || (!(k >= 65 && k <= 90) && !(k >= 97 && k <= 122)
+					&& k != 241 && k != 209 && k != 225 && k != 233 && k != 237 && k != 243
+					&& k != 250 && k != 193 && k != 201 && k != 205 && k != 211 && k != 218)){
+					e.consume();
+				}
+			}
+		});
+	}
    
 }
