@@ -51,6 +51,7 @@ public class VentanaAsistente extends JDialog {
 	private WebScrollPane scrollPane2;
 	private WebTable table;
 	private WebTable table2;
+	private boolean hogar,gamer,marca,workstation;
 	
 	public VentanaAsistente(VentanaPrincipal miVentanaPrincipal, boolean modal) {
 		super(miVentanaPrincipal, modal);
@@ -220,7 +221,97 @@ public class VentanaAsistente extends JDialog {
 		btnVerDetalles2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				if(hogar == true){
+					
+					if(table2.getSelectedRow() != -1){
+						List<Producto> listaPCs = new ArrayList<Producto>();
+						List<String> listaEnlaces = new ArrayList<String>();
+						
+						listaPCs.addAll(LeerPCHogarOficina.listaComputadoras);
+						listaEnlaces.addAll(LeerPCHogarOficina.listaEnlaces);
+			
+						String enlace = listaEnlaces.get(table2.getSelectedRow());
+						String nombreProducto = listaPCs.get(table2.getSelectedRow()).getNombre();
+						String precio = Double.toString(listaPCs.get(table2.getSelectedRow()).getPrecio());
+						String nombreTienda = listaPCs.get(table2.getSelectedRow()).getTienda();
+						
+						VentanaDetallesAsistente miVentanaDetalles = new VentanaDetallesAsistente(miVentanaAsistente, true, enlace, nombreProducto, precio, nombreTienda);
+						miVentanaDetalles.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						miVentanaDetalles.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(null, "Selecciona un producto!");
+					}
+	
+				}
 				
+				if(gamer == true){
+					
+					if(table2.getSelectedRow() != -1){
+						List<Producto> listaPCs = new ArrayList<Producto>();
+						List<String> listaEnlaces = new ArrayList<String>();
+						
+						listaPCs.addAll(LeerPCGamer.listaComputadoras);
+						listaEnlaces.addAll(LeerPCGamer.listaEnlaces);
+			
+						String enlace = listaEnlaces.get(table2.getSelectedRow());
+						String nombreProducto = listaPCs.get(table2.getSelectedRow()).getNombre();
+						String precio = Double.toString(listaPCs.get(table2.getSelectedRow()).getPrecio());
+						String nombreTienda = listaPCs.get(table2.getSelectedRow()).getTienda();
+						
+						VentanaDetallesAsistente miVentanaDetalles = new VentanaDetallesAsistente(miVentanaAsistente, true, enlace, nombreProducto, precio, nombreTienda);
+						miVentanaDetalles.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						miVentanaDetalles.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(null, "Selecciona un producto!");
+					}
+					
+				}
+				
+				if(marca == true){
+					
+					if(table2.getSelectedRow() != -1){
+						List<Producto> listaPCs = new ArrayList<Producto>();
+						List<String> listaEnlaces = new ArrayList<String>();
+						
+						listaPCs.addAll(LeerPCMarca.listaComputadoras);
+						listaEnlaces.addAll(LeerPCMarca.listaEnlaces);
+			
+						String enlace = listaEnlaces.get(table2.getSelectedRow());
+						String nombreProducto = listaPCs.get(table2.getSelectedRow()).getNombre();
+						String precio = Double.toString(listaPCs.get(table2.getSelectedRow()).getPrecio());
+						String nombreTienda = listaPCs.get(table2.getSelectedRow()).getTienda();
+						
+						VentanaDetallesAsistente miVentanaDetalles = new VentanaDetallesAsistente(miVentanaAsistente, true, enlace, nombreProducto, precio, nombreTienda);
+						miVentanaDetalles.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						miVentanaDetalles.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(null, "Selecciona un producto!");
+					}
+					
+				}
+				
+				if(workstation == true){
+					
+					if(table2.getSelectedRow() != -1){
+						List<Producto> listaPCs = new ArrayList<Producto>();
+						List<String> listaEnlaces = new ArrayList<String>();
+						
+						listaPCs.addAll(LeerPCWorkstation.listaComputadoras);
+						listaEnlaces.addAll(LeerPCWorkstation.listaEnlaces);
+			
+						String enlace = listaEnlaces.get(table2.getSelectedRow());
+						String nombreProducto = listaPCs.get(table2.getSelectedRow()).getNombre();
+						String precio = Double.toString(listaPCs.get(table2.getSelectedRow()).getPrecio());
+						String nombreTienda = listaPCs.get(table2.getSelectedRow()).getTienda();
+						
+						VentanaDetallesAsistente miVentanaDetalles = new VentanaDetallesAsistente(miVentanaAsistente, true, enlace, nombreProducto, precio, nombreTienda);
+						miVentanaDetalles.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						miVentanaDetalles.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(null, "Selecciona un producto!");
+					}
+					
+				}
 				
 				
 			}
@@ -251,7 +342,8 @@ public class VentanaAsistente extends JDialog {
 			public void actionPerformed(ActionEvent evento) {
 				
 				if (evento.getSource() == btnPCHogarOficina) {
-		  			
+						gamer = marca = workstation = false;
+		  				hogar = true;
 		  				progressBar2.setVisible(true);
 			  			progressBar2.setIndeterminate(true);
 			  			lblProcesando2.setVisible(true);
@@ -273,7 +365,8 @@ public class VentanaAsistente extends JDialog {
 			public void actionPerformed(ActionEvent evento) {
 				
 				if (evento.getSource() == btnPCGamer) {
-		  			
+					hogar = marca = workstation = false;
+		  			gamer = true;
 	  				progressBar2.setVisible(true);
 		  			progressBar2.setIndeterminate(true);
 		  			lblProcesando2.setVisible(true);
@@ -295,7 +388,8 @@ public class VentanaAsistente extends JDialog {
 			public void actionPerformed(ActionEvent evento) {
 				
 				if (evento.getSource() == btnDeMarca) {
-		  			
+					hogar = gamer = workstation = false;
+		  			marca = true;
 	  				progressBar2.setVisible(true);
 		  			progressBar2.setIndeterminate(true);
 		  			lblProcesando2.setVisible(true);
@@ -316,7 +410,8 @@ public class VentanaAsistente extends JDialog {
 		btnPCWorkstation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
 				if (evento.getSource() == btnPCWorkstation) {
-
+					hogar = gamer = marca = false;
+					workstation = true;
 					progressBar2.setVisible(true);
 					progressBar2.setIndeterminate(true);
 					lblProcesando2.setVisible(true);
