@@ -122,24 +122,32 @@ public class VentanaAsistente extends JDialog {
 		btnVerdetalles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(table.getSelectedRow() != -1){
-					List<Producto> listaPCs = new ArrayList<Producto>();
-					List<String> listaEnlaces = new ArrayList<String>();
+				if(table != null){
 					
-					listaPCs.addAll(LeerComputadoras.listaComputadoras);
-					listaEnlaces.addAll(LeerComputadoras.listaEnlaces);
-		
-					String enlace = listaEnlaces.get(table.getSelectedRow());
-					String nombreProducto = listaPCs.get(table.getSelectedRow()).getNombre();
-					String precio = Double.toString(listaPCs.get(table.getSelectedRow()).getPrecio());
-					String nombreTienda = listaPCs.get(table.getSelectedRow()).getTienda();
+					if(table.getSelectedRow() != -1){
+						List<Producto> listaPCs = new ArrayList<Producto>();
+						List<String> listaEnlaces = new ArrayList<String>();
+						
+						listaPCs.addAll(LeerComputadoras.listaComputadoras);
+						listaEnlaces.addAll(LeerComputadoras.listaEnlaces);
+			
+						String enlace = listaEnlaces.get(table.getSelectedRow());
+						String nombreProducto = listaPCs.get(table.getSelectedRow()).getNombre();
+						String precio = Double.toString(listaPCs.get(table.getSelectedRow()).getPrecio());
+						String nombreTienda = listaPCs.get(table.getSelectedRow()).getTienda();
+						
+						VentanaDetallesAsistente miVentanaDetalles = new VentanaDetallesAsistente(miVentanaAsistente, true, enlace, nombreProducto, precio, nombreTienda);
+						miVentanaDetalles.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						miVentanaDetalles.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(null, "Selecciona un producto!");
+					}
 					
-					VentanaDetallesAsistente miVentanaDetalles = new VentanaDetallesAsistente(miVentanaAsistente, true, enlace, nombreProducto, precio, nombreTienda);
-					miVentanaDetalles.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					miVentanaDetalles.setVisible(true);
 				}else{
-					JOptionPane.showMessageDialog(null, "Selecciona un producto!");
+					JOptionPane.showMessageDialog(null, "No se ha procesado nada aún");
 				}
+				
+				
 				
 				
 				
@@ -162,21 +170,27 @@ public class VentanaAsistente extends JDialog {
 				
 		  		if (evento.getSource() == btnGo) {
 		  			
-		  			Double precioDe, precioA;
-		  			
-		  			precioDe = Double.parseDouble(textFieldPrecioDe.getText());
-		  			precioA = Double.parseDouble(textFieldPrecioA.getText());
-		  			
-		  			if(precioDe < precioA){
-		  				progressBar.setVisible(true);
-			  			progressBar.setIndeterminate(true);
-			  			lblProcesando.setVisible(true);
-		  			
-			  			LeerComputadoras worker = new LeerComputadoras(miVentanaAsistente,scrollPane,table,progressBar,lblProcesando,precioDe,precioA);
-			  			worker.execute();
+		  			if(textFieldPrecioDe.getText().length() != 0 && textFieldPrecioA.getText().length() != 0){
+		  				Double precioDe, precioA;
+			  			
+			  			precioDe = Double.parseDouble(textFieldPrecioDe.getText());
+			  			precioA = Double.parseDouble(textFieldPrecioA.getText());
+			  			
+			  			if(precioDe < precioA){
+			  				progressBar.setVisible(true);
+				  			progressBar.setIndeterminate(true);
+				  			lblProcesando.setVisible(true);
+			  			
+				  			LeerComputadoras worker = new LeerComputadoras(miVentanaAsistente,scrollPane,table,progressBar,lblProcesando,precioDe,precioA);
+				  			worker.execute();
+			  			}else{
+			  				JOptionPane.showMessageDialog(null, "Rango de precios erróneo!");
+			  			}
 		  			}else{
-		  				JOptionPane.showMessageDialog(null, "Rango de precios erróneo!");
+		  				JOptionPane.showMessageDialog(null, "Ingresa un rango de precios!");
 		  			}
+		  			
+		  			
  			
 				}
 		

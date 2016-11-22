@@ -112,8 +112,7 @@ public class Login extends JFrame {
 				UsuarioNuevo miVentanaUsuario = new UsuarioNuevo();					
 				miVentanaUsuario.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				miVentanaUsuario.setVisible(true);
-				
-				
+	
 			}
 		});
 		

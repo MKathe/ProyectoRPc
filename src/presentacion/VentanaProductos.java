@@ -181,6 +181,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldProcesador.setForeground(Color.WHITE);
 	  textFieldProcesador.setBorder(null);
 	  textFieldProcesador.setOpaque(false);
+	  textFieldProcesador.setCaretPosition(0);
 	  //textFieldProcesador.setCaretColor(new Color(0, 0, 0, 0));
 	  textFieldProcesador.setBounds(304, 199, 480, 35);
 	  contenedor.add(textFieldProcesador);
@@ -216,6 +217,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldPlaca.setOpaque(false);
 	  textFieldPlaca.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldPlaca.setBounds(304, 343, 480, 38);
+	  textFieldPlaca.setCaretPosition(0);
 	  contenedor.add(textFieldPlaca);
 	  textFieldPlaca.setColumns(10);
 	  
@@ -250,6 +252,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldMemoria.setBorder(null);
 	  textFieldMemoria.setOpaque(false);
 	  textFieldMemoria.setBounds(304, 273, 480, 35);
+	  textFieldMemoria.setCaretPosition(0);
 	  contenedor.add(textFieldMemoria);
 	  textFieldMemoria.setColumns(10);
 	  
@@ -284,6 +287,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldVideoCard.setOpaque(false);
 	  textFieldVideoCard.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldVideoCard.setBounds(304, 418, 480, 35);
+	  textFieldVideoCard.setCaretPosition(0);
 	  contenedor.add(textFieldVideoCard);
 	  textFieldVideoCard.setColumns(10);
 	  
@@ -318,6 +322,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldHDD.setOpaque(false);
 	  textFieldHDD.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldHDD.setBounds(304, 492, 480, 35);
+	  textFieldHDD.setCaretPosition(0);
 	  contenedor.add(textFieldHDD);
 	  textFieldHDD.setColumns(10);
 	  
@@ -352,6 +357,7 @@ public class VentanaProductos extends JDialog {
 	  textFieldCaseFuente.setOpaque(false);
 	  textFieldCaseFuente.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 20));
 	  textFieldCaseFuente.setBounds(304, 564, 480, 35);
+	  textFieldCaseFuente.setCaretPosition(0);
 	  contenedor.add(textFieldCaseFuente);
 	  textFieldCaseFuente.setColumns(10);
 	  
