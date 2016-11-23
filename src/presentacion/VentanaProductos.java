@@ -159,7 +159,7 @@ public class VentanaProductos extends JDialog {
 					
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Faltan seleccionar componentes!");
+					JOptionPane.showMessageDialog(null, "No se seleccionó uno o más componentes!");
 				}
 
 	  	}

@@ -21,6 +21,8 @@ import javax.swing.table.TableRowSorter;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VentanaMiniProductos extends JDialog {
 	private WebTable table;
@@ -43,7 +45,7 @@ public class VentanaMiniProductos extends JDialog {
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(490);
 		table.getColumnModel().getColumn(1).setPreferredWidth(75);
-		table.getColumnModel().getColumn(2).setPreferredWidth(134);
+		table.getColumnModel().getColumn(2).setPreferredWidth(134);		
 		
 		txtBuscar = new JTextField();
 		txtBuscar.addKeyListener(new KeyAdapter() {
@@ -79,8 +81,8 @@ public class VentanaMiniProductos extends JDialog {
 		btnSeleccionarProducto.setBorder(null);
 		btnSeleccionarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
-
 				
+				//table.get
 				switch(source){
 				case "procesadores":
 					miVentanProductos.getTextFieldProcesador().setText(listaProductos.get(table.getSelectedRow()).getNombre());
