@@ -19,7 +19,7 @@ public class ConsultasBasicas {
 	private static PreparedStatement pstmt = null;
 	private static Statement stmt2 = null;
 	
-	public static void insertarReporte(Reporte nuevoReporte) {
+	public void insertarReporte(Reporte nuevoReporte) {
 
 		Connection miConexion = ConectionDB.getConection();
 
@@ -30,14 +30,14 @@ public class ConsultasBasicas {
 			
 			String SQL ="INSERT INTO reportes (Nombre,Tipo,Fecha,Procesador,PrecioProcesador,TiendaProcesador,Memoria,PrecioMemoria,TiendaMemoria,Placa,PrecioPlaca,TiendaPlaca,VideoCard,PrecioVideoCard,TiendaVideoCard,HDD,PrecioHDD,TiendaHDD,CaseFuente,PrecioCaseFuente,TiendaCaseFuente) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			String Procesador=nuevoReporte.getListaComponentes()[0].getNombre();
-			 Double PrecioProcesador=nuevoReporte.getListaComponentes()[0].getPrecio();
-			 String TiendaProcesador = nuevoReporte.getListaComponentes()[0].getTienda();
+			Double PrecioProcesador=nuevoReporte.getListaComponentes()[0].getPrecio();
+			String TiendaProcesador = nuevoReporte.getListaComponentes()[0].getTienda();
 			 
-			 String Memoria=nuevoReporte.getListaComponentes()[1].getNombre();
-			 Double PrecioMemoria=nuevoReporte.getListaComponentes()[1].getPrecio();
-			 String TiendaMemoria=nuevoReporte.getListaComponentes()[1].getTienda();
+			String Memoria=nuevoReporte.getListaComponentes()[1].getNombre();
+			Double PrecioMemoria=nuevoReporte.getListaComponentes()[1].getPrecio();
+			String TiendaMemoria=nuevoReporte.getListaComponentes()[1].getTienda();
 			 
-			 String Placa=nuevoReporte.getListaComponentes()[2].getNombre();
+			String Placa=nuevoReporte.getListaComponentes()[2].getNombre();
 			 Double PrecioPlaca=nuevoReporte.getListaComponentes()[2].getPrecio();
 			 String TiendaPlaca=nuevoReporte.getListaComponentes()[2].getTienda();
 			 
@@ -52,7 +52,7 @@ public class ConsultasBasicas {
 			 String CaseFuente=nuevoReporte.getListaComponentes()[5].getNombre();
 			 Double PrecioCaseFuente=nuevoReporte.getListaComponentes()[5].getPrecio();
 			 String TiendaCaseFuente=nuevoReporte.getListaComponentes()[5].getTienda();
-			
+		
 			
 			pstmt = miConexion.prepareStatement(SQL);
 			pstmt.setString(1,nuevoReporte.getNombre());

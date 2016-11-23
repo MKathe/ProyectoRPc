@@ -12,6 +12,7 @@ import negocio.EnviarEmailConAdjunto;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,16 +25,17 @@ public class VentanaContactoTienda extends JDialog {
 	private JTextField textFieldAsunto;
 	
 	private String rutaReporte;
-
+    
 	
-	public VentanaContactoTienda(VentanaReportes miVentanaReportes, boolean modal, String ruta) {
+	public VentanaContactoTienda(VentanaDetallesAsistente miVentanaDetallesAsistente, boolean modal,String ruta)  {
 		
-		super(miVentanaReportes, modal);
+		super(miVentanaDetallesAsistente, modal);
 		setResizable(false);
 		
 		this.rutaReporte = ruta;
 		
 		setBounds(100, 100, 1030, 770);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -67,7 +69,9 @@ public class VentanaContactoTienda extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					//llama al método que va enviar el email
+					
 					EnviarEmailConAdjunto.enviarEmail(textFieldDest.getText(), textFieldAsunto.getText(), textPaneMensaje.getText(), rutaReporte);
+					JOptionPane.showMessageDialog(null, "Mensaje enviado");
 				} catch (MessagingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

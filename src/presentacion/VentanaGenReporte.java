@@ -114,18 +114,6 @@ public class VentanaGenReporte extends JDialog {
 		
 		getContentPane().add(btnGenerarPDF);
 		
-		JLabel lblNewLabel = new JLabel("Nombre:");
-		lblNewLabel.setBounds(58, 55, 61, 14);
-		getContentPane().add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Tipo:");
-		lblNewLabel_1.setBounds(58, 106, 53, 14);
-		getContentPane().add(lblNewLabel_1);
-		
-		JLabel lblFecha = new JLabel("Fecha:");
-		lblFecha.setBounds(58, 153, 53, 14);
-		getContentPane().add(lblFecha);
-		
 		List list = new List();
 		list.setBackground(Color.LIGHT_GRAY);
 		list.setBounds(43, 274, 461, 272);

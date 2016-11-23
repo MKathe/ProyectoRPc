@@ -90,7 +90,7 @@ public class VentanaReportes extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -103,17 +103,17 @@ public class VentanaReportes extends JDialog {
 			}
 		});
 	}
-
+*/
 	
 	/*
 	 * Create the frame.
 	 */
 
 	
-	public VentanaReportes(/*VentanaPrincipal miVentanaPrincipal, boolean modal
-							 */) 
+	public VentanaReportes(VentanaPrincipal miVentanaPrincipal, boolean modal
+							 ) 
 	{
-		/* super(miVentanaPrincipal, modal); */
+		 super(miVentanaPrincipal, modal);
 
 		setTitle("Ventana Reportes");
 		setBounds(100, 100, 915, 765);
@@ -190,7 +190,7 @@ public class VentanaReportes extends JDialog {
 		TableModel tableModel = new ModeloTablaReporte(listadeReportes);
 		
 		TablaDeReportes = new JTable(tableModel);
-		TablaDeReportes.setFont(new Font("Papyrus", Font.PLAIN, 11));
+		TablaDeReportes.setFont(new Font("Arial", Font.BOLD, 11));
 		TablaDeReportes.setFillsViewportHeight(true);
 		TablaDeReportes.setColumnSelectionAllowed(true);
 		TablaDeReportes.setCellSelectionEnabled(true);

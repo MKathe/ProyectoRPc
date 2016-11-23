@@ -1,11 +1,15 @@
 package presentacion;
 
 import java.awt.EventQueue;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -27,9 +31,15 @@ import org.jsoup.select.Elements;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.text.WebTextPane;
 
+import conectionDB.ConectionDB;
+
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
+import negocio.GuardarReporte;
+import negocio.JasperReportt;
+
 
 public class VentanaDetallesAsistente extends JDialog {
 	private JTextField textFieldNombreProducto;
@@ -38,7 +48,8 @@ public class VentanaDetallesAsistente extends JDialog {
 	private WebTextPane textPaneCaracteristicas;
 	private List<String> lineas;
 	private String nomProducto, nomTienda, enlace;
-
+	private VentanaDetallesAsistente miVentanaDetallesAsistente;
+	private JasperReportt jr;
 	public VentanaDetallesAsistente(VentanaAsistente miVentanaAsistente, boolean modal, String enlace, String nombreProducto, String precio, String nomTienda) {
 		
 		super(miVentanaAsistente, modal);	
@@ -70,12 +81,38 @@ public class VentanaDetallesAsistente extends JDialog {
 		btnContactoTienda.setIcon(new ImageIcon(VentanaDetallesAsistente.class.getResource("/resources/btn_contactoTienda.png")));
 		btnContactoTienda.setBounds(649, 150, 377, 95);
 		getContentPane().add(btnContactoTienda);
+		btnContactoTienda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+	                    Reporte nuevoReporte = filtrarCampos();
+				        GuardarReporte.GuardarReporteGenerado(nuevoReporte);
+				        
+				        String ruta = GenerarPDF(nuevoReporte.getNombre());
+				        
+				        
+				        if(!ruta.equals(null)){
+				        ruta = ruta+".pdf";
+				        VentanaContactoTienda miVentanaContactoTienda = new VentanaContactoTienda(miVentanaDetallesAsistente, true,ruta);
+						miVentanaContactoTienda.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						miVentanaContactoTienda.setVisible(true);
+						
+				        }
+				        
+						
+				
+			}
+		});
+		
 		
 		JButton btnGuardarReporte = new JButton("");
 		btnGuardarReporte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				filtrarCampos();
+				String nombreReporte = JOptionPane.showInputDialog("Ingresa un nombre para este reporte");
+				Reporte nuevo = filtrarCampos();
+				nuevo.setNombre(nombreReporte);
+				VentanaGenReporteAsistente miVentanaGenReporte = new VentanaGenReporteAsistente (miVentanaDetallesAsistente, true, nuevo);
+				miVentanaGenReporte.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                miVentanaGenReporte.setVisible(true);
 				
 			}
 		});
@@ -177,7 +214,7 @@ public class VentanaDetallesAsistente extends JDialog {
 		
 	}
 
-	private void filtrarCampos() {
+	private Reporte filtrarCampos() {
 		
 		Producto[] listaComponentes = new Producto[6];
 		String modelo = "";
@@ -232,37 +269,65 @@ public class VentanaDetallesAsistente extends JDialog {
 		if(placa.equals("")){
 			placa = modelo;
 		}
+		Double precio = 0.0;
 		
 		// PROCESADOR
-		nuevo = new Producto(procesador,0, nomTienda);
+		nuevo = new Producto(procesador,precio, nomTienda);
 		listaComponentes[0] = nuevo;
 		// MEMORIA
-		nuevo = new Producto(memoria, 0, nomTienda);
+		nuevo = new Producto(memoria,precio , nomTienda);
 		listaComponentes[1] = nuevo;
 		// PLACA
-		nuevo = new Producto(placa, 0, nomTienda);
+		nuevo = new Producto(placa,precio, nomTienda);
 		listaComponentes[2] = nuevo;
 		// VIDEOCARD
-		nuevo = new Producto(video, 0, nomTienda);
+		nuevo = new Producto(video, precio, nomTienda);
 		listaComponentes[3] = nuevo;
 		// HDD
-		nuevo = new Producto(hdd, 0, nomTienda);
+		nuevo = new Producto(hdd,precio, nomTienda);
 		listaComponentes[4] = nuevo;
 		// CASE-FUENTE
-		nuevo = new Producto(fuente, 0, nomTienda);
+		nuevo = new Producto(fuente,precio, nomTienda);
 		listaComponentes[5] = nuevo;
 		
 		Date fecha = new Date();
 		
-		Reporte nuevoReporte = new Reporte(nomProducto, "Modulo Asistente", fecha, listaComponentes);
+		Reporte nuevoReporte = new Reporte(nomProducto, "Modulo Asistente",fecha, listaComponentes);
 		
-		// A partir de aqui va el codigo de la ventana nueva
+		return nuevoReporte;
+	}
+	public String GenerarPDF (String nombre){
 		
+		String Nombre= nombre;
+		Map<String, java.lang.Object> parametros = new HashMap<>();
+		parametros.put("Nombre",Nombre);
+		jr = new JasperReportt();
+		jr.CrearReporte(ConectionDB.getConection(),new File(".").getAbsolutePath() + "/src/reportes/ReporteG.jasper", parametros);
+		String ruta = GuardarReporte();
+		return ruta;
+			
+	}
+	
+	public String GuardarReporte() {
+		JFileChooser fileChooser = new JFileChooser();
+		int seleccion = fileChooser.showSaveDialog(this);
+		String ruta = null;
+		File guardar1;
 		
-		
-		for(Producto aux: listaComponentes){
-			System.out.println(aux.getNombre() + " " + aux.getPrecio() + " " + aux.getTienda());
+		if (seleccion == JFileChooser.APPROVE_OPTION) {
+			guardar1 = fileChooser.getSelectedFile();
+			ruta = guardar1.getAbsolutePath();
+		    jr.GuardarReporte(ruta);
+		    JOptionPane.showMessageDialog(null,"El archivo se a guardado Exitosamente",
+				             "Información",JOptionPane.INFORMATION_MESSAGE);
+	        
+		}else{
+			
+		JOptionPane.showMessageDialog(null, "Operacion de guardar cancelada", "",JOptionPane.INFORMATION_MESSAGE);
+		ruta = null;
 		}
 		
-	}
+		return ruta;
+		
 }
+	}
