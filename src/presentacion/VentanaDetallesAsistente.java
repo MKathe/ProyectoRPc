@@ -32,10 +32,13 @@ import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.text.WebTextPane;
 
 import conectionDB.ConectionDB;
+import datos.ConsultasBasicas;
 
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import negocio.GuardarReporte;
 import negocio.JasperReportt;
@@ -50,6 +53,9 @@ public class VentanaDetallesAsistente extends JDialog {
 	private String nomProducto, nomTienda, enlace;
 	private VentanaDetallesAsistente miVentanaDetallesAsistente;
 	private JasperReportt jr;
+	
+	String correoTienda;
+	
 	public VentanaDetallesAsistente(VentanaAsistente miVentanaAsistente, boolean modal, String enlace, String nombreProducto, String precio, String nomTienda) {
 		
 		super(miVentanaAsistente, modal);	
@@ -92,7 +98,7 @@ public class VentanaDetallesAsistente extends JDialog {
 				        
 				        if(!ruta.equals(null)){
 				        ruta = ruta+".pdf";
-				        VentanaContactoTienda miVentanaContactoTienda = new VentanaContactoTienda(miVentanaDetallesAsistente, true,ruta);
+				        VentanaContactoTienda miVentanaContactoTienda = new VentanaContactoTienda(miVentanaDetallesAsistente, true,ruta,correoTienda);
 						miVentanaContactoTienda.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						miVentanaContactoTienda.setVisible(true);
 						
@@ -177,6 +183,8 @@ public class VentanaDetallesAsistente extends JDialog {
 		getContentPane().add(fondoDetallesAsistente);
 		
 		procesarEnlace();
+		
+		obtenerCorreo();
 
 	}
 
@@ -329,5 +337,24 @@ public class VentanaDetallesAsistente extends JDialog {
 		
 		return ruta;
 		
-}
 	}
+	
+	public void obtenerCorreo(){
+
+		ResultSet datos; 
+
+		datos = ConsultasBasicas
+				.consultarDatos("SELECT * FROM tiendas WHERE nombre ='" + nomTienda + "'"); 
+
+		try {
+			
+			while (datos.next()) {
+				correoTienda = datos.getString("email");
+			}
+			
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, ex, "Error de conexión", JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+}

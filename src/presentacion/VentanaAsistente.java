@@ -25,6 +25,7 @@ import negocio.LeerPCGamer;
 import negocio.LeerPCHogarOficina;
 import negocio.LeerPCMarca;
 import negocio.LeerPCWorkstation;
+import negocio.ValidarRegistro;
 
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
@@ -452,6 +453,9 @@ public class VentanaAsistente extends JDialog {
 		fondoPrincipal.setIcon(new ImageIcon(VentanaAsistente.class.getResource("/resources/vista-asistente4.jpg")));
 		fondoPrincipal.setBounds(0, 0, 1026, 762);
 		getContentPane().add(fondoPrincipal);
+		
+		ValidarRegistro.validarSoloNumeros(textFieldPrecioDe);
+		ValidarRegistro.validarSoloNumeros(textFieldPrecioA);
 
 	}
 	

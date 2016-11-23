@@ -201,7 +201,7 @@ public class VentanaTiendaElegida extends JDialog {
 		getContentPane().add(btnElegir);
 		
 		JLabel labelMapa = new JLabel("");
-		labelMapa.setBounds(25, 459, 356, 235);
+		labelMapa.setBounds(26, 419, 397, 271);
 		labelMapa.setIcon(new ImageIcon(VentanaTiendaElegida.class.getResource("/resources/"+listaDeTiendas.get(indice).getNombre()+".png")));
 		getContentPane().add(labelMapa);
 		

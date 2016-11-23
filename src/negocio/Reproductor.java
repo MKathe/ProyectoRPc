@@ -28,7 +28,7 @@ public class Reproductor {
          
          URL url=null;
          try {	
-        	 String rutaVideo = "D:/gg.avi";
+        	 String rutaVideo = "C:/Users/Jorge/Downloads/RantiyPC.mpg";
              url = new URL("file:///"+rutaVideo);
          } catch (MalformedURLException ex) {
              JOptionPane.showMessageDialog(null, "Error en la ruta");

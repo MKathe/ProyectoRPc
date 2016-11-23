@@ -19,6 +19,7 @@ import conectionDB.ConectionDB;
 import datos.ConsultasBasicas;
 import entidades.Tienda;
 import modeloTablas.ModeloTablaTienda;
+import negocio.BuscarTiendas;
 import negocio.OrdenarTiendas;
 
 import javax.swing.JComboBox;
@@ -119,52 +120,7 @@ public class VentanaTiendas extends JDialog {
 		buttonBuscar.setSelectedIcon(new ImageIcon(VentanaTiendas.class.getResource("/resources/lupa.png")));
 		buttonBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//el nombre en minusculas
-				String textoIngresado = textFieldBusqueda.getText().toLowerCase();
-				int numElementos = listaDeTiendas.size();
-				int i = 0;
-				boolean encontrado = false;
-				List<Tienda> tiendaEncontrada = new ArrayList();
-				
-				if(rdbtnNombre.isSelected()){ //Busca por nombre
-					//itera buscando en la lista
-					while(i < numElementos){
-						//compara el texto ingresado con el de la lista en la posicion i
-						if( textoIngresado.equals(listaDeTiendas.get(i).getNombre().toLowerCase()) ){
-							encontrado = true;
-							tiendaEncontrada.add(listaDeTiendas.get(i));
-						}
-						
-						i++;
-						
-					}
-				}
-				else{	//Busca por Ubicacion
-					//itera buscando en la lista
-					String ubicacion;
-					while(i < numElementos){
-						
-						ubicacion = listaDeTiendas.get(i).getUbicacion().toLowerCase();
-						//compara el texto ingresado con el de la lista en la posicion i
-						if(ubicacion.contains(textoIngresado)){
-							System.out.println("encuentra");
-							encontrado = true;
-							tiendaEncontrada.add(listaDeTiendas.get(i));
-						}
-						
-						i++;
-						
-					}
-				}
-				
-				if(encontrado){
-					//Nuevo modelo para la tabla
-					TableModel modelo = new ModeloTablaTienda(tiendaEncontrada);
-					tableTiendas.setModel(modelo);
-				}
-				else{
-					JOptionPane.showMessageDialog(null, "Búsqueda no encontrada");
-				}
+				BuscarTiendas.buscar(textFieldBusqueda.getText().toLowerCase(), rdbtnNombre.isSelected(), listaDeTiendas);
 			}
 		});
 		buttonBuscar.setBounds(947, 77, 53, 41);

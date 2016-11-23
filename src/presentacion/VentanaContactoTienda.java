@@ -27,9 +27,10 @@ public class VentanaContactoTienda extends JDialog {
 	private String rutaReporte;
     
 	
-	public VentanaContactoTienda(VentanaDetallesAsistente miVentanaDetallesAsistente, boolean modal,String ruta)  {
+	public VentanaContactoTienda(VentanaDetallesAsistente miVentanaDetallesAsistente, boolean modal,String ruta, String correoTienda)  {
 		
 		super(miVentanaDetallesAsistente, modal);
+		setTitle("Contacto Tienda");
 		setResizable(false);
 		
 		this.rutaReporte = ruta;
@@ -47,6 +48,7 @@ public class VentanaContactoTienda extends JDialog {
 		textFieldDest.setBounds(217, 152, 652, 32);
 		contentPanel.add(textFieldDest);
 		textFieldDest.setColumns(10);
+		textFieldDest.setText(correoTienda);
 		
 		textFieldAsunto = new JTextField();
 		textFieldAsunto.setBorder(null);
@@ -54,6 +56,7 @@ public class VentanaContactoTienda extends JDialog {
 		textFieldAsunto.setBounds(217, 236, 652, 32);
 		contentPanel.add(textFieldAsunto);
 		textFieldAsunto.setColumns(10);
+		textFieldAsunto.setText("Solicitud de "+Login.usuarioIngresado.getCorreo());
 		
 		JTextPane textPaneMensaje = new JTextPane();
 		textPaneMensaje.setBorder(null);
