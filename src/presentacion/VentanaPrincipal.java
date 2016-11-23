@@ -43,7 +43,7 @@ public class VentanaPrincipal extends JFrame {
 
 
 	public VentanaPrincipal() {
-		
+		//se crea la ventana principal
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/resources/icon-app.png")));
 		setTitle("RantiyPC - Tu asistente de tcnico");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
