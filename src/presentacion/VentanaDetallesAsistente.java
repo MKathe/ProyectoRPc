@@ -185,6 +185,8 @@ public class VentanaDetallesAsistente extends JDialog {
 		procesarEnlace();
 		
 		obtenerCorreo();
+		
+		System.out.println("Correo de la tienda: "+correoTienda);
 
 	}
 

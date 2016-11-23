@@ -28,12 +28,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class VentanaTiendaElegida extends JDialog {
 	private JTextField textFieldUbicacion;
 	private JTextField textFieldTelefono;
 	private JTextField textFieldEmail;
-	private JTable table;
+	//private JTable table;
 
 	public VentanaTiendaElegida(VentanaTiendas miVentanaTiendas, boolean modal, int indice, java.util.List<Tienda> listaDeTiendas) {
 		
@@ -46,9 +47,11 @@ public class VentanaTiendaElegida extends JDialog {
 		
 		//Nombre de la tienda
 		JLabel label = new JLabel(listaDeTiendas.get(indice).getNombre());
-		label.setFont(new Font("Berlin Sans FB", Font.PLAIN, 35));
-		label.setForeground(Color.LIGHT_GRAY);
-		label.setBounds(26, 22, 489, 33);
+		label.setBackground(Color.WHITE);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 70));
+		label.setForeground(new Color(0, 0, 139));
+		label.setBounds(56, 170, 912, 84);
 		getContentPane().add(label);
 		
 		//Ubicacion de tienda
@@ -157,7 +160,7 @@ public class VentanaTiendaElegida extends JDialog {
 		textFieldEmail.setColumns(10);
 		textFieldEmail.setText(listaDeTiendas.get(indice).getEmail());
 		
-		JScrollPane scrollPane = new JScrollPane();
+		/*JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(26, 77, 969, 269);
 		getContentPane().add(scrollPane);
 		
@@ -198,17 +201,21 @@ public class VentanaTiendaElegida extends JDialog {
 		btnElegir.setBorder(null);
 		btnElegir.setIcon(new ImageIcon(VentanaTiendaElegida.class.getResource("/resources/botonElegirEquipo.png")));
 		btnElegir.setBounds(744, 357, 225, 57);
-		getContentPane().add(btnElegir);
+		getContentPane().add(btnElegir);*/
 		
 		JLabel labelMapa = new JLabel("");
 		labelMapa.setBounds(26, 419, 397, 271);
 		labelMapa.setIcon(new ImageIcon(VentanaTiendaElegida.class.getResource("/resources/"+listaDeTiendas.get(indice).getNombre()+".png")));
 		getContentPane().add(labelMapa);
 		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(253, 245, 230));
+		panel.setBounds(26, 77, 974, 271);
+		getContentPane().add(panel);
+		
 		JLabel labelFondo = new JLabel("");
 		labelFondo.setIcon(new ImageIcon(VentanaTiendaElegida.class.getResource("/resources/fondo-TiendaElegida.png")));
 		labelFondo.setBounds(0, 0, 1023, 750);
 		getContentPane().add(labelFondo);
 	}
-	
 }
