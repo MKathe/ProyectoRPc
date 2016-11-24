@@ -17,6 +17,8 @@ import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.Color;
 
 public class VentanaContactoTienda extends JDialog {
 
@@ -43,6 +45,8 @@ public class VentanaContactoTienda extends JDialog {
 		contentPanel.setLayout(null);
 		
 		textFieldDest = new JTextField();
+		textFieldDest.setForeground(Color.WHITE);
+		textFieldDest.setFont(new Font("Tahoma", Font.BOLD, 16));
 		textFieldDest.setBorder(null);
 		textFieldDest.setOpaque(false);
 		textFieldDest.setBounds(217, 152, 652, 32);
@@ -51,6 +55,8 @@ public class VentanaContactoTienda extends JDialog {
 		textFieldDest.setText(correoTienda);
 		
 		textFieldAsunto = new JTextField();
+		textFieldAsunto.setFont(new Font("Tahoma", Font.BOLD, 16));
+		textFieldAsunto.setForeground(Color.WHITE);
 		textFieldAsunto.setBorder(null);
 		textFieldAsunto.setOpaque(false);
 		textFieldAsunto.setBounds(217, 236, 652, 32);

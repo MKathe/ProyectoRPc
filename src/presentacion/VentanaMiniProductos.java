@@ -82,7 +82,6 @@ public class VentanaMiniProductos extends JDialog {
 		btnSeleccionarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
 				
-				//table.get
 				switch(source){
 				case "procesadores":
 					miVentanProductos.getTextFieldProcesador().setText(listaProductos.get(table.getSelectedRow()).getNombre());

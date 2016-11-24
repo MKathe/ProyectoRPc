@@ -13,6 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.JOptionPane;
 
 public class EnviarEmailConAdjunto {
 	
@@ -43,8 +44,15 @@ public class EnviarEmailConAdjunto {
 		
 		//ruta y nombre del archivo adjunto
 		BodyPart adjunto = new MimeBodyPart();
+		
+		rutaReporte = rutaReporte.replace("\\", "/");
+		String nombreAdjunto = new String(rutaReporte);
+		while(nombreAdjunto.indexOf("/") != -1){
+			nombreAdjunto = nombreAdjunto.substring(nombreAdjunto.indexOf("/")+1,nombreAdjunto.length());
+		}	
+
 		adjunto.setDataHandler(new DataHandler(new FileDataSource(rutaReporte)));
-		//adjunto.setFileName(nombreReporte);
+		adjunto.setFileName(nombreAdjunto);
 		
 		//juntar texto y archivo adjunto
 		MimeMultipart multiParte = new MimeMultipart();

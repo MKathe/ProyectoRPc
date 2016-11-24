@@ -98,6 +98,7 @@ public class VentanaDetallesAsistente extends JDialog {
 				        
 				        if(!ruta.equals(null)){
 				        ruta = ruta+".pdf";
+
 				        VentanaContactoTienda miVentanaContactoTienda = new VentanaContactoTienda(miVentanaDetallesAsistente, true,ruta,correoTienda);
 						miVentanaContactoTienda.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						miVentanaContactoTienda.setVisible(true);
